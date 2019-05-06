@@ -1,0 +1,10 @@
+{
+  "name": "BackendMonitoringApplication",
+  "version": "1.0.0",
+  "description": "Aplikasi Monitoring Kandang Burung Kenari",
+  "main": "index.js",
+  "repository": "https://github.com/mohammedwazier/FinalProjectFinalDiploma3.git",
+  "author": "Wazier",
+  "license": "MIT",
+  "private": true
+}
