@@ -4,7 +4,12 @@
   "description": "Running Script",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev" : "concurrently --kill-others-on-fail  'yarn backend' 'yarn frontend' ",
+    "backend": "cd backend && pm2 start index.js",
+    "stop": "pm2 kill",
+    "frontend" : "cd web/frontend && yarn start",
+    "mobile" : "cd mobile/mobileFrontEnd && yarn start"
   },
   "repository": {
     "type": "git",
