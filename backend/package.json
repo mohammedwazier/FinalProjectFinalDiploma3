@@ -6,5 +6,9 @@
   "repository": "https://github.com/mohammedwazier/FinalProjectFinalDiploma3.git",
   "author": "Wazier",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.16.4"
+  }
 }
