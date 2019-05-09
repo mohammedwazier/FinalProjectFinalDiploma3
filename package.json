@@ -1,32 +1,38 @@
 {
-  "name": "finalproject",
-  "version": "1.0.0",
-  "description": "Running Script of thingBirds",
-  "mainProjectName": "thingbirds",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently --kill-others-on-fail  'yarn backend' 'yarn frontend' ",
-    "backend": "cd backend && pm2 start index.js --watch",
-    "stop": "pm2 kill",
-    "frontend": "cd web/frontend && yarn start",
-    "mobile": "cd mobile/mobileFe && yarn start"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mohammedwazier/FinalProjectFinalDiploma3.git"
-  },
-  "keywords": [
-    "-"
-  ],
-  "author": "Wazier",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mohammedwazier/FinalProjectFinalDiploma3/issues"
-  },
-  "homepage": "https://github.com/mohammedwazier/FinalProjectFinalDiploma3#readme",
-  "dependencies": {
-    "native-base": "^2.12.1",
-    "react-navigation": "^3.9.1"
-  }
+	"name": "finalproject",
+	"version": "1.0.0",
+	"description": "Running Script of thingBirds",
+	"mainProjectName": "thingbirds",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "concurrently --kill-others-on-fail  'yarn backend' 'yarn frontend' ",
+		"backend": "cd backend && pm2 start index.js --watch",
+		"stop": "pm2 kill",
+		"frontend": "cd web/frontend && yarn start",
+		"mobile": "cd mobile/mobileFe && yarn start"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mohammedwazier/FinalProjectFinalDiploma3.git"
+	},
+	"keywords": [
+		"javascript",
+		"react",
+		"react-native",
+		"reactNative",
+		"node",
+		"nodeJS",
+		"express",
+		"IoT",
+		"iot",
+		"monitoring"
+	],
+	"author": "Wazier",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/mohammedwazier/FinalProjectFinalDiploma3/issues"
+	},
+	"homepage": "https://github.com/mohammedwazier/FinalProjectFinalDiploma3#readme",
+	"dependencies": {}
 }
