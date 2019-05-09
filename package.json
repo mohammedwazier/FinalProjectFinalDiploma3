@@ -8,6 +8,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "concurrently --kill-others-on-fail  'yarn backend' 'yarn frontend' ",
 		"backend": "cd backend && pm2 start index.js --watch",
+		"updateAll": "cd web/frontend && yarn install",
 		"stop": "pm2 kill",
 		"frontend": "cd web/frontend && yarn start",
 		"mobile": "cd mobile/mobileFe && yarn start"
