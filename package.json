@@ -9,8 +9,9 @@
 		"dev": "concurrently --kill-others-on-fail  'yarn backend' 'yarn frontend' ",
 		"backend": "cd backend && pm2 start index.js --watch",
 		"backendDeploy": "cd backend && pm2 restart index.js --watch",
-		"deploy": "concurrently --kill-others-on-fail  'yarn backendDeploy' 'yarn updateAll' 'yarn frontend' ",
+		"deploy": "concurrently --kill-others-on-fail  'yarn backendDeploy' 'yarn updateAll' 'yarn buildFrontend' ",
 		"updateAll": "cd web/frontend && yarn install",
+		"buildFrontend": "cd web/frontend && yarn build",
 		"stop": "pm2 kill",
 		"frontend": "cd web/frontend && yarn start",
 		"mobile": "cd mobile/mobileFe && yarn start"
