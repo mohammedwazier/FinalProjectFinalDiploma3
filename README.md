@@ -9,7 +9,7 @@ My Final Project About Monitoring Application With IoT
 - [ ] Mobile Frontend Application
 - [ ] Web Frontend Application
 - [ ] Backend Application
-- [ ] Maintenance & Upgrading
+- [ ] Maintenance & Upgrate
 
 ### List Backend Library : 
  * ExpressJS
@@ -25,7 +25,7 @@ My Final Project About Monitoring Application With IoT
 # How To Use
 
 | #             | Mobile                           | Website    |
-| ------------- |:-------------------------------: |:----------:|
+|:-------------:|:-------------------------------: |:----------:|
 | Start         | cd mobile/mobileFe && yarn start | yarn dev   |
 | Stop          | yarn stop                        | yarn stop  |
 | Deploy        | -                                | yarn deploy|
