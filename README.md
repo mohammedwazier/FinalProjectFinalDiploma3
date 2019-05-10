@@ -11,10 +11,14 @@ My Final Project About Monitoring Application With IoT
 - [ ] Backend Application
 - [ ] Maintenance & Upgrading
 
-# How To User
+# How To Use
 
 | #             | Mobile                           | Website    |
 | ------------- |:-------------------------------: |:----------:|
 | Start         | cd mobile/mobileFe && yarn start | yarn dev   |
 | Stop          | yarn stop                        | yarn stop  |
 | Deploy        | -                                | yarn deploy|
+
+---
+Muhammad Waziruddin Akbar © 2019
+---
