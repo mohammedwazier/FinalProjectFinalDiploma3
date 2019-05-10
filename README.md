@@ -12,14 +12,14 @@ My Final Project About Monitoring Application With IoT
 - [ ] Maintenance & Upgrading
 
 ### List Backend Library : 
-⋅⋅*ExpressJS
-⋅⋅*Body Parser
+ * ExpressJS
+ * Body Parser
 
 ### List Web Frontend Library : 
-⋅⋅*React
+ * React
 
 ### List Mobile Frontend Library : 
-⋅⋅*React Native
+ * React Native
 
 
 # How To Use
