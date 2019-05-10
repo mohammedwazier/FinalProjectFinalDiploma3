@@ -19,6 +19,5 @@ My Final Project About Monitoring Application With IoT
 | Stop          | yarn stop                        | yarn stop  |
 | Deploy        | -                                | yarn deploy|
 
----
-Muhammad Waziruddin Akbar © 2019
----
+
+> Muhammad Waziruddin Akbar © 2019
