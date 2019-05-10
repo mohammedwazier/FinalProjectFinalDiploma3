@@ -14,7 +14,7 @@ My Final Project About Monitoring Application With IoT
 # How To User
 
 | #             | Mobile                           | Website    |
-| ------------- |:-------------------------------: | :---------: |
+| ------------- |:-------------------------------: |:----------:|
 | Start         | cd mobile/mobileFe && yarn start | -          |
 | Stop          | yarn stop                        | yarn stop  |
 | Deploy        | -                                | yarn deploy|
