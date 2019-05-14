@@ -38,5 +38,7 @@
 		"url": "https://github.com/mohammedwazier/FinalProjectFinalDiploma3/issues"
 	},
 	"homepage": "https://github.com/mohammedwazier/FinalProjectFinalDiploma3#readme",
-	"dependencies": {}
+	"dependencies": {
+		"react-native-vector-icons": "^6.4.2"
+	}
 }
