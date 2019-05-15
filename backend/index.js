@@ -18,3 +18,15 @@ app.use(
 server.listen(port, () => {
   console.log("Server is running on Port http://localhost:" + port);
 });
+
+const io = require("socket.io")(server);
+
+io.on("connection", socket => {
+  list_user++;
+  console.log("new user connected, List User :  " + list_user);
+  socket.on("disconnect", function() {
+    console.log("disconnected");
+    list_user--;
+    console.log("new user connected, List User :  " + list_user);
+  });
+});
