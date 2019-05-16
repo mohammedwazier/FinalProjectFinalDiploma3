@@ -9,7 +9,7 @@
     "backend": "cd backend && pm2 start index.js --watch",
     "backendDeploy": "concurrently --kill-others-on-fail 'pm2 stop maintenance/maintenance.js' 'pm2 start backend/index.js'",
     "deploy": "concurrently --kill-others-on-fail 'pm2 stop backend/index.js' 'pm2 start maintenance/maintenance.js' 'yarn maintenance'",
-    "updateAll": "cd web/frontend && yarn install",
+    "updateAll": "yarn install && cd web/frontend && yarn install",
     "buildFrontend": "cd web/frontend && yarn build",
     "stop": "pm2 kill",
     "frontend": "cd web/frontend && yarn start",
@@ -43,7 +43,9 @@
     "express": "^4.16.4",
     "http": "^0.0.0",
     "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.2.4",
     "morgan": "^1.9.1",
+    "path": "^0.12.7",
     "react-native-vector-icons": "^6.4.2",
     "socket.io": "^2.2.0"
   }

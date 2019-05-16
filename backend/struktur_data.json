@@ -1,0 +1,58 @@
+{
+  "users": [
+    {
+      "_id": "",
+      "username": "",
+      "email": "",
+      "password": "",
+      "statusRegis": false,
+      "ssid": "",
+      "pwd": "",
+      "statusReset": "",
+      "createdAt": "",
+      "updatedAt": ""
+    }
+  ],
+
+  "data_monitoring": [
+    {
+      "_id": "",
+      "username": "",
+      "suhu": "",
+      "airQuality": "",
+      "humidity": "",
+      "lvlPakan": "",
+      "lvlMinum": "",
+      "status": "calibrate",
+      "updatedAt": ""
+    }
+  ],
+
+  "status_monitoring": [
+    {
+      "_id": "",
+      "username": "",
+      "pakan": {
+        "lvlMin": "",
+        "lvlMax": "",
+        "status": "",
+        "filling": false
+      },
+      "minum": {
+        "lvlMin": "",
+        "lvlMax": "",
+        "status": "",
+        "filling": false
+      },
+      "updatedAt": ""
+    }
+  ],
+  "sessions": [
+    {
+      "_id": "",
+      "username": "",
+      "token": "",
+      "expireAt": ""
+    }
+  ]
+}
