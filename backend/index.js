@@ -17,11 +17,6 @@ app.use(
   })
 );
 
-// app.get("/", (req, res) => {
-//   console.log("asdasd");
-//   res.send("asdasdasd");
-// });
-
 // import passport and passport-jwt modules
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
@@ -49,7 +44,7 @@ let strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
 // use the strategy
 passport.use(strategy);
 
-// app.use(passport.initialize());
+app.use(passport.initialize());
 
 app.use("/api", require(path.join(__dirname, "/api/api")));
 // app.use(
