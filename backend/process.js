@@ -60,4 +60,38 @@ module.exports = class process {
       }
     });
   }
+
+  deleteOne(client, collection, token) {
+    const db = client.db("finalProject");
+    return new Promise(resolve => {
+      try {
+        db.collection(collection).deleteOne({ token: token }, (err, result) => {
+          if (err) {
+            resolve(false);
+          } else {
+            resolve(result);
+          }
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  }
+
+  createExpire(client, collection) {
+    const db = client.db("finalProject");
+    return new Promise(resolve => {
+      try {
+        db.collection(collection).createIndex(
+          { expireAt: 1 },
+          { expireAfterSeconds: 0 },
+          () => {
+            resolve(true);
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  }
 };

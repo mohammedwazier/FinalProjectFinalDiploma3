@@ -45,6 +45,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.2.4",
     "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
     "path": "^0.12.7",
     "react-native-vector-icons": "^6.4.2",
     "socket.io": "^2.2.0"

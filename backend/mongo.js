@@ -11,7 +11,6 @@ const promise = new Promise(function(resolve) {
       throw err;
     } else {
       console.log("connected to mongoDB");
-      //   console.log(c.db('finalProject').collection('users').find);
       resolve(client);
     }
   });
