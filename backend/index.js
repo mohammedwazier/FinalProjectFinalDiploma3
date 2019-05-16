@@ -9,13 +9,18 @@ const port = process.env.PORT || 5000;
 
 let list_user = 0;
 
-app.use(
-  "*",
-  router.get("", (req, res) => {
-    console.log("hehehe");
-    res.send("Hello Worlds!");
-  })
-);
+// app.use(
+//   "*",
+//   router.get("", (req, res) => {
+//     console.log("hehehe");
+//     res.send("Hello Worlds!");
+//   })
+// );
+
+app.get("/", (req, res) => {
+  console.log("asdasd");
+  res.send("asdasdasd");
+});
 
 // app.use((req, res, next) => {
 //   res.header("Access-Control-Allow-Origin", "*");
