@@ -97,14 +97,26 @@ io.on("connection", socket => {
   list_user++;
   console.log("new user connected, List User :  " + list_user);
 
+  socket.on("toggle", data => {
+    console.log(data, socket.id);
+  });
+
   socket.on("login", data => {
     var clientInfo = new Object();
     clientInfo.username = data.username;
     clientInfo.clientId = socket.id;
-    io.sockets.emit("client", clientInfo);
 
-    //Update to mongoDB
+    // io.sockets.emit("client", clientInfo);
   });
+
+  // socket.on("update_data", data => {
+
+  // })
+
+  // socket.on("update_monitoring", data=> {
+
+  // })
+
   socket.on("disconnect", function() {
     console.log("disconnected");
     list_user--;
