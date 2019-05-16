@@ -22,38 +22,6 @@ app.get("/", (req, res) => {
   res.send("asdasdasd");
 });
 
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Methods",
-//     "GET,HEAD,OPTIONS,POST,PUT,DELETE"
-//   );
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-//   );
-//   req.setTimeout(0);
-//   next();
-// });
-// app.use(
-//   bodyParser.json({
-//     limit: "50mb"
-//   })
-// );
-// app.use(
-//   bodyParser.json({
-//     type: function(req) {
-//       return req.headers["content-type"] === "*/*";
-//       server.timeout = 1000;
-//     }
-//   })
-// );
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: false
-//   })
-// );
-
 // import passport and passport-jwt modules
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
@@ -81,7 +49,7 @@ let strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
 // use the strategy
 passport.use(strategy);
 
-app.use(passport.initialize());
+// app.use(passport.initialize());
 
 app.use("/api", require(path.join(__dirname, "/api/api")));
 // app.use(
