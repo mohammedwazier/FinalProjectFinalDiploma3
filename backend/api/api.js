@@ -34,7 +34,7 @@ mongo.then(function(client) {
 function data(client) {
   router.post("/login", (req, res) => {
     if (!req.body.username && req.body.password) {
-      res.status("400").json("FAILED_LOGIN");
+      res.json({ msg: "failed_login" });
     } else {
       sendMongo
         .checkOne(client, "users", "username", req.body.username)
@@ -44,11 +44,11 @@ function data(client) {
               .checkOne(client, "users", "password", req.body.password)
               .then(passwordResp => {
                 if (passwordResp === false) {
-                  res.status("400").json("WRONG_PASSWORD");
+                  res.json({ msg: "wrong_password" });
                 } else {
                   let payload = { id: usernameResp._id };
                   let token = jwt.sign(payload, jwtOptions.secretOrKey);
-                  sendMongo.createExpire(client, "users").then(() => {
+                  sendMongo.createExpire(client, "sessions").then(() => {
                     const sessions = variable.dataSession;
                     sessions._id = usernameResp._id;
                     sessions.username = usernameResp.username;
@@ -60,7 +60,7 @@ function data(client) {
                       .insertOne(client, "sessions", sessions)
                       .then(insertResp => {
                         if (!insertResp) {
-                          res.status("400").json("FAILED_LOGIN");
+                          res.json({ msg: "failed_login" });
                         } else {
                           delete sessions.expireAt;
                           res.json({ msg: "ok", data: sessions });
@@ -70,7 +70,7 @@ function data(client) {
                 }
               });
           } else {
-            res.status("400").json("WRONG_USERNAME");
+            res.json({ msg: "wrong_username" });
           }
         });
     }
@@ -86,13 +86,13 @@ function data(client) {
       .checkOne(client, "sessions", "token", auth)
       .then(checkTokenResp => {
         if (checkTokenResp === false) {
-          res.status("400").json("WRONG_TOKEN");
+          res.json("WRONG_TOKEN");
         } else {
           sendMongo.deleteOne(client, "sessions", auth).then(resp => {
             if (resp === false) {
-              res.status("400").json("FAILED");
+              res.json("FAILED");
             } else {
-              res.status("400").json("SUCCESS");
+              res.json("SUCCESS");
             }
           });
         }
@@ -114,25 +114,28 @@ function data(client) {
                   regis.email = req.body.email;
                   regis.password = req.body.password;
 
+                  // sendMongo.insertOne(client, "data_monitoring", '');
+                  // sendMongo.ins
+
                   sendMongo.insertOne(client, "users", regis).then(final => {
                     if (!final) {
                       console.log("error");
-                      res.status("400").json("FAILED_REGISTRATION");
+                      res.json({ msg: "failed_regis" });
                     } else {
                       console.log("success");
-                      res.status("400").json("SUCCESS");
+                      res.json({ msg: "success_regis" });
                     }
                   });
                 } else {
-                  res.status("400").json("EMAIL_EXIST");
+                  res.json({ msg: "email_exist" });
                 }
               });
           } else {
-            res.status("400").json("USERNAME_EXIST");
+            res.json({ msg: "username_exist" });
           }
         });
     } else {
-      res.status("400").json("Failed Registration");
+      res.json({ msg: "failed_regis" });
     }
   });
 }
