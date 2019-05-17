@@ -32,6 +32,18 @@ My Final Project About Monitoring Application With IoT
 
 - React Native
 
+### Database Configuration
+
+```
+    use finalProject;
+    db.use('finalProject');
+    db.createCollection('users');
+    db.createCollection('sessions');
+    db.createCollection('status_monitoring');
+    db.createCollection('data_monitoring');
+    db.createCollection('log');
+```
+
 # How To Use
 
 |   #    |   Mobile    |   Website   |
