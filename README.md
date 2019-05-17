@@ -35,7 +35,6 @@ My Final Project About Monitoring Application With IoT
 ### Database Configuration
 
 ```
-    use finalProject;
     db.use('finalProject');
     db.createCollection('users');
     db.createCollection('sessions');
