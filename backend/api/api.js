@@ -2,28 +2,25 @@
 // /api/login
 
 const express = require("express");
+const router = express.Router();
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 
-const passport = require("passport");
+// const passport = require("passport");
 const passportJWT = require("passport-jwt");
 
 // ExtractJwt to help extract the token
 let ExtractJwt = passportJWT.ExtractJwt;
 
 // JwtStrategy which is the strategy for the authentication
-let JwtStrategy = passportJWT.Strategy;
+// let JwtStrategy = passportJWT.Strategy;
 let jwtOptions = {};
 
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 jwtOptions.secretOrKey = "mohammedwazier";
 
 const mongo = require(__dirname + "/../mongo");
-
-const router = express.Router();
-
 const variable = require(__dirname + "/../variable/variable");
-
 const process = require(__dirname + "/../process");
 const sendMongo = new process();
 

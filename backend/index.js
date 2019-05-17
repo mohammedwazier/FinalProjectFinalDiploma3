@@ -3,11 +3,15 @@ const router = express.Router();
 const http = require("http");
 const app = express();
 const path = require("path");
+
+const mongo = require(__dirname + "/mongo");
 // const bodyParser = require("body-parser");
 
 const port = process.env.PORT || 5000;
 
 let list_user = 0;
+
+var clients = [];
 
 app.use(
   "*",
@@ -58,38 +62,55 @@ let server = httpServer.listen(port, () => {
 });
 
 // Socket IO Interface
+mongo.then(function(client) {
+  const io = require("socket.io")(server);
+  const db = client.db('finalProject');
 
-const io = require("socket.io")(server);
-
-io.on("connection", socket => {
-  list_user++;
-  console.log("new user connected, List User :  " + list_user);
-
-  socket.on("toggle", data => {
-    console.log(data, socket.id);
-  });
-
-  socket.on("login", data => {
-    var clientInfo = new Object();
-    clientInfo.username = data.username;
-    clientInfo.clientId = socket.id;
-
-    // io.sockets.emit("client", clientInfo);
-  });
-
-  // socket.on("update_data", data => {
-
-  // })
-
-  // socket.on("update_monitoring", data=> {
-
-  // })
-
-  socket.on("disconnect", function() {
-    console.log("disconnected");
-    list_user--;
+  io.on("connection", socket => {
+    list_user++;
     console.log("new user connected, List User :  " + list_user);
-    console.log();
+
+    socket.on("toggle", data => {
+      console.log(data, socket.id);
+    });
+
+    socket.on("login", data => {
+      var clientInfo = new Object();
+      // clientInfo.username = data.username;
+      // clientInfo.clientId = socket.id;
+
+      // clients.push(clientInfo);
+      db.collection('log').countDocuments((err, count) => {
+        const logUser = {};
+        logUser._id = count+1;
+        logUser.username = data.username;
+        logUser.socket = socket.id;
+        db.collection('log').insertOne(logUser, (err, resp) => {
+          if(!err){
+            console.log(logUser);
+          }else{
+            console.log('error adding user to LOG');
+          }
+        })
+      })
+
+      // io.sockets.emit("client", clientInfo);
+    });
+
+    // socket.on("update_data", data => {
+
+    // })
+
+    // socket.on("update_monitoring", data=> {
+
+    // })
+
+    socket.on("disconnect", function() {
+      console.log("disconnected");
+      list_user--;
+      console.log("new user connected, List User :  " + list_user);
+      console.log(socket.id);
+    });
   });
 });
 

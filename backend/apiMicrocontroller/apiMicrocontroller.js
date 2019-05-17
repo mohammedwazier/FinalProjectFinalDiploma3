@@ -8,14 +8,15 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
 mongo.then(function(client) {
-  // users(client);
   data(client);
 });
 
 function data(client) {
-  router.get("/login", (req, res) => {
-    res.send("asdasdadasd");
+  router.post("/setLogin", (req, res) => {
+    // res.send("asdasdadasd");
   });
+
+  router.post("/logoutMicro", (req, res) => {});
 }
 
 module.exports = router;

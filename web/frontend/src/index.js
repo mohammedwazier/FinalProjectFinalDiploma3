@@ -1,12 +1,39 @@
+import { createBrowserHistory } from "history";
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-// import * as serviceWorker from './serviceWorker';
+import { Redirect, Route, Router, Switch } from "react-router-dom";
+// import App from "./App";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.js";
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-// serviceWorker.unregister();
+import Login from "./Routes/Index/Login";
+import Register from "./Routes/Index/Register";
+import Dashboard from "./Routes/Dashboard/Dashboard";
+import NoMatch from "./Views/NoMatch/NoMatch";
+
+const hist = createBrowserHistory();
+
+ReactDOM.render(
+  <Router history={hist}>
+    <Switch>
+      <Route path={"/"} exact component={props => <Login {...props} />} />
+      <Route
+        path={"/login"}
+        exact
+        component={props => <Login {...props} status="login" />}
+      />
+      <Route
+        path={"/register"}
+        exact
+        component={props => <Register {...props} status="register" />}
+      />
+
+      <Route path={"/dashboard"} component={Dashboard} />
+
+      <Route path={"/404"} exact component={() => <NoMatch />} />
+      <Redirect from="*" to="/404" />
+    </Switch>
+  </Router>,
+  document.getElementById("root")
+);

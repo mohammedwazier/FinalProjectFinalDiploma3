@@ -10,7 +10,6 @@ const promise = new Promise(function(resolve) {
     if (err) {
       throw err;
     } else {
-      console.log("connected to mongoDB");
       resolve(client);
     }
   });
