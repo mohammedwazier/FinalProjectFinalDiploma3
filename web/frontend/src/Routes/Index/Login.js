@@ -61,7 +61,6 @@ export default class Login extends Component {
         },
         () => {
           WebStore.login(data).then(resp => {
-            console.log(resp);
             if (resp.msg === "wrong_username") {
               this.setState({
                 ...this.state,

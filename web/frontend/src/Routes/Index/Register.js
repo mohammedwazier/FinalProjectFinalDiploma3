@@ -79,8 +79,30 @@ export default class Register extends Component {
           isSubmit: !isSubmit
         },
         () => {
-          console.log("hehekjhsdfkjh", data);
-          //Do Send data to backend
+          WebStore.register(data).then(resp => {
+            if (resp.msg === "username_exist") {
+              this.setState({
+                ...this.state,
+                isSubmit: !this.state.isSubmit,
+                error: {
+                  ...this.state.error,
+                  username: !this.state.username
+                }
+              });
+            } else if (resp.msg === "email_exist") {
+              this.setState({
+                ...this.state,
+                isSubmit: !this.state.isSubmit,
+                error: {
+                  ...this.state.error,
+                  email: !this.state.email
+                }
+              });
+            } else if (resp.msg === "failed_regis") {
+            } else {
+              this.props.history.push("/login");
+            }
+          });
         }
       );
     } else {

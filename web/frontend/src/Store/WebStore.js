@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 
-import { apiPost } from "./Helper";
+import { apiPost, verifyLogin } from "./Helper";
 
 const link =
   process.env.NODE_ENV === "production"
@@ -64,6 +64,15 @@ class WebStore extends EventEmitter {
     const url = `${link}api/register`;
     return new Promise(resolve => {
       apiPost(url, body, "", response => {
+        resolve(response);
+      });
+    });
+  };
+
+  checkUser = () => {
+    const url = `${link}api/checkuser`;
+    return new Promise(resolve => {
+      verifyLogin(url, this.getToken(), response => {
         resolve(response);
       });
     });
