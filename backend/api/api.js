@@ -76,28 +76,28 @@ function data(client) {
     }
   });
 
-  router.post("/logout", (req, res) => {
-    if (req.headers.authorization == null) {
-      return res.status(400).json("NO_SESSION_IS_VALID");
-    }
+  // router.post("/logout", (req, res) => {
+  //   if (req.headers.authorization == null) {
+  //     return res.status(400).json("NO_SESSION_IS_VALID");
+  //   }
 
-    const auth = req.headers.authorization.split(" ")[1];
-    sendMongo
-      .checkOne(client, "sessions", "token", auth)
-      .then(checkTokenResp => {
-        if (checkTokenResp === false) {
-          res.json("WRONG_TOKEN");
-        } else {
-          sendMongo.deleteOne(client, "sessions", auth).then(resp => {
-            if (resp === false) {
-              res.json("FAILED");
-            } else {
-              res.json("SUCCESS");
-            }
-          });
-        }
-      });
-  });
+  //   const auth = req.headers.authorization.split(" ")[1];
+  //   sendMongo
+  //     .checkOne(client, "sessions", "token", auth)
+  //     .then(checkTokenResp => {
+  //       if (checkTokenResp === false) {
+  //         res.json("WRONG_TOKEN");
+  //       } else {
+  //         sendMongo.deleteOne(client, "sessions", auth).then(resp => {
+  //           if (resp === false) {
+  //             res.json("FAILED");
+  //           } else {
+  //             res.json("SUCCESS");
+  //           }
+  //         });
+  //       }
+  //     });
+  // });
 
   router.post("/register", (req, res) => {
     if (req.body.username && req.body.email && req.body.password) {
@@ -113,9 +113,6 @@ function data(client) {
                   regis.username = req.body.username;
                   regis.email = req.body.email;
                   regis.password = req.body.password;
-
-                  // sendMongo.insertOne(client, "data_monitoring", '');
-                  // sendMongo.ins
 
                   sendMongo.insertOne(client, "users", regis).then(final => {
                     if (!final) {
@@ -137,6 +134,20 @@ function data(client) {
     } else {
       res.json({ msg: "failed_regis" });
     }
+  });
+
+  router.post("/checkuser", (req, res) => {
+    if (req.headers.authorization == null) {
+      return res.json({ msg: "no_session" });
+    }
+    const auth = req.headers.authorization.split(" ")[1];
+
+    sendMongo.checkOne(client, "sessions", auth).then(responseCheck => {
+      if (responseCheck === false) {
+        return res.json({ msg: "no_session" });
+      }
+      return res.json({ msg: true, data: responseCheck });
+    });
   });
 }
 

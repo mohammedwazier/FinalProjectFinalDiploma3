@@ -13,13 +13,9 @@ let list_user = 0;
 
 var clients = [];
 
-app.use(
-  "*",
-  router.get("/", (req, res) => {
-    console.log("hehehe");
-    res.send("Hello Worlds!");
-  })
-);
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/../web/frontend/build/index.html"));
+});
 
 // import passport and passport-jwt modules
 const passport = require("passport");
@@ -64,7 +60,7 @@ let server = httpServer.listen(port, () => {
 // Socket IO Interface
 mongo.then(function(client) {
   const io = require("socket.io")(server);
-  const db = client.db('finalProject');
+  const db = client.db("finalProject");
 
   io.on("connection", socket => {
     list_user++;
@@ -80,19 +76,19 @@ mongo.then(function(client) {
       // clientInfo.clientId = socket.id;
 
       // clients.push(clientInfo);
-      db.collection('log').countDocuments((err, count) => {
+      db.collection("log").countDocuments((err, count) => {
         const logUser = {};
-        logUser._id = count+1;
+        logUser._id = count + 1;
         logUser.username = data.username;
         logUser.socket = socket.id;
-        db.collection('log').insertOne(logUser, (err, resp) => {
-          if(!err){
+        db.collection("log").insertOne(logUser, (err, resp) => {
+          if (!err) {
             console.log(logUser);
-          }else{
-            console.log('error adding user to LOG');
+          } else {
+            console.log("error adding user to LOG");
           }
-        })
-      })
+        });
+      });
 
       // io.sockets.emit("client", clientInfo);
     });
