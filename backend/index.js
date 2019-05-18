@@ -13,6 +13,7 @@ let list_user = 0;
 
 var clients = [];
 
+app.use(express.static(path.join(__dirname, "/../web/frontend/build/")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "/../web/frontend/build/index.html"));
 });
