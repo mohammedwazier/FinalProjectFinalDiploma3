@@ -1,82 +1,121 @@
-import { EventEmitter } from "events";
+import { EventEmitter } from 'events';
 
-import { apiPost, verifyLogin } from "./Helper";
+import { apiPost, verifyLogin } from './Helper';
 
 const link =
-  process.env.NODE_ENV === "production"
-    ? "https://mohammedwazier.ddns.net/"
-    : "/";
+    process.env.NODE_ENV === 'production'
+        ? 'https://mohammedwazier.ddns.net/'
+        : '/';
 
 class WebStore extends EventEmitter {
-  //   constructor() {
-  //     super();
-  //   }
-
-  getToken() {
-    if (this.checkLocalStorage()) {
-      return localStorage._token;
-    } else {
-      this.clearLocalStorage();
-      return "-";
+    constructor() {
+        super();
+        this.user = {};
+        this.notification = {
+            text: '',
+            color: '',
+        };
     }
-  }
 
-  getId() {
-    if (this.checkLocalStorage()) {
-      return localStorage._id;
-    } else {
-      this.clearLocalStorage();
-      return "-";
+    setCurrentUser = data => {
+        this.user = data;
+        this.emit('UPDATE_USER');
+    };
+
+    getCurrentUser = () => {
+        return this.user;
+    };
+
+    getToken() {
+        if (this.checkLocalStorage()) {
+            return localStorage._token;
+        } else {
+            this.clearLocalStorage();
+            return '-';
+        }
     }
-  }
-  getUsername() {
-    if (this.checkLocalStorage()) {
-      return localStorage._username;
-    } else {
-      this.clearLocalStorage();
-      return "-";
+
+    getId() {
+        if (this.checkLocalStorage()) {
+            return localStorage._userID;
+        } else {
+            this.clearLocalStorage();
+            return '-';
+        }
     }
-  }
-
-  setStorage = (key, value) => {
-    localStorage.setItem(key, value);
-    return true;
-  };
-
-  checkLocalStorage() {
-    if (Object.keys(localStorage).length > 0) {
-      return true;
-    } else {
-      return false;
+    getUsername() {
+        if (this.checkLocalStorage()) {
+            return localStorage._username;
+        } else {
+            this.clearLocalStorage();
+            return '-';
+        }
     }
-  }
 
-  login = body => {
-    const url = `${link}api/login`;
-    return new Promise(resolve => {
-      apiPost(url, body, "", response => {
-        resolve(response);
-      });
-    });
-  };
+    setStorage = (key, value) => {
+        localStorage.setItem(key, value);
+        return true;
+    };
 
-  register = body => {
-    const url = `${link}api/register`;
-    return new Promise(resolve => {
-      apiPost(url, body, "", response => {
-        resolve(response);
-      });
-    });
-  };
+    clearStorage = callback => {
+        localStorage.clear();
+        callback(true);
+    };
 
-  checkUser = () => {
-    const url = `${link}api/checkuser`;
-    return new Promise(resolve => {
-      verifyLogin(url, this.getToken(), response => {
-        resolve(response);
-      });
-    });
-  };
+    checkLocalStorage() {
+        if (Object.keys(localStorage).length > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    login = body => {
+        const url = `${link}api/login`;
+        return new Promise(resolve => {
+            apiPost(url, body, '', response => {
+                resolve(response);
+            });
+        });
+    };
+
+    register = body => {
+        const url = `${link}api/register`;
+        return new Promise(resolve => {
+            apiPost(url, body, '', response => {
+                resolve(response);
+            });
+        });
+    };
+
+    checkRegis = body => {
+        const url = `${link}api/checkRegisBoard`;
+        return new Promise(resolve => {
+            apiPost(url, body, this.getToken(), response => {
+                resolve(response);
+            });
+        });
+    };
+
+    checkUser = () => {
+        const url = `${link}api/checkuser`;
+        return new Promise(resolve => {
+            verifyLogin(url, this.getToken(), response => {
+                resolve(response);
+            });
+        });
+    };
+
+    notif = (text, color) => {
+        this.notification = {
+            text: text,
+            color: color,
+        };
+        this.emit('NOTIFICATION');
+    };
+    getNotif = () => {
+        return this.notification;
+    };
 }
 
 const webStore = new WebStore();
