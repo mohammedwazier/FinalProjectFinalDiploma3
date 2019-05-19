@@ -48,10 +48,7 @@ passport.use(strategy);
 app.use(passport.initialize());
 
 app.use('/api', require(path.join(__dirname, '/api/api')));
-// app.use(
-//   "/apiMicrocontroller",
-//   require(path.join(__dirname, "/apiMicrocontroller/apiMicrocontroller"))
-// );
+app.use('/apiMicro', require(path.join(__dirname, '/apiMicrocontroller/apiMicrocontroller')));
 
 let httpServer = http.createServer(app);
 let server = httpServer.listen(port, () => {

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import WebStore from '../../Store/WebStore';
-
-import Header from '../../Components/Header/Header';
-// import Loading from '../../Components/Loading/Loading';
-
 import { Switch, Route, Redirect } from 'react-router';
+
+import WebStore from '../../Store/WebStore';
+import Header from '../../Components/Header/Header';
 
 import Overview from '../../Views/Dashboard/Overview';
 import RegistrationBoard from '../../Views/RegistrationBoard/RegistrationBoard';
@@ -16,10 +14,10 @@ import RegistrationBoard from '../../Views/RegistrationBoard/RegistrationBoard';
 // const socket = io(link);
 
 export default class Dashboard extends Component {
-    // constructor(props) {
-    //     super(props);
-    // }
-
+    constructor(){
+        super();
+        this.logout = this.logout.bind(this);
+    }
     componentWillMount() {
         const status = WebStore.checkLocalStorage();
         if (!status) {
@@ -31,7 +29,6 @@ export default class Dashboard extends Component {
             } else {
                 WebStore.setCurrentUser(resp.data);
                 this.setDataUser(resp.data);
-                //check status registrasi
             }
         });
 
@@ -72,6 +69,13 @@ export default class Dashboard extends Component {
     //         msg: 'asdasdasd',
     //     });
     // };
+    logout = () => {
+        WebStore.logout().then(resp => {
+            if(resp){
+                this.pushToLogin();
+            }
+        })
+    }
     render() {
         return (
             <div
@@ -79,7 +83,7 @@ export default class Dashboard extends Component {
                 style={{ background: '#ecf0f1' }}
             >
                 <div className="container h-100">
-                    <Header username={localStorage._username} />
+                    <Header username={localStorage._username} logout={this.logout} />
                     <Switch>
                         <Route path="/dashboard" exact component={props => <Overview {...props} />} />
                         <Route path="/dashboard/registration-board" exact component={props => <RegistrationBoard {...props} />} />

@@ -201,6 +201,16 @@ function data(client) {
                 return res.json({ msg: 'ok', data: responseCheck });
             });
     });
+
+    router.post('/checkLastData', (req, res) => {
+        if (req.headers.authorization == null) {
+            return res.json({ msg: 'no_session' });
+        }
+
+        sendMongo.getLastData(client, 'data_monitoring', 'username', req.body.username).then(responseCheck => {
+            res.json({msg:'ok', data: responseCheck})
+        })
+    })
 }
 
 module.exports = router;

@@ -14,8 +14,8 @@ import {
 } from 'reactstrap';
 
 export default class Header extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.toggle = this.toggle.bind(this);
         this.state = {
             isOpen: false,
@@ -25,6 +25,9 @@ export default class Header extends Component {
         this.setState({
             isOpen: !this.state.isOpen,
         });
+    }
+    logout = () => {
+        this.props.logout(true);
     }
     render() {
         return (

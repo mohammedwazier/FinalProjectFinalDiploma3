@@ -61,6 +61,19 @@ module.exports = class process {
     });
   }
 
+  getLastData(client, collection, param, value){
+    const db = client.db("finalProject");
+    return new Promise(resolve => {
+      try{
+        db.collection(collection).find({[param]: value}).sort({$natural: -1}).limit(1).next().then(resp => {
+           resolve(resp)
+        })
+      } catch(err){
+        console.log(err);
+      }
+    })
+  }
+
   deleteOne(client, collection, token) {
     const db = client.db("finalProject");
     return new Promise(resolve => {

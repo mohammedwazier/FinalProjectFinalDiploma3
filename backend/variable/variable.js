@@ -7,8 +7,8 @@ const dataRegis = {
   ssid: "",
   pwd: "",
   statusReset: 0,
-  createdAt: new Date(),
-  updatedAt: new Date()
+  createdAt: (new Date()),
+  updatedAt: (new Date())
 };
 
 const dataMonitoring = {
@@ -20,7 +20,7 @@ const dataMonitoring = {
   lvlPakan: "",
   lvlMinum: "",
   status: "calibrate",
-  updatedAt: new Date()
+  updatedAt: (new Date())
 };
 
 const statusMonitoring = {
@@ -38,7 +38,7 @@ const statusMonitoring = {
     status: "",
     filling: false
   },
-  updatedAt: new Date()
+  updatedAt: (new Date())
 };
 
 const dataSession = {
