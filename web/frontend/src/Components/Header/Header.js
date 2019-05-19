@@ -20,6 +20,7 @@ export default class Header extends Component {
         this.state = {
             isOpen: false,
         };
+        this.logout = this.logout.bind(this);
     }
     toggle() {
         this.setState({
@@ -48,7 +49,7 @@ export default class Header extends Component {
                             <DropdownMenu right>
                                 <DropdownItem>Settings / Profile</DropdownItem>
                                 <DropdownItem divider />
-                                <DropdownItem>Logout</DropdownItem>
+                                <DropdownItem onClick={this.logout}>Logout</DropdownItem>
                             </DropdownMenu>
                         </UncontrolledDropdown>
                     </Nav>

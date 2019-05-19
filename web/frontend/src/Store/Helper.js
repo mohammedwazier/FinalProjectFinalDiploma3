@@ -59,3 +59,20 @@ export function verifyLogin(url, jwt, callback) {
             console.log(err);
         });
 }
+
+export function apiLogout(url, jwt, callback) {
+    const bearer = `Bearer ${jwt}`;
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            Authorization: bearer,
+        },
+    })
+        .then(checkStatus)
+        .then(responseData => {
+            callback(responseData);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}

@@ -3,6 +3,10 @@ import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import WebStore from '../../Store/WebStore';
 
 export default class RegistrationBoard extends Component {
+    constructor(){
+        super();
+        this.check = this.check.bind(this);
+    }
 	componentWillMount(){
 		WebStore.checkRegis().then(resp => {
             if(resp.data.statusRegis){
@@ -11,7 +15,6 @@ export default class RegistrationBoard extends Component {
             	console.log(resp);
             }
         })
-        this.check = this.check.bind(this);
 	}
 	check =() => {
 		window.location.reload(true);

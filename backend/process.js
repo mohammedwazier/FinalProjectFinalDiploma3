@@ -46,7 +46,7 @@ module.exports = class process {
       try {
         db.collection(collection).countDocuments((err, count) => {
           value._id = count + 1;
-          console.log(value);
+          // console.log(value);
           db.collection(collection).insertOne(value, (err, response) => {
             if (err) {
               resolve(false);
@@ -66,6 +66,19 @@ module.exports = class process {
     return new Promise(resolve => {
       try{
         db.collection(collection).find({[param]: value}).sort({$natural: -1}).limit(1).next().then(resp => {
+           resolve(resp)
+        })
+      } catch(err){
+        console.log(err);
+      }
+    })
+  }
+
+  customLimit(client, collection, param, value, limit){
+    const db = client.db("finalProject");
+    return new Promise(resolve => {
+      try{
+        db.collection(collection).find({[param]: value}).sort({$natural: -1}).limit(limit).toArray((err, resp) => {
            resolve(resp)
         })
       } catch(err){

@@ -6,6 +6,9 @@ import Header from '../../Components/Header/Header';
 
 import Overview from '../../Views/Dashboard/Overview';
 import RegistrationBoard from '../../Views/RegistrationBoard/RegistrationBoard';
+import Monitoring from '../../Views/Monitoring/Monitoring';
+import FeederSetting from '../../Views/Setting/FeederSetting';
+// import Chart from '../../Views/Monitoring/TestChart';
 
 // import io from 'socket.io-client';
 
@@ -69,24 +72,27 @@ export default class Dashboard extends Component {
     //         msg: 'asdasdasd',
     //     });
     // };
-    logout = () => {
-        WebStore.logout().then(resp => {
-            if(resp){
-                this.pushToLogin();
-            }
-        })
+    logout = (data) => {
+         WebStore.logout().then(resp => {
+             if(resp){
+                 this.pushToLogin();
+             }
+         })
     }
     render() {
         return (
             <div
                 className="container-fluid vh-100"
-                style={{ background: '#ecf0f1' }}
+                
             >
                 <div className="container h-100">
                     <Header username={localStorage._username} logout={this.logout} />
                     <Switch>
                         <Route path="/dashboard" exact component={props => <Overview {...props} />} />
                         <Route path="/dashboard/registration-board" exact component={props => <RegistrationBoard {...props} />} />
+{/*                         <Route path="/dashboard/monitoring" exact component={props => <Monitoring {...props} />} /> */}
+                        <Route path="/dashboard/monitoring" exact component={Monitoring} />
+                        <Route path="/dashboard/feeder-setting" exact component={props => <FeederSetting {...props} />} />
                         <Redirect from="*" to="/404" />
                     </Switch>
                 </div>

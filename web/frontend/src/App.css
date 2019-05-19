@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  background: '#ecf0f1'!important;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -45,4 +46,58 @@ code {
   to {
     transform: rotate(360deg);
   }
+}
+
+.bg-blue{
+  background:#3498db!important;
+  color:#FFF!important;
+}
+.bg-green{
+  background: #2ecc71!important;
+  color:#FFF!important; 
+}
+.bg-red{
+  background: #e74c3c!important;
+  color:#FFF!important; 
+}
+
+
+
+
+.water-bottle { float:left;position:relative;margin:auto;}
+ul { list-style-type:none; }
+
+.bottle { background: #ddd; width:110px;border-radius:30px 30px 6px 6px; height:200px; padding:6px;box-shadow: 3px 3px 3px #efefef;margin-bottom:4px;}
+.bottle:hover { background: #eee;box-shadow: 2px  2px 2px #efefef;}
+
+
+.cap { background: #ddd; margin:0 25px;width:60px;border-radius:8px 8px 10px  12px; height:35px;border-top:1px solid #ddd; border-bottom:2px dotted #efefef;}
+.cap-top { background:#ededed; height:6px; border-radius:10px 10px 0 0; }
+.cap-seal { margin-top:20px;background:#ccc; height:6px; border-radius: 0 0 10px 10px; }
+
+.bottle div{
+  position:relative;
+  left:-1px;
+}
+
+.water-full { ;width:100px;margin-top:0px;height:190px; z-index:1;border-radius:28px 28px 6px 6px;}
+.water-medium {; width:100px;height:120px;margin-top:70px; z-index:1;border-radius:28px 28px 6px 6px;}
+.water-low { ;width:100px;height:75px; margin-top:115px;z-index:1;border-radius:28px 28px 6px 6px;}
+.water-empty { ;width:100px;height:15px; margin-top:175px;z-index:1;border-radius:28px 28px 6px 6px;}
+
+.filling{
+  background: #2980b9
+}
+.draining{
+  background: lightblue  
+}
+
+
+.labelTinggi{
+  width:100%;
+  text-align: center;
+  position:relative;
+  top:-125px;
+  z-index:5;
+  font-weight:700;
 }

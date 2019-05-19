@@ -61,6 +61,7 @@ mongo.then(function(client) {
     const db = client.db('finalProject');
 
     io.sockets.on('connection', socket => {
+        console.log('new Clients');
         // list_user++;
         // console.log('new user connected, List User :  ' + list_user);
         // console.log('Clients : ', clients, '\n');
@@ -98,22 +99,21 @@ mongo.then(function(client) {
                 'Socket : ' +
                     socket.id +
                     ' Joined Room: realTime_' +
-                    data.uname +
-                    '\n',
+                    data.uname
             );
-            // console.log('Clients : ', clients, '\n');
         });
 
         //broadcast message to room itself
         socket.on('send', function(data) {
             console.log(socket.id + ' Push new Message to All Broadcast Room');
-            io.sockets
-                .in('realTime_' + data.username)
-                .emit('pushUpdate', { msg: 'newData', from: socket.id });
+             io.sockets
+                 .in('realTime_' + data.username)
+                 .emit('pushupdate', { msg: 'newData', from: socket.id });
             // socket.broadcast.emit('data_rec', { msg: 'hellowww' });
         });
         socket.on('disconnect', function() {
             const count = clients.length;
+            console.log('client disconnect');
         });
     });
 });

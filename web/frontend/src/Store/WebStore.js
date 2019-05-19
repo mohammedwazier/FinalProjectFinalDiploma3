@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 
-import { apiPost, verifyLogin } from './Helper';
+import { apiPost, verifyLogin, apiLogout } from './Helper';
 
 const link =
     process.env.NODE_ENV === 'production'
@@ -79,6 +79,15 @@ class WebStore extends EventEmitter {
         });
     };
 
+    logout = () => {
+        const url = `${link}api/logout`;
+        return new Promise(resolve => {
+            apiLogout(url, this.getToken(), response => {
+                resolve(response);
+            })
+        })
+    }
+
     register = body => {
         const url = `${link}api/register`;
         return new Promise(resolve => {
@@ -100,6 +109,30 @@ class WebStore extends EventEmitter {
         });
     };
 
+    getMonitorData = () => {
+        const url = `${link}api/getMonitoringData`;
+        return new Promise(resolve => {
+            const body = {
+                username: this.getUsername()
+            }
+            apiPost(url, body, this.getToken(), response => {
+                resolve(response);
+            })
+        })
+    }
+
+    getLastMonitorData = () => {
+        const url = `${link}api/getLastMonitorData`;
+        return new Promise(resolve => {
+            const body = {
+                username: this.getUsername()
+            }
+            apiPost(url, body, this.getToken(), response => {
+                resolve(response);
+            })
+        })
+    }
+
     checkUser = () => {
         const url = `${link}api/checkuser`;
         return new Promise(resolve => {
@@ -108,6 +141,8 @@ class WebStore extends EventEmitter {
             });
         });
     };
+
+
 
     notif = (text, color) => {
         this.notification = {

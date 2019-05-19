@@ -99,28 +99,28 @@ function data(client) {
         }
     });
 
-    // router.post("/logout", (req, res) => {
-    //   if (req.headers.authorization == null) {
-    //     return res.status(400).json("NO_SESSION_IS_VALID");
-    //   }
+     router.post("/logout", (req, res) => {
+       if (req.headers.authorization == null) {
+         return res.status(400).json("NO_SESSION_IS_VALID");
+       }
 
-    //   const auth = req.headers.authorization.split(" ")[1];
-    //   sendMongo
-    //     .checkOne(client, "sessions", "token", auth)
-    //     .then(checkTokenResp => {
-    //       if (checkTokenResp === false) {
-    //         res.json("WRONG_TOKEN");
-    //       } else {
-    //         sendMongo.deleteOne(client, "sessions", auth).then(resp => {
-    //           if (resp === false) {
-    //             res.json("FAILED");
-    //           } else {
-    //             res.json("SUCCESS");
-    //           }
-    //         });
-    //       }
-    //     });
-    // });
+       const auth = req.headers.authorization.split(" ")[1];
+       sendMongo
+         .checkOne(client, "sessions", "token", auth)
+         .then(checkTokenResp => {
+           if (checkTokenResp === false) {
+             res.json("WRONG_TOKEN");
+           } else {
+             sendMongo.deleteOne(client, "sessions", auth).then(resp => {
+               if (resp === false) {
+                 res.json("FAILED");
+               } else {
+                 res.json("SUCCESS");
+               }
+             });
+           }
+         });
+     });
 
     router.post('/register', (req, res) => {
         if (req.body.username && req.body.email && req.body.password) {
@@ -202,15 +202,27 @@ function data(client) {
             });
     });
 
-    router.post('/checkLastData', (req, res) => {
+    //Monitoring
+
+    router.post('/getMonitoringData', (req, res) => {
+        if (req.headers.authorization == null) {
+            return res.json({ msg: 'no_session' });
+        }
+        sendMongo.customLimit(client, 'data_monitoring', 'username', req.body.username, 10).then(responseCheck => {
+            return res.json({msg:'ok', data: responseCheck})
+        })
+    })
+
+    router.post('/getLastMonitorData', (req, res) => {
         if (req.headers.authorization == null) {
             return res.json({ msg: 'no_session' });
         }
 
         sendMongo.getLastData(client, 'data_monitoring', 'username', req.body.username).then(responseCheck => {
-            res.json({msg:'ok', data: responseCheck})
+            return res.json({msg:'ok', data: responseCheck})
         })
     })
+
 }
 
 module.exports = router;

@@ -29,14 +29,14 @@ function data(client) {
 	dataMonitor.updatedAt = new Date();
 
 	sendMongo.insertOne(client, 'data_monitoring', dataMonitor).then(respInsert => {
-		console.log('success',dataMonitor);
+		// console.log('success',dataMonitor);
 		res.send('SUCCESS');  	
 	})
   });
 
   router.post("/getDataStatus", (req, res) => {
   	sendMongo.checkOne(client, 'status_monitoring', 'username', req.body.username).then(respCheck => {
-  		console.log('update');
+  		// console.log('update');
   		res.send(respCheck);	
   	});
   })

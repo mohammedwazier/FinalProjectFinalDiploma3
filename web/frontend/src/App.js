@@ -9,6 +9,8 @@ import NoMatch from './Views/NoMatch/NoMatch';
 
 import WebStore from './Store/WebStore';
 
+import './App.css';
+
 export default class App extends Component {
     componentWillMount() {
         WebStore.on('NOTIFICATION', () => {
