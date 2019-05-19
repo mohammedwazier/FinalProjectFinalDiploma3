@@ -112,7 +112,7 @@ mongo.then(function(client) {
             console.log(socket.id + ' Push new Message to All Broadcast Room');
             io.sockets
                 .in('realTime_' + data.username)
-                .emit('pushUpdate', { msg: 'asdasdasd', from: socket.id });
+                .emit('pushUpdate', { msg: 'newData', from: socket.id });
             // socket.broadcast.emit('data_rec', { msg: 'hellowww' });
         });
         socket.on('disconnect', function() {

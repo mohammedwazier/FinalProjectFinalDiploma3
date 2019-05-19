@@ -7,6 +7,7 @@ import Header from '../../Components/Header/Header';
 import { Switch, Route, Redirect } from 'react-router';
 
 import Overview from '../../Views/Dashboard/Overview';
+import RegistrationBoard from '../../Views/RegistrationBoard/RegistrationBoard';
 
 // import io from 'socket.io-client';
 
@@ -15,14 +16,9 @@ import Overview from '../../Views/Dashboard/Overview';
 // const socket = io(link);
 
 export default class Dashboard extends Component {
-    constructor(props) {
-        super(props);
-
-        // this.state = {
-        //     isLoading: true,
-        //     data: {},
-        // };
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
 
     componentWillMount() {
         const status = WebStore.checkLocalStorage();
@@ -56,17 +52,6 @@ export default class Dashboard extends Component {
         //     console.log(data);
         // });
     }
-    componentDidMount() {
-        WebStore.checkRegis({ username: localStorage._username }).then(resp => {
-            if (resp.msg === 'no_session') {
-                return this.pushToLogin();
-            }
-            // console.log(resp);
-            if (!resp.data.statusRegis) {
-                // this.props.history.push('/dashboard/registration-board');
-            }
-        });
-    }
     pushToLogin = () => {
         WebStore.clearStorage(callback => {
             if (callback) {
@@ -89,17 +74,15 @@ export default class Dashboard extends Component {
     // };
     render() {
         return (
-            <div className="container-fluid vh-100">
+            <div
+                className="container-fluid vh-100"
+                style={{ background: '#ecf0f1' }}
+            >
                 <div className="container h-100">
                     <Header username={localStorage._username} />
                     <Switch>
-                        <Route
-                            path="/dashboard"
-                            exact
-                            component={props => (
-                                <Overview {...props} status={'asd'} />
-                            )}
-                        />
+                        <Route path="/dashboard" exact component={props => <Overview {...props} />} />
+                        <Route path="/dashboard/registration-board" exact component={props => <RegistrationBoard {...props} />} />
                         <Redirect from="*" to="/404" />
                     </Switch>
                 </div>
