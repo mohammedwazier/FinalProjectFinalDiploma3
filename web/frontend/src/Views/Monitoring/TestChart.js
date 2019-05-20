@@ -15,7 +15,7 @@ export default class TestClart extends Component{
       labels: [65, 59, 80, 81, 56],
       datasets: [
         {
-          label: 'Suhu',
+          label: this.props.labels,
           fill: true,
           borderColor: 'rgba(255,255,255,0.4)',
           backgroundColor: gradient,

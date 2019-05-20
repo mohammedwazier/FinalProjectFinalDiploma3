@@ -33,6 +33,7 @@ export default class Monitoring extends Component {
 			}
 		}
 		this.avail = true;
+		this.onConnect = this.onConnect.bind(this);
 	}
 	componentWillMount(){
 		if(this.avail){
@@ -43,11 +44,14 @@ export default class Monitoring extends Component {
                  return this.props.history.push('/dashboard/registration-board');
              }
          })
+		socket.on('connect', this.onConnect);
 		}
 		
 	}
 	componentWillUnmount(){
 		this.avail = false;
+
+		socket.emit('disconnect')
 		console.log(this.avail);
 	}
 	componentDidMount(){
@@ -80,48 +84,53 @@ export default class Monitoring extends Component {
 			this.setState({
 				isLoading: false,
 				data: data,
-				plainData:plainData
-			}, () => console.log(this.state.data))
+				plainData:plainData})
 		})
-		
 	}
 	addData = (rawData) => {
-		// console.log(rawData)
-		 var { data, plainData } = this.state;
-		 plainData = {
-		 	last: moment(rawData.updatedAt).format('LLL'),
-		 	lastSuhu: rawData.suhu,
-		 	lastHumidity: rawData.humidity,
-		 	lastAirQ: rawData.airQuality
-		 };
-		 data.label.push(moment(rawData.updatedAt).format('LLL'));
-		 data.suhu.push(rawData.suhu);
-		 data.humidity.push(rawData.humidity);
-		  data.airQ.push(rawData.airQuality);
+		 if(!this.state.isLoading){
+			 var { data, plainData } = this.state;
+			 plainData = {
+			 	last: moment(rawData.updatedAt).format('LLL'),
+			 	lastSuhu: rawData.suhu,
+			 	lastHumidity: rawData.humidity,
+			 	lastAirQ: rawData.airQuality
+			 };
+			 data.label.push(moment(rawData.updatedAt).format('LLL'));
+			 data.suhu.push(rawData.suhu);
+			 data.humidity.push(rawData.humidity);
+			  data.airQ.push(rawData.airQuality);
 
-		 console.log(data, plainData);
+			 console.log(data, plainData);
 
-		 this.setState({
-		 	...this.state,
-		 	data: data,
-		 	plainData: plainData
-		 })
+			 this.setState({
+			 	...this.state,
+			 	data: data,
+			 	plainData: plainData
+			 })
+		}
+	}
+	onConnect = connect => {
+		
+		// 	console.log('khhjkfkjdfskj');
+			socket.emit('login', {
+				uname: WebStore.getUsername(),
+				token: WebStore.getToken(),
+			});
 
+			socket.on('pushupdate', data => {
+				WebStore.getLastMonitorData().then(resp => {
+					this.addData(resp.data);
+				})
+			})
+		// }
+		
 	}
 	render() {
 		const { plainData } = this.state;
 
-		if(!this.state.isLoading){	
-			 socket.emit('login', {
-	             uname: WebStore.getUsername(),
-	             token: WebStore.getToken(),
-	         });
-
-	         socket.on('pushupdate', data => {
-	         	WebStore.getLastMonitorData().then(resp => {
-	         		this.addData(resp.data);
-	         	})
-	         })
+		if(!this.state.isLoading){
+			console.log('here');
 		}
 
 		return (
@@ -143,7 +152,7 @@ export default class Monitoring extends Component {
                 			<CardBody className='bg-blue'>
                 				{plainData.last}
                 			</CardBody>
-                			<Chart startColor={'#e74c3c'} endColor={'#3498db'} isLoading={this.state.isLoading} data={this.state.data.suhu} label={this.state.data.label} />
+                			<Chart startColor={'#e74c3c'} endColor={'#3498db'} isLoading={this.state.isLoading} data={this.state.data.suhu} label={this.state.data.label} labels={'Suhu'} />
                 			</div>
                 			<CardBody>
                 				Temperature: 
@@ -159,7 +168,7 @@ export default class Monitoring extends Component {
 	                			<CardBody>
 	                				{plainData.last}
 	                			</CardBody>
-	                			<Chart startColor={'#3498db'} endColor={'#2ecc71'} isLoading={this.state.isLoading} data={this.state.data.humidity} label={this.state.data.label} />
+	                			<Chart startColor={'#3498db'} endColor={'#2ecc71'} isLoading={this.state.isLoading} data={this.state.data.humidity} label={this.state.data.label} labels={'Humidity'} />
                 			</div>
                 			<CardBody>
                 				Humidity
@@ -175,7 +184,7 @@ export default class Monitoring extends Component {
 	                			<CardBody>
 	                				{plainData.last}
 	                			</CardBody>
-	                			<Chart startColor={'#f1c40f'} endColor={'#e74c3c'} isLoading={this.state.isLoading} data={this.state.data.airQ} label={this.state.data.label} />
+	                			<Chart startColor={'#f1c40f'} endColor={'#e74c3c'} isLoading={this.state.isLoading} data={this.state.data.airQ} label={this.state.data.label} labels={'Air Quality'} />
                 			</div>
                 			<CardBody>
                 				Air Quality
