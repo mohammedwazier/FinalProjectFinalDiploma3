@@ -8,8 +8,8 @@ My Final Project About Monitoring Application With IoT
 
 - [x] Make Requirement
 - [ ] Mobile Frontend Application
-- [ ] Web Frontend Application
-- [ ] Backend Application
+- [x] Web Frontend Application / 23-05-2019(Updated)
+- [x] Backend Application / 23-05-2019 (Updated)
 - [ ] Maintenance & Upgrate
 
 ### List Backend Library :
