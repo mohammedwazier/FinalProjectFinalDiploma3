@@ -11,7 +11,9 @@ export default (TextField = ({
 	keyboard,
 	returnKey,
 	ref,
-	onSubmitEditing
+	onSubmitEditing,
+	isSubmit,
+	autoCapitalize
 }) => {
 	return (
 		<View
@@ -30,6 +32,7 @@ export default (TextField = ({
 		>
 			<Text style={{ marginBottom: 5, fontWeight: 'bold' }}>{label}</Text>
 			<TextInput
+				autoCapitalize={autoCapitalize}
 				returnKeyType={returnKey}
 				keyboardType={keyboard}
 				style={{ width: '100%' }}
@@ -37,9 +40,10 @@ export default (TextField = ({
 				ref={ref}
 				onSubmitEditing={onSubmitEditing}
 				secureTextEntry={secureTextEntry}
-				onChangeText={(text) => onChange}
+				onChangeText={onChange}
 				placeholder={placeholder}
 				value={value}
+				editable={isSubmit}
 			/>
 		</View>
 	);

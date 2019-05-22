@@ -109,13 +109,13 @@ function data(client) {
          .checkOne(client, "sessions", "token", auth)
          .then(checkTokenResp => {
            if (checkTokenResp === false) {
-             res.json("WRONG_TOKEN");
+             res.json({msg: 'wrong_token'})
            } else {
              sendMongo.deleteOne(client, "sessions", auth).then(resp => {
                if (resp === false) {
-                 res.json("FAILED");
+                res.json({msg: 'failed'});
                } else {
-                 res.json("SUCCESS");
+                 res.json({msg: 'success'});
                }
              });
            }
@@ -201,6 +201,18 @@ function data(client) {
                 return res.json({ msg: 'ok', data: responseCheck });
             });
     });
+
+    router.post('/updateBoardPoint', (req, res) => {
+        if (req.headers.authorization == null) {
+            return res.json({ msg: 'no_session' });
+        }
+
+        sendMongo
+            .updateOne(client, 'users', req.body.username, 'regisPoint', 1)
+            .then(responseCheck => {
+                return res.json({ msg: 'ok', data: responseCheck });
+            })
+    })
 
     //Monitoring
 

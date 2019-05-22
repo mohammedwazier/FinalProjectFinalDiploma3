@@ -1,12 +1,10 @@
 import React from 'react';
-import { Text, View, ScrollView, Image } from 'react-native';
+import { Text, View, ScrollView, Image, AsyncStorage } from 'react-native';
 import { AppLoading, Asset } from 'expo';
 import CustomButton from '../../Components/Button/CustomButton';
 
-// import style from './Components/Style/Style';
+import WebStore from '../../Store/WebStore';
 import style from '../../Components/Style/Style';
-
-// import Splash from './Screens/Splash/Splash';
 
 const Logo = require('../../assets/images/Logo.png');
 
@@ -24,6 +22,14 @@ export default class Home extends React.Component {
 		};
 		this.pressed = this.pressed.bind(this);
 		this.handleResourcesAsync = this.handleResourcesAsync.bind(this);
+	}
+	componentWillMount(){
+		WebStore.getUsername()
+		.then(username => {
+			if(username !== null){
+				 this.props.navigation.push('monitoring');
+			}
+		})
 	}
 	componentDidMount() {
 		// setTimeout(() => {

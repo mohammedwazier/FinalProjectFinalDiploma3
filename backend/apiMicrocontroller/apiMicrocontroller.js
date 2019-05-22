@@ -41,6 +41,13 @@ function data(client) {
   	});
   })
 
+  router.post("/updateBoard", (req, res) => {
+  	// ssid
+  	// pwd
+  	// usernmae
+  	 console.log(req.body);
+  })
+
 }
 
 module.exports = router;

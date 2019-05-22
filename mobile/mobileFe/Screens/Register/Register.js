@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, TouchableWithoutFeedback, ImageBackground, Keyboard, ScrollView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import WebStore from '../../Store/WebStore';
 
 import TextField from '../../Components/Input/TextField';
 import CustomButton from '../../Components/Button/CustomButton';
@@ -18,20 +19,50 @@ export default class Register extends React.Component {
 
 		this.state = {
 			email: '',
-			password: ''
+			username: '',
+			password: '',
+			rpassword: '',
 		};
 
-		this.onChange = this.onChange.bind(this);
-		this.login = this.login.bind(this);
+		this.registerFunc = this.registerFunc.bind(this);
 	}
 	componentDidMount() {}
-	onChange = (text) => {
-		text.preventDefault();
-		alert(text);
-	};
-	login = () => {
-		alert('Login');
-	};
+	registerFunc = () => {
+		const { email, username, password, rpassword } = this.state;
+
+		if(!email && !username && !password && !password){
+			return alert('Please fill the form');
+		}else{
+			if(!email){
+				return alert('Please input Email');
+			}
+
+			if(!username){
+				return alert('Please input Username');
+			}
+
+			if(!password){
+				return alert('Please input Password');
+			}
+
+			if(!rpassword){
+				return alert('Please input ReType Password');
+			}
+
+			if(password !== rpassword){
+				return alert('Password not Match');
+			}
+
+			WebStore.register(this.state).then(resp => {
+				if(resp.msg === 'success_regis'){
+					alert('Success Registration');
+					this.props.navigation.goBack();
+				}
+			})
+
+		}
+
+	}
 	render() {
 		return (
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -56,31 +87,33 @@ export default class Register extends React.Component {
 										<TextField
 											keyboard={'email-address'}
 											placeholder={'Your Email'}
-											onChange={this.onChange}
+											onChange={(text) => this.setState({email:text})}
 											label={'Email'}
+											autoCapitalize={'none'}
 										/>
 										<TextField
 											// keyboard={'email-address'}
 											placeholder={'Your Username'}
-											onChange={this.onChange}
+											onChange={(text) => this.setState({username:text})}
 											label={'Username'}
+											autoCapitalize={'none'}
 										/>
 										<TextField
 											placeholder={'Your Password'}
-											onChange={this.onChange}
+											onChange={(text) => this.setState({password:text})}
 											label={'Password'}
 											secureTextEntry
 										/>
 										<TextField
 											placeholder={'Retry Password'}
-											onChange={this.onChange}
-											label={'Password'}
+											onChange={(text) => this.setState({rpassword:text})}
+											label={'ReType Password'}
 											secureTextEntry
 										/>
 									</View>
 									<View style={{ alignItems: 'center', marginTop: 30 }}>
 										<CustomButton
-											// pressed={}
+											pressed={this.registerFunc}
 											text={'Register'}
 											styleButton={style.btnLogReg}
 											styleText={style.textHome}

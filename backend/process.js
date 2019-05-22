@@ -104,6 +104,25 @@ module.exports = class process {
     });
   }
 
+  updateOne(client, collection, user, param, value){
+    const db = client.db("finalProject");
+    return new Promise(resolve => {
+      try{
+        const date = new Date();
+          db.collection(collection).updateOne({username: user}, {$set: {[param]: value}}, (err, result) => {
+            if (err) {
+              resolve(false);
+            } else {
+              resolve(result);
+            }
+          })
+      }
+      catch(error){
+        console.log(error);
+      }
+    })
+  }
+
   createExpire(client, collection) {
     const db = client.db("finalProject");
     return new Promise(resolve => {

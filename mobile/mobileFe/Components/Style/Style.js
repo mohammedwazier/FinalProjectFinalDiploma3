@@ -89,7 +89,17 @@ const style = StyleSheet.create({
 		fontSize: 30,
 		fontWeight: 'bold',
 		color: '#fff'
-	}
+	},
+	button: {
+	  	borderWidth:1,
+	  	borderColor:'#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 50,
+		width: 120,
+		padding: 10,
+		marginTop:30
+	  }
 });
 
 export default style;

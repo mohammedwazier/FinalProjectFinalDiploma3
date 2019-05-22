@@ -51,7 +51,8 @@ export default class Monitoring extends Component {
 	componentWillUnmount(){
 		this.avail = false;
 
-		socket.emit('disconnect')
+		socket.emit('disconnect');
+		this._emitter.removeAllListeners();
 		console.log(this.avail);
 	}
 	componentDidMount(){

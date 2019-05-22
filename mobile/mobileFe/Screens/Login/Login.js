@@ -1,6 +1,8 @@
 import React from 'react';
-import { Text, View, TouchableWithoutFeedback, ImageBackground, Keyboard, ScrollView } from 'react-native';
+import { Text, View, TouchableWithoutFeedback, ImageBackground, Keyboard, ScrollView, AsyncStorage } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
+import WebStore from '../../Store/WebStore';
 
 import TextField from '../../Components/Input/TextField';
 import CustomButton from '../../Components/Button/CustomButton';
@@ -17,26 +19,61 @@ export default class Login extends React.Component {
 		super(props);
 
 		this.state = {
-			email: '',
-			password: ''
+			username: '',
+			password: '',
+			error: {
+				username: false,
+				password: false
+			},
+			isSubmit: false
 		};
-
-		this.onChange = this.onChange.bind(this);
-		this.login = this.login.bind(this);
-
-		this.secondTextInputRef = React.createRef();
+		this.loginFunc = this.loginFunc.bind(this);
+		this.setSubmit = this.setSubmit.bind(this);
 	}
+	componentWillMount(){}
 	componentDidMount() {}
-	onChange = (text) => {
-		text.preventDefault();
-		alert(text);
-	};
-	login = () => {
-		alert('Login');
+	loginFunc = () => {
+		if(this.state.username.length === 0 && this.state.password.length === 0){
+			this.setSubmit();
+			return alert('Please input Username and Password');
+		}else{
+			if(this.state.username.length === 0){
+				this.setSubmit();
+				return alert('Please input Username');
+			}
+
+			if(this.state.password.length === 0){
+				this.setSubmit();
+				return alert('Please input Password');
+			}	
+
+			this.setSubmit();
+			const body = {
+				username: this.state.username,
+				password: this.state.password
+			}
+			 WebStore.login(body).then(resp => {
+			 	if(resp.msg === 'wrong_username'){
+			 		alert('Username Not Found');
+			 	}else if(resp.msg === 'wrong_password'){
+			 		alert('Wrong Password, please check again');
+			 	}else if(resp.msg === 'ok'){
+			 		alert('Success Login');
+			 		const data = resp.data;
+					WebStore.setData('username', data.username);
+					WebStore.setData('_id', `${data._id}`);
+					WebStore.setData('token', data.token);
+			 		 this.props.navigation.push('monitoring');
+			 	}
+			 })
+		}
 	};
 
-	_focusNextField(nextField) {
-		this.refs[nextField].focus();
+	setSubmit(){
+		this.setState({
+			...this.state,
+			isSubmit: !this.state.isSubmit
+		})
 	}
 
 	render() {
@@ -61,31 +98,23 @@ export default class Login extends React.Component {
 									</View>
 									<View style={{ width: '100%', marginTop: 80 }}>
 										<TextField
-											keyboard={'email-address'}
-											placeholder={'Your Email'}
-											onChange={this.onChange}
-											label={'Email'}
+											placeholder={'Your username'}
+											onChange={(text) => this.setState({username:text})}
+											label={'username'}
 											returnKey={'next'}
-											onSubmitEditing={() => {
-												this.nextInput.focus();
-											}}
 											blurOnSubmit={false}
-											ref={'1'}
+											autoCapitalize={'none'}
 										/>
 										<TextField
 											placeholder={'Your Password'}
-											onChange={this.onChange}
+											onChange={(text) => this.setState({password:text})}
 											label={'Password'}
 											secureTextEntry
-											ref={(nextInput) => (this.nextInput = nextInput)}
-											onSubmitEditing={() => {
-												alert('Logins');
-											}}
 										/>
 									</View>
 									<View style={{ alignItems: 'center', marginTop: 50 }}>
 										<CustomButton
-											pressed={this.login}
+											pressed={this.loginFunc}
 											text={'Login'}
 											styleButton={style.btnLogReg}
 											styleText={style.textHome}
