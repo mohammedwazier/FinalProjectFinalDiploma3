@@ -2,10 +2,10 @@ import { EventEmitter } from 'events';
 
 import { apiPost, verifyLogin, apiLogout } from './Helper';
 
-const link =
-    process.env.NODE_ENV === 'production'
-        ? 'https://mohammedwazier.ddns.net/'
-        : '/';
+const link = '/';
+    // process.env.NODE_ENV === 'production'
+        // ? 'https://mohammedwazier.ddns.net/'
+        // : '/';
 
 class WebStore extends EventEmitter {
     constructor() {
@@ -33,6 +33,10 @@ class WebStore extends EventEmitter {
             this.clearLocalStorage();
             return '-';
         }
+    }
+
+    clearLocalStorage(){
+        localStorage.clear();
     }
 
     getId() {
@@ -142,6 +146,31 @@ class WebStore extends EventEmitter {
         });
     };
 
+    getStatusMonitoringData = () => {
+        const url = `${link}api/getStatusMonitoringData`;
+        return new Promise(resolve => {
+            var body = {
+                username: this.getUsername()
+            }
+            apiPost(url, body, this.getToken(), response => {
+                resolve(response);
+            })
+        })
+    }
+
+    updateStatusMonitoringData = val => {
+        const url = `${link}api/updateStatusMonitoringData`;
+        return new Promise(resolve => {
+            var body = {
+                data: val,
+                username: this.getUsername()
+            }
+            apiPost(url, body, this.getToken(), response => {
+                resolve(response);
+            })
+        })
+    }
+
 
 
     notif = (text, color) => {
@@ -154,6 +183,11 @@ class WebStore extends EventEmitter {
     getNotif = () => {
         return this.notification;
     };
+
+    remove = (socket) => {
+        socket.disconnect()
+        // this.removeListener();
+    }
 }
 
 const webStore = new WebStore();

@@ -9,14 +9,16 @@ import Feeder from './Feeder';
 
 import io from 'socket.io-client';
 
-const link = 'http://localhost:5000';
+const link = 'https://mohammedwazier.ddns.net';
 const socket = io(link);
+console.log('hehehe ',socket);
 
 export default class Monitoring extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
 			isLoading: true,
+			dataLoaded: false,
 			data: {
 				label: [],
 				suhu: [],
@@ -30,10 +32,13 @@ export default class Monitoring extends Component {
 				lastSuhu: '-',
 				lastHumidity: '-',
 				lastAirQ: '-',
-			}
+			},
+			status: 'Not Connected'
 		}
 		this.avail = true;
 		this.onConnect = this.onConnect.bind(this);
+		this.schedule = this.schedule.bind(this);
+		this.report = this.report.bind(this);
 	}
 	componentWillMount(){
 		if(this.avail){
@@ -44,49 +49,54 @@ export default class Monitoring extends Component {
                  return this.props.history.push('/dashboard/registration-board');
              }
          })
-		socket.on('connect', this.onConnect);
-		}
 		
+		}
+		socket.on('connect', this.onConnect, {
+			reconnection: true,
+		    reconnectionDelay: 1000,
+		    reconnectionDelayMax : 5000,
+		    reconnectionAttempts: Infinity
+		});
 	}
 	componentWillUnmount(){
 		this.avail = false;
-
-		socket.emit('disconnect');
-		this._emitter.removeAllListeners();
-		console.log(this.avail);
+		// socket.emit('disconnect');
+		 // WebStore.remove(socket);
+		// console.log(this.avail);
 	}
 	componentDidMount(){
 		this.avail = true;
 		WebStore.getMonitorData().then(resp => {
-			const { suhu, label, humidity, airQ} = this.state.data;
-			let {data} = this.state;
-			const plainData = {
-			 	last: moment(resp.data[0].updatedAt).format('LLL'),
-				lastSuhu: resp.data[0].suhu,
-				lastHumidity: resp.data[0].humidity,
-				lastAirQ: resp.data[0].airQuality
-			 }
-			const dataRes = resp.data.reverse();
-
-			dataRes.map((res) => {
-				suhu.push(res.suhu);
-				label.push(moment(res.updatedAt).format('LLL'));
-				humidity.push(res.humidity);
-				airQ.push(res.airQuality);
-				return true;
-			})
-
-			data = {
-				suhu: suhu,
-				label: label, 
-				humidity: humidity, 
-				airQ: airQ
-			}
-			this.setState({
-				isLoading: false,
-				data: data,
-				plainData:plainData})
-		})
+			console.log(resp)
+  			const { suhu, label, humidity, airQ} = this.state.data;
+  			let {data} = this.state;
+  			const plainData = {
+  			 	last: moment(resp.data[0].updatedAt).format('LLL'),
+  				lastSuhu: resp.data[0].suhu,
+  				lastHumidity: resp.data[0].humidity,
+  				lastAirQ: resp.data[0].airQuality
+  			 }
+  			const dataRes = resp.data.reverse();
+  
+  			dataRes.map((res) => {
+  				suhu.push(res.suhu);
+  				label.push(moment(res.updatedAt).format('LLL'));
+  				humidity.push(res.humidity);
+  				airQ.push(res.airQuality);
+  				return true;
+  			})
+  
+  			data = {
+  				suhu: suhu,
+  				label: label, 
+  				humidity: humidity, 
+  				airQ: airQ
+  			}
+  			this.setState({
+  				isLoading: false,
+  				data: data,
+  				plainData:plainData})
+ 		})
 	}
 	addData = (rawData) => {
 		 if(!this.state.isLoading){
@@ -113,31 +123,50 @@ export default class Monitoring extends Component {
 	}
 	onConnect = connect => {
 		
-		// 	console.log('khhjkfkjdfskj');
+		 	// console.log('khhjkfkjdfskj');
 			socket.emit('login', {
-				uname: WebStore.getUsername(),
-				token: WebStore.getToken(),
+				uname: WebStore.getUsername()
+				// token: WebStore.getToken(),
+			}, () => {
+				console.log('connected', socket)
 			});
 
 			socket.on('pushupdate', data => {
-				WebStore.getLastMonitorData().then(resp => {
-					this.addData(resp.data);
-				})
+				console.log(data)
+				 WebStore.getLastMonitorData().then(resp => {
+				 	this.addData(resp.data);
+				 	this.setState({
+				 		...this.state,
+				 		status: 'Board Connected'
+				 	})
+				 })
 			})
-		// }
-		
+
+			// socket.on('dc', data =>{
+			// 	this.setState({
+			// 		...this.state,
+			// 		status: 'Not Connected'
+			// 	})
+			// })
+	}
+	schedule = () => {
+		this.props.history.push('/dashboard/edit-monitoring');
+	}
+
+	report = () => {
+		this.props.history.push('/dashboard/report-monitoring');
 	}
 	render() {
 		const { plainData } = this.state;
 
-		if(!this.state.isLoading){
-			console.log('here');
-		}
+		// if(!this.state.isLoading){
+		// 	// console.log('here');
+		// }
 
 		return (
 			<Row
             	className="mb-5 mt-5"
-                style={{ minHeight: 'calc(100% - 56px)' }}
+                style={{ minHeight: 'calc(100% - 152px)' }}
             >
                 <Col className="mx-auto">
                 <Link to='/dashboard'>Home</Link> / Monitoring
@@ -199,7 +228,7 @@ export default class Monitoring extends Component {
                 	<Col>
                 		<Card>
                 			<CardBody>
-                				Food Level
+                				<h4>Food Level</h4>
                 			</CardBody>
                 			<Feeder status={'food'} />
                 		</Card>
@@ -207,7 +236,7 @@ export default class Monitoring extends Component {
                 	<Col>
                 		<Card>
                 			<CardBody>
-                				Water Level
+                				<h4>Water Level</h4>
                 			</CardBody>
                 			<Feeder status={'water'} />
                 		</Card>
@@ -215,18 +244,16 @@ export default class Monitoring extends Component {
                 	<Col>
                 		<Card className='h-100'>
                 			<CardBody>
-                				Status
+                				<h4>Status</h4>
                 				<hr />
-                				Jam: 14:00
+                				Jam: {moment().format('LTS')}
                 				<br />
-                				Status: Active
-                				<br />
-                				Last Logout: Kemarin
+                				Status: {this.state.status}
                 				<br />
                 				<br />
-                				<Button color="primary" size="md" block>Edit Schedule</Button>
-                				<Button color="success" size="md" block>View All Data</Button>
-                				<Button color="danger" size="md" block>Logout</Button>
+                				<Button color="primary" size="md" onClick={this.schedule} block>Edit Schedule</Button>
+                				<Button color="success" size="md" onClick={this.report} block>View All Data</Button>
+                				<Button color="danger" size="md" onClick={() => this.props.logout(true)} block>Logout</Button>
                 			</CardBody>
                 		</Card>
                 	</Col>

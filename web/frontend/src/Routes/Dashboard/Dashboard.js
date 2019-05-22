@@ -7,14 +7,9 @@ import Header from '../../Components/Header/Header';
 import Overview from '../../Views/Dashboard/Overview';
 import RegistrationBoard from '../../Views/RegistrationBoard/RegistrationBoard';
 import Monitoring from '../../Views/Monitoring/Monitoring';
-import FeederSetting from '../../Views/Setting/FeederSetting';
-// import Chart from '../../Views/Monitoring/TestChart';
-
-// import io from 'socket.io-client';
-
-//Socket Link (Not Working on HTTPS Server cause its just forwarding from HTTPS NGINX to http nodejs server)
-// const link = 'http://localhost:5000';
-// const socket = io(link);
+// import FeederSetting from '../../Views/Setting/FeederSetting';
+import Schedule from '../../Views/Schedule/Schedule';
+import Report from '../../Views/Report/Report';
 
 export default class Dashboard extends Component {
     constructor(){
@@ -31,13 +26,14 @@ export default class Dashboard extends Component {
                 return this.pushToLogin();
             } else {
                 WebStore.setCurrentUser(resp.data);
-                this.setDataUser(resp.data);
+                console.log(resp)
+                  // this.setDataUser(resp.data);
             }
         });
 
         const current = WebStore.getCurrentUser();
         if (Object.keys(current).length !== 0) {
-            this.setDataUser(current);
+            // this.setDataUser(current);
         }
         // socket.emit('login', {
         //     uname: WebStore.getUsername(),
@@ -54,31 +50,25 @@ export default class Dashboard extends Component {
     }
     pushToLogin = () => {
         WebStore.clearStorage(callback => {
+            // console.log(callback)
             if (callback) {
                 return this.props.history.push('/login');
             }
         });
     };
-    setDataUser = data => {
-        this.setState({
-            data: data,
-        });
-    };
-
-    // test = () => {
-    //     console.log('clicked');
-    //     socket.emit('send', {
-    //         username: WebStore.getUsername(),
-    //         msg: 'asdasdasd',
+    // setDataUser = async (data) => {
+    //     await this.setState({
+    //         data: data,
     //     });
     // };
-    logout = (data) => {
-         WebStore.logout().then(resp => {
-             if(resp){
-                 this.pushToLogin();
-             }
-         })
-    }
+
+     logout = (data) => {
+          WebStore.logout().then(resp => {
+              if(resp){
+                  this.pushToLogin();
+              }
+          })
+     }
     render() {
         return (
             <div
@@ -90,9 +80,11 @@ export default class Dashboard extends Component {
                     <Switch>
                         <Route path="/dashboard" exact component={props => <Overview {...props} />} />
                         <Route path="/dashboard/registration-board" exact component={props => <RegistrationBoard {...props} />} />
-{/*                         <Route path="/dashboard/monitoring" exact component={props => <Monitoring {...props} />} /> */}
-                        <Route path="/dashboard/monitoring" exact component={Monitoring} />
-                        <Route path="/dashboard/feeder-setting" exact component={props => <FeederSetting {...props} />} />
+                        <Route path="/dashboard/monitoring" exact component={props => <Monitoring logout={this.logout} {...props} />} />
+{/*                         <Route path="/dashboard/monitoring" exact component={Monitoring} /> */}
+{/*                         <Route path="/dashboard/feeder-setting" exact component={props => <FeederSetting {...props} />} /> */}
+                        <Route path="/dashboard/edit-monitoring" exact component={props => <Schedule {...props} />} />
+                        <Route path="/dashboard/report-monitoring" exact component={props => <Report {...props} />} />
                         <Redirect from="*" to="/404" />
                     </Switch>
                 </div>

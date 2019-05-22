@@ -12,14 +12,14 @@ export default class TestClart extends Component{
       gradient.addColorStop(0, this.props.startColor);
       gradient.addColorStop(1, this.props.endColor);
     var dataChart = {
-      labels: [65, 59, 80, 81, 56],
+      labels: [0,0,0,0,0,0,0,0,0,0],
       datasets: [
         {
           label: this.props.labels,
           fill: true,
           borderColor: 'rgba(255,255,255,0.4)',
           backgroundColor: gradient,
-          data: [65, 59, 80, 81, 56]
+          data: [0,0,0,0,0,0,0,0,0,0]
         }
       ]
     };
@@ -33,6 +33,7 @@ export default class TestClart extends Component{
            }
            console.log(tempData);
            dataChart.datasets[0].data = tempData;
+            canvas.update();
        }else{
         dataChart.datasets[0].data = data
        }
@@ -43,13 +44,17 @@ export default class TestClart extends Component{
   render() {
     const option = { 
       // maintainAspectRatio: false,
+      responsive: true,
       legend: {
         display: false,
       },
       scales: {
         yAxes: [
           {
-             display: false
+             display: false,
+             ticks: {
+                        beginAtZero: true
+                    }
           }
         ],
         xAxes: [
@@ -61,7 +66,7 @@ export default class TestClart extends Component{
     }
     return (
       <div className='w-100'>
-        <Line data={this.data} options={option} />
+        <Line data={this.data} options={option} style={{width:'100%'}} className='w-100' redraw/>
       </div>
     );
   }

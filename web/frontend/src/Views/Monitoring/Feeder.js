@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 export default class Feeder extends Component {
 	render() {
+		// const 
 		return (
 			<div className="water-bottle">
 		        <div className="cap">
@@ -11,10 +12,14 @@ export default class Feeder extends Component {
 		            </div>
 		        </div>
 		       <div className="bottle">
-		            <div className="water-medium draining"> </div>
+{/* 		       	water-full water-medium water-low water-empty */}
+		            <div className="water-full draining">
+{/* 		            status */}
+		            </div>
 		        </div>
 		        <div className='labelTinggi'>
-		        	75%
+{/* 		        	Edit Filling */}
+		        	100%
 		        </div>
 	        </div>
 		);

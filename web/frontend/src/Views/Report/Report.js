@@ -1,11 +1,10 @@
-// Not User
 import React, { Component } from 'react';
 
-export default class FeederSetting extends Component {
+export default class Report extends Component {
 	render() {
 		return (
 			<div>
-				Settings
+				Report
 			</div>
 		);
 	}

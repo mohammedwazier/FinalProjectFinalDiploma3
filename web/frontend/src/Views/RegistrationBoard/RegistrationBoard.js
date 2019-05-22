@@ -9,6 +9,7 @@ export default class RegistrationBoard extends Component {
     }
 	componentWillMount(){
 		WebStore.checkRegis().then(resp => {
+            // console.log(resp)
             if(resp.data.statusRegis){
                 return this.props.history.push('/dashboard');
             }else{
@@ -41,7 +42,7 @@ export default class RegistrationBoard extends Component {
                         			<br />
                         			4. Restart your Board
                         			<br />
-                        			5. Waiting 5 Minutes to automatic configure and Calibration
+                        			5. Waiting 5 Minutes to automatic configure
                         			<br />
                         			<Button onClick={this.check}> Check </Button>
                         	</CardBody>
