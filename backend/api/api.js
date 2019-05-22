@@ -229,6 +229,16 @@ function data(client) {
         })
     })
 
+    router.post('/getAllMonitorData', (req, res) => {
+        if (req.headers.authorization == null) {
+            return res.json({ msg: 'no_session' });
+        }
+
+        sendMongo.getAll(client, 'data_monitoring', 'username', req.body.username).then(responseCheck => {
+            return res.json({msg:'ok', data: responseCheck})
+        })
+    })
+
     router.post('/getLastMonitorData', (req, res) => {
         if (req.headers.authorization == null) {
             return res.json({ msg: 'no_session' });

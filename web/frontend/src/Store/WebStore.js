@@ -125,6 +125,18 @@ class WebStore extends EventEmitter {
         })
     }
 
+    getAllMonitor = () => {
+        const url = `${link}api/getAllMonitorData`;
+        return new Promise(resolve => {
+            const body = {
+                username: this.getUsername()
+            }
+            apiPost(url, body, this.getToken(), response => {
+                resolve(response);
+            })
+        })
+    }
+
     getLastMonitorData = () => {
         const url = `${link}api/getLastMonitorData`;
         return new Promise(resolve => {

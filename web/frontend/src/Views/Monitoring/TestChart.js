@@ -23,27 +23,33 @@ export default class TestClart extends Component{
         }
       ]
     };
-    if(!this.props.isLoading){
-      const {data, label} = this.props;
-       if(data.length > 10){
-         var tempData = [];
-         var mins = data.length - 10;
-           for(var i = data.length-1;i>=mins;i--){
-            tempData.push(data[i]);
-           }
-           console.log(tempData);
-           dataChart.datasets[0].data = tempData;
-            canvas.update();
-       }else{
-        dataChart.datasets[0].data = data
-       }
-      dataChart.labels = label;
-    }
+
+     // console.log('datas', this.props.data);
+     if(!this.props.isLoading){
+        // dataChart.datasets[0].data.push(this.props.data);
+       const {data, label} = this.props;
+    //    if(data.length > 10){
+    //      var tempData = [];
+    //      var mins = data.length - 10;
+    //        for(var i = data.length-1;i>=mins;i--){
+    //         tempData.push(data[i]);
+    //        }
+    //        console.log(tempData);
+    //        dataChart.datasets[0].data = tempData;
+    //         // canvas.update();
+    //        // canvas.resize().update();
+    //    }else{
+         dataChart.datasets[0].data = data;
+    //    }
+       dataChart.labels = label;
+     }
     return dataChart;
   }
+
+  chartReference = {};
   render() {
     const option = { 
-      // maintainAspectRatio: false,
+       maintainAspectRatio: false,
       responsive: true,
       legend: {
         display: false,
@@ -66,7 +72,7 @@ export default class TestClart extends Component{
     }
     return (
       <div className='w-100'>
-        <Line data={this.data} options={option} style={{width:'100%'}} className='w-100' redraw/>
+        <Line data={this.data} options={option} style={{width:'100%'}} className='w-100'/>
       </div>
     );
   }

@@ -9,7 +9,7 @@ import Feeder from './Feeder';
 
 import io from 'socket.io-client';
 
-const link = 'https://mohammedwazier.ddns.net';
+const link = 'http://localhost:5000';
 const socket = io(link);
 console.log('hehehe ',socket);
 
@@ -67,35 +67,37 @@ export default class Monitoring extends Component {
 	componentDidMount(){
 		this.avail = true;
 		WebStore.getMonitorData().then(resp => {
-			console.log(resp)
-  			const { suhu, label, humidity, airQ} = this.state.data;
-  			let {data} = this.state;
-  			const plainData = {
-  			 	last: moment(resp.data[0].updatedAt).format('LLL'),
-  				lastSuhu: resp.data[0].suhu,
-  				lastHumidity: resp.data[0].humidity,
-  				lastAirQ: resp.data[0].airQuality
-  			 }
-  			const dataRes = resp.data.reverse();
-  
-  			dataRes.map((res) => {
-  				suhu.push(res.suhu);
-  				label.push(moment(res.updatedAt).format('LLL'));
-  				humidity.push(res.humidity);
-  				airQ.push(res.airQuality);
-  				return true;
-  			})
-  
-  			data = {
-  				suhu: suhu,
-  				label: label, 
-  				humidity: humidity, 
-  				airQ: airQ
-  			}
-  			this.setState({
-  				isLoading: false,
-  				data: data,
-  				plainData:plainData})
+			console.log(resp);
+			if(resp.data.length !== 0){
+	   			const { suhu, label, humidity, airQ} = this.state.data;
+	   			let {data} = this.state;
+	   			const plainData = {
+	   			 	last: moment(resp.data[0].updatedAt).format('LLL'),
+	   				lastSuhu: resp.data[0].suhu,
+	   				lastHumidity: resp.data[0].humidity,
+	   				lastAirQ: resp.data[0].airQuality
+	   			 }
+	   			const dataRes = resp.data.reverse();
+	   
+	   			dataRes.map((res) => {
+	   				suhu.push(res.suhu);
+	   				label.push(moment(res.updatedAt).format('LLL'));
+	   				humidity.push(res.humidity);
+	   				airQ.push(res.airQuality);
+	   				return true;
+	   			})
+	   
+	   			data = {
+	   				suhu: suhu,
+	   				label: label, 
+	   				humidity: humidity, 
+	   				airQ: airQ
+	   			}
+	   			this.setState({
+	   				isLoading: false,
+	   				data: data,
+	   				plainData:plainData})
+			}
  		})
 	}
 	addData = (rawData) => {
@@ -111,14 +113,18 @@ export default class Monitoring extends Component {
 			 data.suhu.push(rawData.suhu);
 			 data.humidity.push(rawData.humidity);
 			  data.airQ.push(rawData.airQuality);
+			  data.suhu.shift();
+			  data.humidity.shift();
+			  data.airQ.shift();
+			  data.label.shift();
 
-			 console.log(data, plainData);
+			 console.log(data);
 
-			 this.setState({
-			 	...this.state,
-			 	data: data,
-			 	plainData: plainData
-			 })
+			  this.setState({
+			  	...this.state,
+			  	data: data,
+			  	plainData: plainData
+			  })
 		}
 	}
 	onConnect = connect => {
@@ -252,7 +258,7 @@ export default class Monitoring extends Component {
                 				<br />
                 				<br />
                 				<Button color="primary" size="md" onClick={this.schedule} block>Edit Schedule</Button>
-                				<Button color="success" size="md" onClick={this.report} block>View All Data</Button>
+                				<Button color="success" size="md" onClick={this.report} block disabled>View All Data</Button>
                 				<Button color="danger" size="md" onClick={() => this.props.logout(true)} block>Logout</Button>
                 			</CardBody>
                 		</Card>

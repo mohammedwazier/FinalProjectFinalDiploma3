@@ -26,7 +26,7 @@ export default class Dashboard extends Component {
                 return this.pushToLogin();
             } else {
                 WebStore.setCurrentUser(resp.data);
-                console.log(resp)
+                // console.log(resp)
                   // this.setDataUser(resp.data);
             }
         });
@@ -56,11 +56,6 @@ export default class Dashboard extends Component {
             }
         });
     };
-    // setDataUser = async (data) => {
-    //     await this.setState({
-    //         data: data,
-    //     });
-    // };
 
      logout = (data) => {
           WebStore.logout().then(resp => {
