@@ -9,7 +9,7 @@ import Feeder from './Feeder';
 
 import io from 'socket.io-client';
 
-const link = 'http://mohammedwazier.ddns.net';
+const link = 'http://localhost:5000';
 const socket = io(link);
 console.log('hehehe ',socket);
 
