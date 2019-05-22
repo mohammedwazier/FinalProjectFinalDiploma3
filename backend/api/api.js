@@ -210,7 +210,11 @@ function data(client) {
         sendMongo
             .updateOne(client, 'users', req.body.username, 'regisPoint', 1)
             .then(responseCheck => {
-                return res.json({ msg: 'ok', data: responseCheck });
+                sendMongo
+                    .updateOne(client, 'users', req.body.username, 'updatedAt', new Date())
+                    .then(() => {
+                        return res.json({ msg: 'ok', data: responseCheck });        
+                    })
             })
     })
 
@@ -233,6 +237,32 @@ function data(client) {
         sendMongo.getLastData(client, 'data_monitoring', 'username', req.body.username).then(responseCheck => {
             return res.json({msg:'ok', data: responseCheck})
         })
+    })
+
+    router.post('/getStatusMonitoringData', (req, res) => {
+        if (req.headers.authorization == null) {
+            return res.json({ msg: 'no_session' });
+        }
+
+        sendMongo.checkOne(client, 'status_monitoring', 'username', req.body.username).then(responseCheck => {
+            delete responseCheck.username;
+            delete responseCheck.updateAt;
+            delete responseCheck._id;
+            return res.json({msg:'ok', data: responseCheck});
+        })
+    })
+
+    router.post('/updateStatusMonitoringData', (req, res) => {
+        if (req.headers.authorization == null) {
+            return res.json({ msg: 'no_session' });
+        }        
+        console.log(req.body);
+
+        sendMongo
+            .updateOne(client, 'status_monitoring', req.body.username, 'statusMonitoring', parseInt(req.body.data))
+            .then(responseCheck => {
+                return res.json({msg:'ok', data: responseCheck})
+            });
     })
 
 }

@@ -61,7 +61,7 @@ mongo.then(function(client) {
     const db = client.db('finalProject');
 
     io.sockets.on('connection', socket => {
-        console.log('new Clients');
+        console.log('new Clients', socket.id);
         // list_user++;
         // console.log('new user connected, List User :  ' + list_user);
         // console.log('Clients : ', clients, '\n');
@@ -71,28 +71,6 @@ mongo.then(function(client) {
         });
 
         socket.on('login', data => {
-            // const logUser = {};
-            // const count = clients.length;
-            // logUser.id = count + 1;
-            // logUser.username = data.uname;
-            // logUser.token = data.token;
-            // logUser.socket = socket.id;
-
-            // if (count > 0) {
-            //     var findData = false;
-            //     clients.map(data => {
-            //         if (data.token === logUser.token) {
-            //             findData = true;
-            //             console.log(findData, data.token);
-            //             data.socket = logUser.socket;
-            //         }
-            //     });
-            //     if (!findData) {
-            //         clients.push(logUser);
-            //     }
-            // } else {
-            //     clients.push(logUser);
-            // }
             //Make User Join Room itself
             socket.join('realTime_' + data.uname);
             console.log(
@@ -105,15 +83,16 @@ mongo.then(function(client) {
 
         //broadcast message to room itself
         socket.on('send', function(data) {
-            console.log(socket.id + ' Push new Message to All Broadcast Room');
+            console.log(socket.id + ' Push new Message to All Broadcast Room, '+data.username);
              io.sockets
                  .in('realTime_' + data.username)
                  .emit('pushupdate', { msg: 'newData', from: socket.id });
             // socket.broadcast.emit('data_rec', { msg: 'hellowww' });
         });
         socket.on('disconnect', function() {
-            const count = clients.length;
-            console.log('client disconnect');
+             // const count = clients.length;
+            // socket.emit('dc', {msg: 'disconnected', socketId: socket.id});
+            console.log('client disconnect', socket.id);
         });
     });
 });

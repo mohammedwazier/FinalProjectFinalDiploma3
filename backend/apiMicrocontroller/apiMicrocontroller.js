@@ -39,13 +39,34 @@ function data(client) {
   		// console.log('update');
   		res.send(respCheck);	
   	});
+  });
+
+  router.post("/setMonitoring", (req, res) => {
+  	var statusMonitor = variable.statusMonitoring;
+
+  	statusMonitor.username = req.body.usernmae;
+  	statusMonitor.updatedAt = new Date();
+  	statusMonitor.statusMonitoringNow = "60";
+  	console.log(statusMonitor);
+  	// sendMongo.insertOne(client, 'status_monitoring')
   })
 
   router.post("/updateBoard", (req, res) => {
   	// ssid
   	// pwd
   	// usernmae
-  	 console.log(req.body);
+
+  	sendMongo
+  		.updateOne(client, 'users', req.body.username, 'ssid', req.body.ssid)
+  		.then(responSSID => {
+  			sendMongo
+  				.updateOne(client, 'users', req.body.username, 'pwd', req.body.pwd)
+  				.then(respPWD => {
+  					console.log(req.body);
+  					return res.send('BOARD_UPDATED');
+  				})
+  		})
+  	 
   })
 
 }

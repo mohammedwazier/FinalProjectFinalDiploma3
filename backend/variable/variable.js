@@ -26,18 +26,19 @@ const dataMonitoring = {
 const statusMonitoring = {
   _id: "",
   username: "",
-  pakan: {
-    lvlMin: "",
-    lvlMax: "",
-    status: "",
-    filling: false
-  },
-  minum: {
-    lvlMin: "",
-    lvlMax: "",
-    status: "",
-    filling: false
-  },
+  // pakan: {
+  //   lvlMin: "",
+  //   lvlMax: "",
+  //   status: "",
+  //   filling: false
+  // },
+  // minum: {
+  //   lvlMin: "",
+  //   lvlMax: "",
+  //   status: "",
+  //   filling: false
+  // },
+  statusMonitoringNow: "", //1 min(60), 10 min(60000), 30 min(1800), 1 hour(3600)
   updatedAt: (new Date())
 };
 
