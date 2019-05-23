@@ -193,7 +193,7 @@ export default class Monitoring extends Component {
                 			<CardBody>
                 				Temperature: 
                 				<div className='w-100 text-center'>
-                					{plainData.lastSuhu} Degree
+                					{plainData.lastSuhu}° Celcius
                 				</div>
                 			</CardBody>
                 		</Card>
