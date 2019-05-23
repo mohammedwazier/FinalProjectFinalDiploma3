@@ -64,7 +64,7 @@ export default class Overview extends Component {
                                     <CardBody className='p-5'>
                                         <img src={SetFeeder} alt="monitor" style={{width:'200px'}} />
                                         <br /><br />
-                                        Set Feeder
+                                        Setting
                                     </CardBody>
                                 </Card>
                             </Col>

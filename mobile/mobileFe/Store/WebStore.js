@@ -5,7 +5,7 @@ const link =
     process.env.NODE_ENV === 'production'
         ? 'https://mohammedwazier.ddns.net/'
         // Dev IP Api, Berubah seiring berubahnya koneksi
-        : 'http://192.168.0.111:5000/';
+        : 'http://192.168.1.10:5000/';
 
 class WebStore{
     constructor(){
@@ -143,6 +143,7 @@ class WebStore{
          const url = `${link}api/checkuser`;
          return new Promise(resolve => {
              this.getToken().then(token => {
+                // console.log(token);
                  verifyLogin(url, token, response => {
                       resolve(response);
                   });

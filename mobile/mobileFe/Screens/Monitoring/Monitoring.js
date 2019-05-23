@@ -31,9 +31,10 @@ export default class Monitoring extends Component {
 				 this.props.navigation.push('home');
 			}
 		})
+		console.log('asdasd')
 		WebStore.checkUser()
 		.then(user => {
-			// console.log(user);
+			  console.log(user);
 			if(user.msg === 'no_session'){
 				 WebStore.deleteData('token');
 				 WebStore.deleteData('username');
@@ -126,6 +127,7 @@ export default class Monitoring extends Component {
 		return (
 			<View style={{ flex: 1, marginTop: 50 }}>
 				<ScrollView style={{ height: '100%', flex: 1 }}>
+					<Text>Welcome To Monitoring Application</Text>
 					<View style={{ margin: 15, height: 200, backgroundColor: '#fff', alignItems: 'center' }} xLabels={labels}>
 						<LineChart style={{ flex: 1, borderRadius: 20 }} config={config} data={data} />
 						<Text>Suhu</Text>
