@@ -7,11 +7,15 @@ import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.js";
 
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+
+
 const hist = createBrowserHistory();
 
 ReactDOM.render(
-  <Router history={hist}>
-    <App />
-  </Router>,
-  document.getElementById("root")
+    <Router history={hist}>
+        <App />
+    </Router>,
+    document.getElementById("root")
 );

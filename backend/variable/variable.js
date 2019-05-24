@@ -26,6 +26,10 @@ const dataMonitoring = {
 const statusMonitoring = {
   _id: "",
   username: "",
+  startDate: "",
+  endDate: "",
+  startHour:"",
+  endHour:"",
   // pakan: {
   //   lvlMin: "",
   //   lvlMax: "",

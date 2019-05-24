@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Row, Col, Card, CardBody, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Row, Col, Card, CardBody, FormGroup, Label, Input, CustomInput } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 import WebStore from '../../Store/WebStore';
+import DatePick from './DatePick';
 
 export default class Schedule extends Component {
 	constructor(){
@@ -68,8 +69,15 @@ export default class Schedule extends Component {
                 		<Col>
                 			<Card>
                 				<CardBody>
-                					
-                					<FormGroup>
+							        <FormGroup>
+							        	<Label>Scheduled On/Off</Label>
+                						<DatePick />
+							        </FormGroup>
+							        <FormGroup>
+							        	<Label>System Of/Off</Label>
+                						<CustomInput type="switch" id="exampleCustomSwitch" name="customSwitch" label="Turn on this custom switch" />
+							        </FormGroup>
+							        <FormGroup>
 							          <Label for="exampleSelect">Edit Time BirdThings Board to Push data to Monitoring Server</Label>
 							          <Input type="select" onChange={this.onChange} value={this.state.data} name="selectTime" id="exampleSelect">
 							          	<option value={'-'}>-</option>

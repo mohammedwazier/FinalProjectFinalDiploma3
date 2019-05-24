@@ -1,0 +1,37 @@
+yarn add v1.16.0
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+[3/4] Linking dependencies...
+[4/4] Building fresh packages...
+success Saved lockfile.
+success Saved 24 new dependencies.
+info Direct dependencies
+├─ react-dates@20.2.0
+├─ react-dom@16.8.6
+└─ react@16.8.6
+info All dependencies
+├─ airbnb-prop-types@2.13.2
+├─ array.prototype.find@2.1.0
+├─ array.prototype.flat@1.2.1
+├─ brcast@2.0.2
+├─ deepmerge@1.5.2
+├─ direction@1.0.3
+├─ document.contains@1.0.1
+├─ function.prototype.name@1.1.0
+├─ global-cache@1.2.1
+├─ hoist-non-react-statics@2.5.5
+├─ is-touch-device@1.0.1
+├─ object-is@1.0.1
+├─ object.entries@1.1.0
+├─ prop-types-exact@1.2.0
+├─ react-addons-shallow-compare@15.6.2
+├─ react-dates@20.2.0
+├─ react-dom@16.8.6
+├─ react-moment-proptypes@1.6.0
+├─ react-outside-click-handler@1.2.3
+├─ react-portal@4.2.0
+├─ react-with-styles-interface-css@4.0.3
+├─ react-with-styles@3.2.1
+├─ react@16.8.6
+└─ reflect.ownkeys@0.2.0
+Done in 17.02s.

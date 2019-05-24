@@ -51,12 +51,7 @@ export default class Monitoring extends Component {
          })
 		
 		}
-		socket.on('connect', this.onConnect, {
-			reconnection: true,
-		    reconnectionDelay: 1000,
-		    reconnectionDelayMax : 5000,
-		    reconnectionAttempts: Infinity
-		});
+		
 	}
 	componentWillUnmount(){
 		this.avail = false;
@@ -165,9 +160,12 @@ export default class Monitoring extends Component {
 	render() {
 		const { plainData } = this.state;
 
-		// if(!this.state.isLoading){
-		// 	// console.log('here');
-		// }
+		socket.on('connect', this.onConnect, {
+			reconnection: true,
+			reconnectionDelay: 1000,
+			reconnectionDelayMax : 5000,
+			reconnectionAttempts: Infinity
+		});
 
 		return (
 			<Row
