@@ -180,7 +180,7 @@ export default class Monitoring extends Component {
                 <br />
                 <br />
                 <Row className='w-100'>
-                	<Col xs={12}>
+                	<Col md={4} xs={12}>
                 		<Card style={{width:'338px'}}>
                 			<div className='bg-blue'>
                 			<CardBody className='bg-blue'>
@@ -196,7 +196,7 @@ export default class Monitoring extends Component {
                 			</CardBody>
                 		</Card>
                 	</Col>
-                	<Col xs={12}>
+                	<Col md={4} xs={12}>
                 		<Card style={{width:'338px'}}>
                 			<div className='bg-green'>
 	                			<CardBody>
@@ -212,7 +212,7 @@ export default class Monitoring extends Component {
                 			</CardBody>
                 		</Card>
                 	</Col>
-                	<Col xs={12}>
+                	<Col md={4} xs={12}>
                 		<Card style={{width:'338px'}}>
                 			<div className='bg-red'>
 	                			<CardBody>
@@ -229,7 +229,7 @@ export default class Monitoring extends Component {
                 		</Card>
                 	</Col>
                 	<div className='w-100 mt-3' />
-                	<Col xs={12}>
+                	<Col md={4} xs={12}>
                 		<Card>
                 			<CardBody>
                 				<h4>Food Level</h4>
@@ -237,7 +237,7 @@ export default class Monitoring extends Component {
                 			<Feeder status={'food'} />
                 		</Card>
                 	</Col>
-                	<Col xs={12}>
+                	<Col md={4} xs={12}>
                 		<Card>
                 			<CardBody>
                 				<h4>Water Level</h4>
@@ -245,7 +245,7 @@ export default class Monitoring extends Component {
                 			<Feeder status={'water'} />
                 		</Card>
                 	</Col>
-                	<Col xs={12}>
+                	<Col md={4} xs={12}>
                 		<Card className='h-100'>
                 			<CardBody>
                 				<h4>Status</h4>

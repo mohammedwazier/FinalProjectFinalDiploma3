@@ -30,6 +30,7 @@ const statusMonitoring = {
   endDate: "",
   startHour:"",
   endHour:"",
+  system: true, //true = Nyala, false = Off/Mati
   // pakan: {
   //   lvlMin: "",
   //   lvlMax: "",

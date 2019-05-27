@@ -12,10 +12,17 @@ export default class Schedule extends Component {
 		this.state = {
 			data: '-',
 			before: '-',
-			disable: true
+			// disable: true,
+			startDate: '',
+			endDate: '',
+			startHour: '',
+			endHour: '',
+			system: true,
+			statusMonitoring: ''
 		}
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
+		this.changeSlide = this.changeSlide.bind(this);
 	}
 
 	onChange = (e) => {
@@ -25,19 +32,29 @@ export default class Schedule extends Component {
 			this.setState({
 				...this.state,
 				data: e.target.value,
-				disable: false
 			})
 		}
 	}
+
+	changeSlide = e => {
+
+	}
 	componentWillMount(){
 		WebStore.getStatusMonitoringData().then(resp => {
-			 console.log(resp);
+			 // console.log(resp);
 			 if(resp.msg === 'ok'){
 				this.setState({
 					...this.state,
 					data: resp.data.statusMonitoring,
-					before: resp.data.statusMonitoring
-				})	 		
+					before: resp.data.statusMonitoring,
+
+					startDate: resp.data.startDate,
+					endDate: resp.data.endDate,
+					startHour: resp.data.startHour,
+					endHour: resp.data.endHour,
+					// system: resp.data.system,
+					statusMonitoring: resp.data.statusMonitoring
+				}, () => console.log(this.state))
 			 }
 		})
 	}
@@ -73,10 +90,12 @@ export default class Schedule extends Component {
 							        	<Label>Scheduled On/Off</Label>
                 						<DatePick />
 							        </FormGroup>
+							        <hr />
 							        <FormGroup>
 							        	<Label>System Of/Off</Label>
-                						<CustomInput type="switch" id="exampleCustomSwitch" name="customSwitch" label="Turn on this custom switch" />
+                						<CustomInput type="switch" name="system" onChange={this.onChange} checked={this.state.system} id='system' label="Manual On/Off System" />
 							        </FormGroup>
+							        <hr />
 							        <FormGroup>
 							          <Label for="exampleSelect">Edit Time BirdThings Board to Push data to Monitoring Server</Label>
 							          <Input type="select" onChange={this.onChange} value={this.state.data} name="selectTime" id="exampleSelect">
@@ -86,7 +105,8 @@ export default class Schedule extends Component {
 							            <option value={'30'}>30 Minutes</option>
 							          </Input>
 							        </FormGroup>
-							        <Button color="primary" onClick={this.onSubmit} disabled={this.state.disable}>Save</Button>
+							        <hr />
+							        <Button color="primary" onClick={this.onSubmit}>Save</Button>
                 				</CardBody>
                 			</Card>
                 		</Col>
