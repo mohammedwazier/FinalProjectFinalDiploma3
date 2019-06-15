@@ -81,6 +81,12 @@ mongo.then(function(client) {
             );
         });
 
+         socket.on("appDate", date => {
+            console.log(date);
+            const dates = new Date();
+            socket.broadcast.emit("dateNode", dates);
+         })
+
         //broadcast message to room itself
         socket.on("send", function(data) {
             console.log(

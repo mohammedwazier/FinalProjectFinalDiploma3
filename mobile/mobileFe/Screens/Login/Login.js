@@ -33,6 +33,7 @@ export default class Login extends React.Component {
 	componentWillMount(){}
 	componentDidMount() {}
 	loginFunc = () => {
+		console.log('login');
 		if(this.state.username.length === 0 && this.state.password.length === 0){
 			this.setSubmit();
 			return alert('Please input Username and Password');

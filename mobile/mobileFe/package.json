@@ -8,9 +8,9 @@
   },
   "dependencies": {
     "expo": "^32.0.0",
+    "native-base": "^2.12.1",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
-    "react-native-gesture-handler": "^1.2.1",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-responsive-linechart": "^2.0.1",
     "react-native-swiper": "^1.5.14",

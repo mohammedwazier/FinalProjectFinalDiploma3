@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, TouchableWithoutFeedback, ScrollView, Keyboard } from 'react-native';
+import { View, TouchableOpacity, TouchableWithoutFeedback, ScrollView, Keyboard } from 'react-native';
+import {Container,Content, Card, CardItem, Body, Text, Button } from 'native-base';
+import { YellowBox } from 'react-native';
+
 import WebStore from '../../Store/WebStore';
 import style from '../../Components/Style/Style';
 
 import LineChart from "react-native-responsive-linechart";
+
+import io from 'socket.io-client';
+
+const link = 'http://192.168.88.8:5000';
+ const socket = io(link);
+ // console.log('hehehe ',socket);
+
+YellowBox.ignoreWarnings(['Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?']);
 
 export default class Monitoring extends Component {
 	static navigationOptions = {
@@ -14,7 +25,7 @@ export default class Monitoring extends Component {
 
 	constructor(){
 		super();
-
+		// this.socket = io(link);
 		this.state = {
 			isLoading: true,
 			status: 0,
@@ -23,6 +34,16 @@ export default class Monitoring extends Component {
 		}
 
 		this.logout = this.logout.bind(this);
+		this.test = this.test.bind(this);
+
+		// this.socket.on('pushupdate', data => {
+		// 	console.log(data)
+		// })
+	}
+
+	test = () => {
+		// console.log('asdasdasd');
+		socket.emit('appDate', "testing_waziruddin_akbar");
 	}
 	componentWillMount(){
 		WebStore.getUsername()
@@ -30,8 +51,9 @@ export default class Monitoring extends Component {
 			if(username === null){
 				 this.props.navigation.push('home');
 			}
+			this.socket.emit('login', {uname: username});
 		})
-		console.log('asdasd')
+		// console.log('asdasd')
 		WebStore.checkUser()
 		.then(user => {
 			  console.log(user);
@@ -125,27 +147,46 @@ export default class Monitoring extends Component {
 
 
 		return (
-			<View style={{ flex: 1, marginTop: 50 }}>
+			<View style={{ flex: 1, marginTop: 50, padding:15 }}>
 				<ScrollView style={{ height: '100%', flex: 1 }}>
 					<Text>Welcome To Monitoring Application</Text>
-					<View style={{ margin: 15, height: 200, backgroundColor: '#fff', alignItems: 'center' }} xLabels={labels}>
-						<LineChart style={{ flex: 1, borderRadius: 20 }} config={config} data={data} />
-						<Text>Suhu</Text>
-						<Text>30°</Text>
-					</View>
+					<Content>
+			          <Card>
+			            <CardItem>
+			              <Body>
+			                <Text>
+			                   asdasdasdljsdfljsdfjh
+			                </Text>
+			                <Button light onPress={this.test} ><Text> Click </Text></Button>
+			              </Body>
+			            </CardItem>
+			          </Card>
+			        </Content>
+{/* 					<View style={styles.box} xLabels={labels}> */}
+{/* 						<LineChart style={{ flex: 1, borderRadius: 20 }} config={config} data={data} /> */}
+{/* 						<Text>Suhu</Text> */}
+{/* 						<Text>30°</Text> */}
+{/* 					</View> */}
 
-					<View style={{ margin: 15, height: 200, backgroundColor: '#fff', alignItems: 'center' }} xLabels={labels} >
-						<LineChart style={{ flex: 1 }} config={config} data={data} />
-						<Text>Humidity</Text>
-					</View>
-
-					<View style={{ margin: 15, height: 200, backgroundColor: '#fff', alignItems: 'center' }} xLabels={labels} >
-						<LineChart style={{ flex: 1 }} config={config} data={data} />
-						<Text>Air Quality</Text>
-					</View>
+{/* 					<View style={{ margin: 15, height: 200, backgroundColor: '#fff', alignItems: 'center' }} xLabels={labels} > */}
+{/* 						<LineChart style={{ flex: 1 }} config={config} data={data} /> */}
+{/* 						<Text>Humidity</Text> */}
+{/* 					</View> */}
+{/*  */}
+{/* 					<View style={{ margin: 15, height: 200, backgroundColor: '#fff', alignItems: 'center' }} xLabels={labels} > */}
+{/* 						<LineChart style={{ flex: 1 }} config={config} data={data} /> */}
+{/* 						<Text>Air Quality</Text> */}
+{/* 					</View> */}
 
 				</ScrollView>
 			</View>
 		);
+	}
+}
+
+const styles = {
+	box: {
+		borderColor: '#000',
+		padding:15
 	}
 }
