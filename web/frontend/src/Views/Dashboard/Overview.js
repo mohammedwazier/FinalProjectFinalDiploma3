@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBody } from 'reactstrap';
- import WebStore from '../../Store/WebStore';
+import WebStore from '../../Store/WebStore';
 
 import Monitor from '../../Assets/image/006-home-8.svg';
 import SetFeeder from '../../Assets/image/010-plug-4.svg';
@@ -8,27 +8,29 @@ import SetFeeder from '../../Assets/image/010-plug-4.svg';
 // import Loading from '../../Components/Loading/Loading';
 
 export default class Overview extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.monitoring = this.monitoring.bind(this);
         this.feederSetting = this.feederSetting.bind(this);
     }
     componentWillMount() {
-         WebStore.checkRegis().then(resp => {
-             if(!resp.data.statusRegis){
-                 return this.props.history.push('/dashboard/registration-board');
-             }
-         })
+        WebStore.checkRegis().then(resp => {
+            if (!resp.data.statusRegis) {
+                return this.props.history.push('/dashboard/registration-board');
+            }
+        });
     }
 
-    monitoring = () => {
-        return this.props.history.push('/dashboard/monitoring');
-    }
+    monitoring = e => {
+        e.preventDefault();
+        window.location.href = '/dashboard/monitoring';
+        // return this.props.history.push('/dashboard/monitoring');
+    };
 
     feederSetting = () => {
         return this.props.history.push('/dashboard/feeder-setting');
-    }
+    };
     render() {
         return (
             <Row
@@ -51,19 +53,35 @@ export default class Overview extends Component {
                         like monitoring, set the feeder schedul and more.
                         <Row className="mt-4">
                             <Col>
-                                <Card style={{cursor:'pointer'}} onClick={this.monitoring}>
-                                    <CardBody className='p-5'>
-                                        <img src={Monitor} alt="monitor" style={{width:'200px'}} />
-                                        <br /><br />
+                                <Card
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={this.monitoring}
+                                >
+                                    <CardBody className="p-5">
+                                        <img
+                                            src={Monitor}
+                                            alt="monitor"
+                                            style={{ width: '200px' }}
+                                        />
+                                        <br />
+                                        <br />
                                         Monitoring
                                     </CardBody>
                                 </Card>
                             </Col>
                             <Col>
-                                <Card style={{cursor:'pointer'}} onClick={this.feederSetting}>
-                                    <CardBody className='p-5'>
-                                        <img src={SetFeeder} alt="monitor" style={{width:'200px'}} />
-                                        <br /><br />
+                                <Card
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={this.feederSetting}
+                                >
+                                    <CardBody className="p-5">
+                                        <img
+                                            src={SetFeeder}
+                                            alt="monitor"
+                                            style={{ width: '200px' }}
+                                        />
+                                        <br />
+                                        <br />
                                         Setting
                                     </CardBody>
                                 </Card>
