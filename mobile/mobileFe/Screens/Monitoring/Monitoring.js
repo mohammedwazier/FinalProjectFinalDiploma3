@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import {
     View,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
+    // TouchableOpacity,
+    // TouchableWithoutFeedback,
     ScrollView,
-    Keyboard,
+    // Keyboard,
     StyleSheet,
     Alert,
+    ImageBackground,
 } from 'react-native';
 import {
     Content,
     Card,
     CardItem,
-    Thumbnail,
+    // Thumbnail,
     Text,
     Button,
     Left,
@@ -27,6 +28,8 @@ import moment from 'moment';
 
 import WebStore from '../../Store/WebStore';
 import style from '../../Components/Style/Style';
+
+const Logo = require('../../assets/images/top-banner.png');
 
 // import LineChart from 'react-native-responsive-linechart';
 
@@ -134,12 +137,17 @@ export default class Monitoring extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
+                <ImageBackground
+                    source={Logo}
+                    style={style.mainImgBackground}
+                />
                 <ScrollView
                     style={{
-                        height: '110%',
+                        height: '100%',
                         flex: 1,
-                        marginTop: 50,
+                        marginTop: -450,
                         padding: 20,
+                        width: '100%',
                         // paddingBottom: 50,
                     }}
                 >
@@ -254,6 +262,26 @@ export default class Monitoring extends Component {
                                         {'\n > 101 UnHealty'}
                                     </Text>
                                 </Right>
+                            </CardItem>
+                        </Card>
+                    </Content>
+
+                    <Content style={{ marginTop: 20 }}>
+                        <Card>
+                            <CardItem>
+                                <Body>
+                                    <Text style={styles.headerText}>
+                                        Food Level
+                                    </Text>
+                                </Body>
+                            </CardItem>
+                            <CardItem>
+                                <Body>
+                                    <Text>
+                                        {'< 50 Good'}
+                                        {'\n > 101 UnHealty'}
+                                    </Text>
+                                </Body>
                             </CardItem>
                         </Card>
                     </Content>
