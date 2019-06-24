@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import WebStore from '../../Store/WebStore';
+import SocketConnect from '../../Store/SocketConnect';
 import moment from 'moment';
 
 import Chart from './TestChart';
 import Feeder from './Feeder';
 
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
-const link = 'http://localhost:5000';
-const socket = io(link);
+// const link = 'http://localhost:5000';
+// const socket = io(link);
 // console.log('hehehe ',socket);
 
 export default class Monitoring extends Component {
@@ -36,7 +37,7 @@ export default class Monitoring extends Component {
             status: 'Not Connected',
         };
         this.avail = true;
-        this.onConnect = this.onConnect.bind(this);
+        // this.onConnect = this.onConnect.bind(this);
         this.schedule = this.schedule.bind(this);
         this.report = this.report.bind(this);
     }
@@ -49,10 +50,12 @@ export default class Monitoring extends Component {
                     );
                 }
             });
+            SocketConnect.monitoringFrame(WebStore.getUsername());
         }
     }
     componentWillUnmount() {
         this.avail = false;
+        SocketConnect.disconnect();
         // socket.emit('disconnect');
         // WebStore.remove(socket);
         // console.log(this.avail);
@@ -121,37 +124,29 @@ export default class Monitoring extends Component {
             });
         }
     };
-    onConnect = connect => {
-        // console.log('khhjkfkjdfskj');
-        socket.emit(
-            'login',
-            {
-                uname: WebStore.getUsername(),
-                // token: WebStore.getToken(),
-            },
-            () => {
-                console.log('connected', socket);
-            },
-        );
-
-        socket.on('pushupdate', data => {
-            console.log(data);
-            WebStore.getLastMonitorData().then(resp => {
-                this.addData(resp.data);
-                this.setState({
-                    ...this.state,
-                    status: 'Board Connected',
-                });
-            });
-        });
-
-        // socket.on('dc', data =>{
-        // 	this.setState({
-        // 		...this.state,
-        // 		status: 'Not Connected'
-        // 	})
-        // })
-    };
+    // onConnect = connect => {
+    //     // // console.log('khhjkfkjdfskj');
+    //     // socket.emit(
+    //     //     'login',
+    //     //     {
+    //     //         uname: WebStore.getUsername(),
+    //     //         // token: WebStore.getToken(),
+    //     //     },
+    //     //     () => {
+    //     //         console.log('connected', socket);
+    //     //     },
+    //     // );
+    //     // socket.on('pushupdate', data => {
+    //     //     console.log(data);
+    //     //     WebStore.getLastMonitorData().then(resp => {
+    //     //         this.addData(resp.data);
+    //     //         this.setState({
+    //     //             ...this.state,
+    //     //             status: 'Board Connected',
+    //     //         });
+    //     //     });
+    //     // });
+    // };
     schedule = () => {
         this.props.history.push('/dashboard/edit-monitoring');
     };
@@ -162,12 +157,12 @@ export default class Monitoring extends Component {
     render() {
         const { plainData } = this.state;
 
-        socket.on('connect', this.onConnect, {
-            reconnection: true,
-            reconnectionDelay: 1000,
-            reconnectionDelayMax: 5000,
-            reconnectionAttempts: Infinity,
-        });
+        // socket.on('connect', this.onConnect, {
+        //     reconnection: true,
+        //     reconnectionDelay: 1000,
+        //     reconnectionDelayMax: 5000,
+        //     reconnectionAttempts: Infinity,
+        // });
 
         return (
             <Row

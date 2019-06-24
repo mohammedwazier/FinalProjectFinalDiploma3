@@ -35,18 +35,6 @@ export default class Dashboard extends Component {
         if (Object.keys(current).length !== 0) {
             // this.setDataUser(current);
         }
-        // socket.emit('login', {
-        //     uname: WebStore.getUsername(),
-        //     token: WebStore.getToken(),
-        // });
-
-        // socket.on('data_rec', data => {
-        //     console.log(data);
-        // });
-
-        // socket.on('pushUpdate', data => {
-        //     console.log(data);
-        // });
     }
     pushToLogin = () => {
         WebStore.clearStorage(callback => {

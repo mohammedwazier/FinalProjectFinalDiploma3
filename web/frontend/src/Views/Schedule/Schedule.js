@@ -14,13 +14,14 @@ import { Link } from 'react-router-dom';
 
 import WebStore from '../../Store/WebStore';
 import DatePick from '../../Components/DatePick/DatePick';
+import SocketConnect from '../../Store/SocketConnect';
 
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
 import moment from 'moment';
 
-const link = 'http://localhost:5000';
-const socket = io(link);
+// const link = 'http://localhost:5000';
+// const socket = io(link);
 
 export default class Schedule extends Component {
     constructor() {
@@ -93,6 +94,9 @@ export default class Schedule extends Component {
             }
         });
     }
+    componentWillUnmount() {
+        SocketConnect.disconnect();
+    }
     onSubmit = () => {
         // console.log(this.state.dateChange);
         if (
@@ -111,7 +115,8 @@ export default class Schedule extends Component {
             };
             WebStore.updateStatusMonitoringData(sendData).then(resp => {
                 // console.log(resp);
-                socket.emit('appDate', sendData);
+                // socket.emit('appDate', sendData);
+                SocketConnect.setScheduling(sendData);
                 alert('sukses update Data');
                 window.location.href = '/dashboard/monitoring';
             });
