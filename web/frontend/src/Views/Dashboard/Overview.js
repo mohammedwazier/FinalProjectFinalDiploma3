@@ -29,7 +29,7 @@ export default class Overview extends Component {
     };
 
     feederSetting = () => {
-        return this.props.history.push('/dashboard/feeder-setting');
+        return this.props.history.push('/dashboard/edit-monitoring');
     };
     render() {
         return (
