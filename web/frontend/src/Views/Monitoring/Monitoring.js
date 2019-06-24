@@ -51,14 +51,21 @@ export default class Monitoring extends Component {
                 }
             });
             SocketConnect.monitoringFrame(WebStore.getUsername());
+
+            SocketConnect.on('newMonitoringData', () => {
+                WebStore.getLastMonitorData().then(resp => {
+                    this.addData(resp.data);
+                    this.setState({
+                        ...this.state,
+                        status: 'Board Connected',
+                    });
+                });
+            });
         }
     }
     componentWillUnmount() {
         this.avail = false;
         SocketConnect.disconnect();
-        // socket.emit('disconnect');
-        // WebStore.remove(socket);
-        // console.log(this.avail);
     }
     componentDidMount() {
         this.avail = true;

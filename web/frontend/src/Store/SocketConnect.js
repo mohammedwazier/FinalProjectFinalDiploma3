@@ -23,8 +23,8 @@ class SocketConnect extends EventEmitter {
                 });
 
                 socket.on('pushupdate', data => {
-                    console.log(data, 'update_new_data_push');
-                    this.emit('update_new_data_push');
+                    console.log(data, 'newMonitoringData');
+                    this.emit('newMonitoringData');
                 });
             },
             {

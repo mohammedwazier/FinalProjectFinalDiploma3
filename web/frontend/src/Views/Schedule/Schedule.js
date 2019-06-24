@@ -30,11 +30,14 @@ export default class Schedule extends Component {
         this.state = {
             data: '-',
             before: '-',
-            disableHour: false,
+            setHour: false,
+            setDate: true,
             date: {},
             dateChange: {
                 endDate: null,
                 startDate: null,
+                startHour: null,
+                endHour: null,
             },
             system: true,
             statusMonitoring: '',
@@ -44,6 +47,7 @@ export default class Schedule extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.monitoring = this.monitoring.bind(this);
         this.updateDate = this.updateDate.bind(this);
+        this.changeHour = this.changeHour.bind(this);
     }
 
     onChange = e => {
@@ -60,9 +64,34 @@ export default class Schedule extends Component {
         });
     };
 
+    changeHour = e => {
+        var val = e.target.value;
+        if (e.target.name === 'endHour') {
+            const end = parseInt(this.state.date.startHour);
+            if (val < end) {
+                val = end < 24 ? end + 1 : val;
+            }
+        } else {
+            if (val === '24') {
+                val = val - 1;
+            }
+        }
+        this.setState(
+            {
+                ...this.state,
+                date: {
+                    ...this.state.date,
+                    [e.target.name]: val,
+                },
+            },
+            () => console.log(this.state.date),
+        );
+    };
+
     componentWillMount() {
         WebStore.getStatusMonitoringData().then(resp => {
             if (resp.msg === 'ok') {
+                console.log(resp);
                 this.setState(
                     {
                         ...this.state,
@@ -77,6 +106,8 @@ export default class Schedule extends Component {
                         system: resp.data.system,
                         statusMonitoring: resp.data.statusMonitoring,
                         loadData: true,
+                        setDate: resp.data.setDate,
+                        setHour: resp.data.setHour,
                     },
                     () => {
                         if (resp.data.endDate > new Date()) {
@@ -98,7 +129,6 @@ export default class Schedule extends Component {
         SocketConnect.disconnect();
     }
     onSubmit = () => {
-        // console.log(this.state.dateChange);
         if (
             this.state.dateChange.endDate === null ||
             this.state.dateChange.startDate === null
@@ -106,21 +136,21 @@ export default class Schedule extends Component {
             alert('Please input Start Date and End Date');
             return true;
         } else {
-            // console.log('asdasdasdas');
-
             const sendData = {
                 statusMonitoring: this.state.data,
                 startDate: this.state.dateChange.startDate.toJSON(),
                 endDate: this.state.dateChange.endDate.toJSON(),
+                setDate: this.state.setDate,
+                setHour: this.state.setHour,
+                startHour: this.state.date.startDate,
+                endHour: this.state.date.endHour,
             };
             WebStore.updateStatusMonitoringData(sendData).then(resp => {
-                // console.log(resp);
                 // socket.emit('appDate', sendData);
                 SocketConnect.setScheduling(sendData);
                 alert('sukses update Data');
                 window.location.href = '/dashboard/monitoring';
             });
-            // console.log(sendData);
         }
     };
     monitoring = e => {
@@ -153,10 +183,12 @@ export default class Schedule extends Component {
                 this.state.date.startDate !== null &&
                 this.state.date.endDate !== null
             ) {
-                // console.log(this.state.date);
                 return (
                     <FormGroup>
-                        <Label for="sd">Start Date</Label>
+                        <Label>
+                            <h4>Now Scheduled</h4>
+                            Start Date
+                        </Label>
                         <Input
                             type="text"
                             name="startDate"
@@ -166,7 +198,6 @@ export default class Schedule extends Component {
                             ).format('LL')}
                             disabled
                         />
-
                         <Label for="sd">End Date</Label>
                         <Input
                             type="text"
@@ -211,20 +242,66 @@ export default class Schedule extends Component {
                                     {this.statusDate()}
                                     <FormGroup>
                                         <Label>Scheduled On/Off</Label>
-                                        <DatePick
-                                            updateDate={this.updateDate}
-                                        />
-                                        {/* <CustomInput type="switch" name="disableHour" onChange={this.onChange} checked={this.state.disableHour} id='disableHour' label="Hour" /> */}
-                                        {/* <FormGroup>
-															<Label for="Hour">Hour</Label>
-															<Input type="select" name="startHour" id="Hour" disabled={!this.state.disableHour} onChange={({a}) => {console.log(a)}}>
-																{this.hour()}
-															</Input>
-															<Label for="EndHour">End Hour</Label>
-															<Input type="select" name="endHour" id="EndHour" disabled={!this.state.disableHour}>
-																{this.hour()}
-															</Input>
-														</FormGroup> */}
+                                        <FormGroup>
+                                            <CustomInput
+                                                type="switch"
+                                                name="setDate"
+                                                onChange={this.onChange}
+                                                checked={this.state.setDate}
+                                                id="setDate"
+                                                label="Set Date (On/Off)"
+                                            />
+                                            <DatePick
+                                                updateDate={this.updateDate}
+                                                disabled={!this.state.setDate}
+                                            />
+                                        </FormGroup>
+                                        <FormGroup>
+                                            <CustomInput
+                                                type="switch"
+                                                name="setHour"
+                                                onChange={this.onChange}
+                                                checked={this.state.setHour}
+                                                id="setHour"
+                                                label="Set Hour (On/Off)"
+                                            />
+                                            <Label for="Hour">Hour</Label>
+                                            <Input
+                                                type="select"
+                                                name="startHour"
+                                                id="Hour"
+                                                disabled={!this.state.setHour}
+                                                value={
+                                                    this.state.date
+                                                        .startHour === null
+                                                        ? 0
+                                                        : this.state.date
+                                                              .startHour
+                                                }
+                                                onChange={this.changeHour}
+                                            >
+                                                {this.hour()}
+                                            </Input>
+                                            <Label for="EndHour">
+                                                End Hour
+                                            </Label>
+                                            <Input
+                                                type="select"
+                                                name="endHour"
+                                                id="EndHour"
+                                                disabled={!this.state.setHour}
+                                                value={
+                                                    this.state.date.endHour ===
+                                                    null
+                                                        ? 0
+                                                        : this.state.date
+                                                              .endHour
+                                                }
+                                                onChange={this.changeHour}
+                                            >
+                                                {this.hour()}
+                                            </Input>
+                                        </FormGroup>
                                     </FormGroup>
                                     <hr />
                                     <FormGroup>

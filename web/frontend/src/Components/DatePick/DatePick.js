@@ -24,7 +24,6 @@ export default class DatePick extends Component {
             });
         } else {
             //with EndDate
-            // console.log(startDate._d.toJSON(), endDate._d.toJSON());
             this.props.updateDate({
                 status: 'endDate',
                 data: endDate._d,
@@ -36,6 +35,7 @@ export default class DatePick extends Component {
         return (
             <div className="App" style={{ width: '100%' }}>
                 <DateRangePicker
+                    disabled={this.props.disabled}
                     startDateId="startDate"
                     endDateId="endDate"
                     startDate={this.state.startDate}
