@@ -35,6 +35,8 @@ import WebStore from '../../Store/WebStore';
 import style from '../../Components/Style/Style';
 import io from 'socket.io-client/dist/socket.io';
 
+import { link } from '../../Store/SocketConnect';
+
 const Logo = require('../../assets/images/top-banner.png');
 
 const img_0 = require('../../assets/images/leveling/0.jpg');
@@ -116,7 +118,7 @@ export default class Monitoring extends Component {
                 return this.props.navigation.push('home');
             }
 
-            const link = 'http://192.168.1.4:5000';
+            // const link = 'http://192.168.1.4:5000';
             const socket = io(link);
 
             socket.emit('login', { uname: username });
@@ -212,7 +214,6 @@ export default class Monitoring extends Component {
         });
     };
     componentWillUnmount() {
-        
         // SocketConnect.disconnect();
     }
     keluar = () => {

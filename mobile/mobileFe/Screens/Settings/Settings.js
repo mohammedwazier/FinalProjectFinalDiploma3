@@ -21,6 +21,8 @@ import DatePicker from '../../Components/DatePicker/DatePicker';
 import WebStore from '../../Store/WebStore';
 import io from 'socket.io-client/dist/socket.io';
 
+import { link } from '../../Store/SocketConnect';
+
 export default class Setting extends Component {
     static navigationOptions = {
         title: 'Settings',
@@ -38,7 +40,6 @@ export default class Setting extends Component {
             endHour: null,
         };
         this.setDate = this.setDate.bind(this);
-        const link = 'http://192.168.1.4:5000';
         this.socket = io(link);
 
         this.sendData = this.sendData.bind(this);

@@ -3,9 +3,9 @@ import { EventEmitter } from 'events';
 import { apiPost, verifyLogin, apiLogout } from './Helper';
 
 const link = '/';
-    // process.env.NODE_ENV === 'production'
-        // ? 'https://mohammedwazier.ddns.net/'
-        // : '/';
+// process.env.NODE_ENV === 'production'
+// ? 'https://mohammedwazier.ddns.net/'
+// : '/';
 
 class WebStore extends EventEmitter {
     constructor() {
@@ -35,7 +35,7 @@ class WebStore extends EventEmitter {
         }
     }
 
-    clearLocalStorage(){
+    clearLocalStorage() {
         localStorage.clear();
     }
 
@@ -88,9 +88,9 @@ class WebStore extends EventEmitter {
         return new Promise(resolve => {
             apiLogout(url, this.getToken(), response => {
                 resolve(response);
-            })
-        })
-    }
+            });
+        });
+    };
 
     register = body => {
         const url = `${link}api/register`;
@@ -104,8 +104,8 @@ class WebStore extends EventEmitter {
     checkRegis = () => {
         const url = `${link}api/checkRegisBoard`;
         var body = {
-            username: this.getUsername()
-        }
+            username: this.getUsername(),
+        };
         return new Promise(resolve => {
             apiPost(url, body, this.getToken(), response => {
                 resolve(response);
@@ -117,37 +117,37 @@ class WebStore extends EventEmitter {
         const url = `${link}api/getMonitoringData`;
         return new Promise(resolve => {
             const body = {
-                username: this.getUsername()
-            }
+                username: this.getUsername(),
+            };
             apiPost(url, body, this.getToken(), response => {
                 resolve(response);
-            })
-        })
-    }
+            });
+        });
+    };
 
     getAllMonitor = () => {
         const url = `${link}api/getAllMonitorData`;
         return new Promise(resolve => {
             const body = {
-                username: this.getUsername()
-            }
+                username: this.getUsername(),
+            };
             apiPost(url, body, this.getToken(), response => {
                 resolve(response);
-            })
-        })
-    }
+            });
+        });
+    };
 
     getLastMonitorData = () => {
         const url = `${link}api/getLastMonitorData`;
         return new Promise(resolve => {
             const body = {
-                username: this.getUsername()
-            }
+                username: this.getUsername(),
+            };
             apiPost(url, body, this.getToken(), response => {
                 resolve(response);
-            })
-        })
-    }
+            });
+        });
+    };
 
     checkUser = () => {
         const url = `${link}api/checkuser`;
@@ -162,28 +162,26 @@ class WebStore extends EventEmitter {
         const url = `${link}api/getStatusMonitoringData`;
         return new Promise(resolve => {
             var body = {
-                username: this.getUsername()
-            }
+                username: this.getUsername(),
+            };
             apiPost(url, body, this.getToken(), response => {
                 resolve(response);
-            })
-        })
-    }
+            });
+        });
+    };
 
     updateStatusMonitoringData = val => {
         const url = `${link}api/updateStatusMonitoringData`;
         return new Promise(resolve => {
             var body = {
                 data: val,
-                username: this.getUsername()
-            }
+                username: this.getUsername(),
+            };
             apiPost(url, body, this.getToken(), response => {
                 resolve(response);
-            })
-        })
-    }
-
-
+            });
+        });
+    };
 
     notif = (text, color) => {
         this.notification = {
@@ -196,10 +194,10 @@ class WebStore extends EventEmitter {
         return this.notification;
     };
 
-    remove = (socket) => {
-        socket.disconnect()
+    remove = socket => {
+        socket.disconnect();
         // this.removeListener();
-    }
+    };
 }
 
 const webStore = new WebStore();

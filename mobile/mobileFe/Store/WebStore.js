@@ -1,11 +1,7 @@
 import { apiPost, verifyLogin, apiLogout, uploadToMicro } from './Helper';
 import { AsyncStorage } from 'react-native';
 
-const link =
-    process.env.NODE_ENV === 'production'
-        ? 'https://mohammedwazier.ddns.net/'
-        : // Dev IP Api, Berubah seiring berubahnya koneksi
-          'http://192.168.1.4:5000/';
+import { link } from './SocketConnect';
 
 class WebStore {
     constructor() {

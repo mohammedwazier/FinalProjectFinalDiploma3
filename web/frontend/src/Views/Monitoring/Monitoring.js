@@ -8,12 +8,6 @@ import moment from 'moment';
 import Chart from './TestChart';
 import Feeder from './Feeder';
 
-// import io from 'socket.io-client';
-
-// const link = 'http://localhost:5000';
-// const socket = io(link);
-// console.log('hehehe ',socket);
-
 export default class Monitoring extends Component {
     constructor(props) {
         super(props);
@@ -25,8 +19,8 @@ export default class Monitoring extends Component {
                 suhu: [],
                 humidity: [],
                 airQ: [],
-                waterLevel: {},
-                foodLeve: {},
+                lvlPakan: 100,
+                lvlMinum: 100,
             },
             plainData: {
                 last: '-',
@@ -34,7 +28,7 @@ export default class Monitoring extends Component {
                 lastHumidity: '-',
                 lastAirQ: '-',
             },
-            status: 'Not Connected',
+            status: 'Not Connected Waiting Board to Push some Data',
         };
         this.avail = true;
         // this.onConnect = this.onConnect.bind(this);
@@ -70,15 +64,15 @@ export default class Monitoring extends Component {
     componentDidMount() {
         this.avail = true;
         WebStore.getMonitorData().then(resp => {
-            console.log(resp);
+            // console.log(resp);
             if (resp.data.length !== 0) {
                 const { suhu, label, humidity, airQ } = this.state.data;
                 let { data } = this.state;
                 const plainData = {
-                    last: moment(resp.data[0].updatedAt).format('LLL'),
-                    lastSuhu: resp.data[0].suhu,
-                    lastHumidity: resp.data[0].humidity,
-                    lastAirQ: resp.data[0].airQuality,
+                    last: moment(resp.data[9].updatedAt).format('LLL'),
+                    lastSuhu: resp.data[9].suhu,
+                    lastHumidity: resp.data[9].humidity,
+                    lastAirQ: resp.data[9].airQuality,
                 };
                 const dataRes = resp.data.reverse();
 
@@ -90,11 +84,16 @@ export default class Monitoring extends Component {
                     return true;
                 });
 
+                // console.log(resp);
+
                 data = {
+                    ...data,
                     suhu: suhu,
                     label: label,
                     humidity: humidity,
                     airQ: airQ,
+                    lvlPakan: resp.data[9].lvlPakan,
+                    lvlMinum: resp.data[9].lvlMinum,
                 };
                 this.setState({
                     isLoading: false,
@@ -122,6 +121,8 @@ export default class Monitoring extends Component {
             data.airQ.shift();
             data.label.shift();
 
+            // data.
+
             console.log(data);
 
             this.setState({
@@ -131,29 +132,7 @@ export default class Monitoring extends Component {
             });
         }
     };
-    // onConnect = connect => {
-    //     // // console.log('khhjkfkjdfskj');
-    //     // socket.emit(
-    //     //     'login',
-    //     //     {
-    //     //         uname: WebStore.getUsername(),
-    //     //         // token: WebStore.getToken(),
-    //     //     },
-    //     //     () => {
-    //     //         console.log('connected', socket);
-    //     //     },
-    //     // );
-    //     // socket.on('pushupdate', data => {
-    //     //     console.log(data);
-    //     //     WebStore.getLastMonitorData().then(resp => {
-    //     //         this.addData(resp.data);
-    //     //         this.setState({
-    //     //             ...this.state,
-    //     //             status: 'Board Connected',
-    //     //         });
-    //     //     });
-    //     // });
-    // };
+
     schedule = () => {
         this.props.history.push('/dashboard/edit-monitoring');
     };
@@ -162,14 +141,7 @@ export default class Monitoring extends Component {
         this.props.history.push('/dashboard/report-monitoring');
     };
     render() {
-        const { plainData } = this.state;
-
-        // socket.on('connect', this.onConnect, {
-        //     reconnection: true,
-        //     reconnectionDelay: 1000,
-        //     reconnectionDelayMax: 5000,
-        //     reconnectionAttempts: Infinity,
-        // });
+        const { plainData, data } = this.state;
 
         return (
             <Row
@@ -255,7 +227,7 @@ export default class Monitoring extends Component {
                                 <CardBody>
                                     <h4>Food Level</h4>
                                 </CardBody>
-                                <Feeder status={'food'} />
+                                <Feeder status={'food'} level={data.lvlPakan} />
                             </Card>
                         </Col>
                         <Col md={4} xs={12}>
@@ -263,7 +235,10 @@ export default class Monitoring extends Component {
                                 <CardBody>
                                     <h4>Water Level</h4>
                                 </CardBody>
-                                <Feeder status={'water'} />
+                                <Feeder
+                                    status={'water'}
+                                    level={data.lvlMinum}
+                                />
                             </Card>
                         </Col>
                         <Col md={4} xs={12}>
