@@ -5,7 +5,7 @@ const link =
     process.env.NODE_ENV === 'production'
         ? 'https://mohammedwazier.ddns.net/'
         : // Dev IP Api, Berubah seiring berubahnya koneksi
-          'http://192.168.1.3:5000/';
+          'http://192.168.1.4:5000/';
 
 class WebStore {
     constructor() {
@@ -109,30 +109,6 @@ class WebStore {
         });
     };
 
-    // getMonitorData = () => {
-    //     const url = `${link}api/getMonitoringData`;
-    //     return new Promise(resolve => {
-    //         const body = {
-    //             username: this.username
-    //         }
-    //         apiPost(url, body, this.token, response => {
-    //             resolve(response);
-    //         })
-    //     })
-    // }
-
-    // getLastMonitorData = () => {
-    //     const url = `${link}api/getLastMonitorData`;
-    //     return new Promise(resolve => {
-    //         const body = {
-    //             username: this.username
-    //         }
-    //         apiPost(url, body, this.token, response => {
-    //             resolve(response);
-    //         })
-    //     })
-    // }
-
     checkUser = () => {
         const url = `${link}api/checkuser`;
         return new Promise(resolve => {
@@ -145,6 +121,113 @@ class WebStore {
         });
     };
 
+    //Monitoring API Start
+
+    getMonitorData = () => {
+        const url = `${link}api/getMonitoringData`;
+        return this.getUsername().then(username => {
+            const body = {
+                username: username,
+            };
+            return this.getToken().then(token => {
+                return new Promise(resolve => {
+                    apiPost(url, body, token, response => {
+                        resolve(response);
+                    });
+                });
+            });
+        });
+    };
+
+    // getAllMonitor = () => {
+    //     const url = `${link}api/getAllMonitorData`;
+    //     return new Promise(resolve => {
+    //         const body = {
+    //             username: this.getUsername()
+    //         }
+    //         apiPost(url, body, this.getToken(), response => {
+    //             resolve(response);
+    //         })
+    //     })
+    // }
+
+    getLastMonitorData = () => {
+        const url = `${link}api/getLastMonitorData`;
+        return this.getUsername().then(username => {
+            const body = {
+                username: username,
+            };
+            return this.getToken().then(token => {
+                return new Promise(resolve => {
+                    apiPost(url, body, token, response => {
+                        resolve(response);
+                    });
+                });
+            });
+        });
+        // return new Promise(resolve => {
+        //     const body = {
+        //         username: this.getUsername()
+        //     }
+        //     apiPost(url, body, this.getToken(), response => {
+        //         resolve(response);
+        //     })
+        // })
+    };
+
+    getStatusMonitoringData = () => {
+        const url = `${link}api/getStatusMonitoringData`;
+        return this.getUsername().then(username => {
+            const body = {
+                username: username,
+            };
+            return this.getToken().then(token => {
+                return new Promise(resolve => {
+                    apiPost(url, body, token, response => {
+                        resolve(response);
+                    });
+                });
+            });
+        });
+        // return new Promise(resolve => {
+        //     var body = {
+        //         username: this.getUsername()
+        //     }
+        //     apiPost(url, body, this.getToken(), response => {
+        //         resolve(response);
+        //     })
+        // })
+    };
+
+    updateStatusMonitoringData = val => {
+        const url = `${link}api/updateStatusMonitoringData`;
+        return this.getUsername().then(username => {
+            const body = {
+                data: val,
+                username: username,
+            };
+            return this.getToken().then(token => {
+                return new Promise(resolve => {
+                    apiPost(url, body, token, response => {
+                        resolve(response);
+                    });
+                });
+            });
+        });
+        // return new Promise(resolve => {
+        //     var body = {
+        //         data: val,
+        //         username: this.getUsername()
+        //     }
+        //     apiPost(url, body, this.getToken(), response => {
+        //         resolve(response);
+        //     })
+        // })
+    };
+
+    //Monitoring API End
+
+    // Inisiasi untuk NodeMCU
     boardUpdate = data => {
         return this.getUsername().then(username => {
             var param = `?ssid=${data.ssid}&pwd=${

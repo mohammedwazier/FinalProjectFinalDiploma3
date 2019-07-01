@@ -1,17 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const morgan = require('morgan');
+const fs = require('fs');
 const http = require('http');
 const app = express();
 const path = require('path');
 
 const mongo = require(__dirname + '/mongo');
-// const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
 
 const port = process.env.PORT || 5000;
-
-let list_user = 0;
-
-var clients = [];
 
 app.use(express.static(path.join(__dirname, '/../web/frontend/build/')));
 app.get('*', (req, res) => {
@@ -47,6 +45,21 @@ passport.use(strategy);
 
 app.use(passport.initialize());
 
+// app.use(morgan('tiny'));
+app.use(
+    morgan('common', {
+        stream: fs.createWriteStream('./access.log', { flags: 'a' }),
+    }),
+);
+app.use(morgan('dev'));
+
+app.use(
+    bodyParser.json({
+        limit: '10000kb',
+    }),
+);
+app.disable('x-powered-by');
+
 app.use('/api', require(path.join(__dirname, '/api/api')));
 app.use(
     '/apiMicro',
@@ -54,8 +67,9 @@ app.use(
 );
 
 let httpServer = http.createServer(app);
+
 let server = httpServer.listen(port, () => {
-    console.log('Server is running on Port http://localhost:' + port);
+    console.log(`Server is running on => http://localhost:${port}`);
 });
 
 // Socket IO Interface

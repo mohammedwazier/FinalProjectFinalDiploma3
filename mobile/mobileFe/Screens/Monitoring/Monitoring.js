@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import {
     View,
-    // TouchableOpacity,
+    TouchableOpacity,
     // TouchableWithoutFeedback,
     ScrollView,
     // Keyboard,
     StyleSheet,
     Alert,
     ImageBackground,
+    RefreshControl,
 } from 'react-native';
 import {
     Content,
@@ -27,17 +28,11 @@ import { YellowBox } from 'react-native';
 import moment from 'moment';
 
 import WebStore from '../../Store/WebStore';
+// import SocketConnect from '../../Store/SocketConnect';
 import style from '../../Components/Style/Style';
+import io from 'socket.io-client/dist/socket.io';
 
 const Logo = require('../../assets/images/top-banner.png');
-
-// import LineChart from 'react-native-responsive-linechart';
-
-import io from 'socket.io-client';
-
-const link = 'http://192.168.1.3:5000';
-const socket = io(link);
-// console.log('hehehe ',socket);
 
 YellowBox.ignoreWarnings([
     'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?',
@@ -52,37 +47,56 @@ export default class Monitoring extends Component {
 
     constructor() {
         super();
-        // this.socket = io(link);
         this.state = {
             isLoading: true,
             status: 0,
-            data: [],
-            label: [],
+            data: {
+                suhu: 0,
+                minSuhu: 0,
+                minSuhuDate: new Date(),
+                maxSuhu: 0,
+                maxSuhuDate: new Date(),
+                humidity: 0,
+                minHumidity: 0,
+                minHumidityDate: new Date(),
+                maxHumidity: 0,
+                maxHumidityDate: new Date(),
+                airQuality: 0,
+                lvlPakan: 0,
+                statePakan: 0,
+                lvlMinum: 0,
+                stateMinum: 0,
+                updatedAt: new Date(),
+            },
+            refreshing: false,
+            username: null,
         };
 
         this.logout = this.logout.bind(this);
-        this.test = this.test.bind(this);
-
-        // this.socket.on('pushupdate', data => {
-        // 	console.log(data)
-        // })
     }
-
-    test = () => {
-        // console.log('asdasdasd');
-        // socket.emit('appDate', "testing_waziruddin_akbar");
+    _onRefresh = () => {
+        this.setState({ refreshing: true }, () =>
+            this.setState({ refreshing: false }),
+        );
     };
+
     componentWillMount() {
         WebStore.getUsername().then(username => {
             if (username === null) {
-                this.props.navigation.push('home');
+                return this.props.navigation.push('home');
             }
-            console.log(username);
+
+            const link = 'http://192.168.1.4:5000';
+            const socket = io(link);
+
             socket.emit('login', { uname: username });
+
+            socket.on('pushupdate', data => {
+                this.getData('update');
+            });
         });
-        // console.log('asdasd')
+
         WebStore.checkUser().then(user => {
-            console.log(user);
             if (user.msg === 'no_session') {
                 WebStore.deleteData('token');
                 WebStore.deleteData('username');
@@ -94,7 +108,7 @@ export default class Monitoring extends Component {
                     if (resp.msg === 'ok') {
                         const data = resp.data;
                         if (data.regisPoint === 0) {
-                            this.props.navigation.push('boardcheck');
+                            return this.props.navigation.push('boardcheck');
                         } else {
                             if (!data.statusRegis) {
                                 //Harus Registrasi Board
@@ -102,11 +116,75 @@ export default class Monitoring extends Component {
                         }
                     }
                 });
+                this.getData('new');
             }
         });
     }
-    componentDidMount() {}
-    logout = data => {
+    getData = status => {
+        WebStore.getLastMonitorData().then(resp => {
+            delete resp.data._id;
+            delete resp.data.username;
+            delete resp.data.status;
+            var data = {};
+            if (status === 'new') {
+                data = {
+                    ...resp.data,
+                    minSuhu: resp.data.suhu,
+                    maxSuhu: resp.data.suhu,
+                    minSuhuDate: resp.data.updatedAt,
+                    maxSuhuDate: resp.data.updatedAt,
+                    minHumidity: resp.data.humidity,
+                    maxHumidity: resp.data.humidity,
+                    minHumidityDate: resp.data.updatedAt,
+                    maxHumidityDate: resp.data.updatedAt,
+                    statePakan: Math.ceil(resp.data.lvlPakan / 10) * 10,
+                    stateMinum: Math.ceil(resp.data.lvlMinum / 10) * 10,
+                };
+            } else {
+                data = {
+                    ...this.state,
+                    ...resp.data,
+                    statePakan: Math.ceil(resp.data.lvlPakan / 10) * 10,
+                    stateMinum: Math.ceil(resp.data.lvlMinum / 10) * 10,
+                };
+
+                if (data.suhu < data.minSuhu) {
+                    data.minSuhu = data.suhu;
+                    data.minSuhuDate = data.updatedAt;
+                }
+
+                if (data.suhu > data.maxSuhu) {
+                    data.maxSuhu = data.suhu;
+                    data.maxSuhuDate = data.updatedAt;
+                }
+
+                if (data.humidity < data.minHumidity) {
+                    data.minHumidity = data.humidity;
+                    data.minHumidityDate = data.updatedAt;
+                }
+
+                if (data.humidity > data.maxHumidity) {
+                    data.maxHumidity = data.humidity;
+                    data.maxHumidityDate = data.updatedAt;
+                }
+            }
+
+            this.setState(
+                {
+                    ...this.state,
+                    data: {
+                        ...this.state.data,
+                        ...data,
+                    },
+                },
+                () => console.log(this.state.data),
+            );
+        });
+    };
+    componentWillUnmount() {
+        SocketConnect.disconnect();
+    }
+    logout = () => {
         WebStore.logout().then(resp => {
             if (resp.msg === 'success') {
                 WebStore.deleteData('_id');
@@ -125,7 +203,7 @@ export default class Monitoring extends Component {
 
     button() {
         Alert.alert('Logout', 'Are you sure to Logout from this application', [
-            { text: 'Yes', onPress: () => console.log('YES Pressed') },
+            { text: 'Yes', onPress: () => this.logout },
             {
                 text: 'No',
                 onPress: () => console.log('NO Pressed'),
@@ -135,6 +213,24 @@ export default class Monitoring extends Component {
     }
 
     render() {
+        const {
+            suhu,
+            minSuhu,
+            maxSuhu,
+            humidity,
+            minHumidity,
+            maxHumidity,
+            airQuality,
+            lvlPakan,
+            lvlMinum,
+            statePakan,
+            stateMinum,
+            minSuhuDate,
+            maxSuhuDate,
+            minHumidityDate,
+            maxHumidityDate,
+            updatedAt,
+        } = this.state.data;
         return (
             <View style={{ flex: 1 }}>
                 <ImageBackground
@@ -148,8 +244,13 @@ export default class Monitoring extends Component {
                         marginTop: -450,
                         padding: 20,
                         width: '100%',
-                        // paddingBottom: 50,
                     }}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh}
+                        />
+                    }
                 >
                     <Text>Welcome</Text>
                     <Text>{moment(new Date()).format('MMMM Do YYYY')}</Text>
@@ -166,14 +267,15 @@ export default class Monitoring extends Component {
                             <CardItem>
                                 <Left>
                                     <Text style={styles.leftTemp}>
-                                        30°
-                                        {'\n'}Cool
+                                        {minSuhu}°{'\n'}
+                                        {moment(minSuhuDate)
+                                            .startOf('hour')
+                                            .fromNow()}
                                     </Text>
                                 </Left>
                                 <Body>
                                     <Text style={styles.mainTextCode}>
-                                        30°
-                                        {'\n'}
+                                        {suhu}°{'\n'}
                                     </Text>
                                     <Text
                                         style={{
@@ -182,15 +284,17 @@ export default class Monitoring extends Component {
                                             top: -25,
                                         }}
                                     >
-                                        {moment(new Date()).format(
+                                        {moment(updatedAt).format(
                                             'MMM Do, h:mm:ss',
                                         )}
                                     </Text>
                                 </Body>
                                 <Right>
                                     <Text style={styles.rightTemp}>
-                                        30°
-                                        {'\n'}Hot
+                                        {maxSuhu}°{'\n'}
+                                        {moment(maxSuhuDate)
+                                            .startOf('hour')
+                                            .fromNow()}
                                     </Text>
                                 </Right>
                             </CardItem>
@@ -209,14 +313,15 @@ export default class Monitoring extends Component {
                             <CardItem>
                                 <Left>
                                     <Text style={styles.leftTemp}>
-                                        30%
-                                        {'\n'}Cool
+                                        {minHumidity}%{'\n'}
+                                        {moment(minHumidityDate)
+                                            .startOf('hour')
+                                            .fromNow()}
                                     </Text>
                                 </Left>
                                 <Body>
                                     <Text style={styles.mainTextCode}>
-                                        30%
-                                        {'\n'}
+                                        {humidity}%{'\n'}
                                     </Text>
                                     <Text
                                         style={{
@@ -225,15 +330,17 @@ export default class Monitoring extends Component {
                                             top: -25,
                                         }}
                                     >
-                                        {moment(new Date()).format(
+                                        {moment(updatedAt).format(
                                             'MMM Do, h:mm:ss',
                                         )}
                                     </Text>
                                 </Body>
                                 <Right>
                                     <Text style={styles.rightTemp}>
-                                        30%
-                                        {'\n'}Hot
+                                        {maxHumidity}%{'\n'}
+                                        {moment(maxHumidityDate)
+                                            .startOf('hour')
+                                            .fromNow()}
                                     </Text>
                                 </Right>
                             </CardItem>
@@ -252,15 +359,19 @@ export default class Monitoring extends Component {
                             <CardItem>
                                 <Left>
                                     <Text style={styles.airQLeft}>
-                                        30°
-                                        {'\n'}Cool
+                                        {airQuality} PM
+                                        {'\n'}
+                                        {moment(updatedAt).format(
+                                            'MMM Do, h:mm:ss',
+                                        )}
                                     </Text>
                                 </Left>
                                 <Right>
                                     <Text style={styles.airQRight}>
                                         {'< 50 Good'}
-                                        {'\n > 101 UnHealty'}
+                                        {'\n'}
                                     </Text>
+                                    <Text>> 101 UnHealty</Text>
                                 </Right>
                             </CardItem>
                         </Card>
@@ -277,14 +388,64 @@ export default class Monitoring extends Component {
                             </CardItem>
                             <CardItem>
                                 <Body>
-                                    <Text>
-                                        {'< 50 Good'}
-                                        {'\n > 101 UnHealty'}
+                                    <Text
+                                        style={{
+                                            width: '100%',
+                                            textAlign: 'center',
+                                        }}
+                                    >
+                                        {lvlPakan}
+                                        {/* {'< 50 Good'} */}
+                                        {/* {'\n > 101 UnHealty'} */}
                                     </Text>
                                 </Body>
                             </CardItem>
                         </Card>
                     </Content>
+
+                    <Content style={{ marginTop: 20 }}>
+                        <Card>
+                            <CardItem>
+                                <Body>
+                                    <Text style={styles.headerText}>
+                                        Drink Level
+                                    </Text>
+                                </Body>
+                            </CardItem>
+                            <CardItem>
+                                <Body>
+                                    <Text
+                                        style={{
+                                            width: '100%',
+                                            textAlign: 'center',
+                                        }}
+                                    >
+                                        {lvlMinum}
+                                        {/* {'< 50 Good'} */}
+                                        {/* {'\n > 101 UnHealty'} */}
+                                    </Text>
+                                </Body>
+                            </CardItem>
+                        </Card>
+                    </Content>
+                    <View
+                        style={{
+                            width: '100%',
+                            alignSelf: 'center',
+                        }}
+                    >
+                        <TouchableOpacity
+                            style={{ padding: 30 }}
+                            onPress={() =>
+                                this.props.navigation.navigate('editFeed')
+                            }
+                        >
+                            <Text style={{ textAlign: 'center' }}>
+                                Edit Schedule
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ height: 20 }} />
                 </ScrollView>
 
                 <Footer>
@@ -329,6 +490,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         paddingBottom: 30,
+        textAlign: 'center',
     },
     airQRight: {
         paddingLeft: 10,

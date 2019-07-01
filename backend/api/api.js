@@ -296,39 +296,17 @@ function data(client) {
         if (req.headers.authorization == null) {
             return res.json({ msg: 'no_session' });
         }
-        console.log(req.body);
+        // console.log(req.body);
 
         sendMongo
-            .updateOne(
+            .updateOneMany(
                 client,
                 'status_monitoring',
                 req.body.username,
-                'statusMonitoring',
-                parseInt(req.body.data.statusMonitoring),
+                req.body.data,
             )
-            .then(res1 => {
-                sendMongo
-                    .updateOne(
-                        client,
-                        'status_monitoring',
-                        req.body.username,
-                        'startDate',
-                        req.body.data.startDate,
-                    )
-                    .then(res2 => {
-                        sendMongo
-                            .updateOne(
-                                client,
-                                'status_monitoring',
-                                req.body.username,
-                                'endDate',
-                                req.body.data.endDate,
-                            )
-                            .then(res3 => {
-                                console.log('done');
-                                return res.json({ msg: 'ok', data: res3 });
-                            });
-                    });
+            .then(resu => {
+                return res.json({ msg: 'ok', data: resu });
             });
     });
 }

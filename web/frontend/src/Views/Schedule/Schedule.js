@@ -140,13 +140,14 @@ export default class Schedule extends Component {
                 statusMonitoring: this.state.data,
                 startDate: this.state.dateChange.startDate.toJSON(),
                 endDate: this.state.dateChange.endDate.toJSON(),
-                setDate: this.state.setDate,
-                setHour: this.state.setHour,
                 startHour: this.state.date.startDate,
                 endHour: this.state.date.endHour,
+                setDate: this.state.setDate,
+                setHour: this.state.setHour,
+                username: WebStore.getUsername(),
             };
+
             WebStore.updateStatusMonitoringData(sendData).then(resp => {
-                // socket.emit('appDate', sendData);
                 SocketConnect.setScheduling(sendData);
                 alert('sukses update Data');
                 window.location.href = '/dashboard/monitoring';
@@ -178,6 +179,7 @@ export default class Schedule extends Component {
         return ret;
     };
     statusDate = () => {
+        console.log(new Date(), this.state.date.endDate);
         if (this.state.loadData) {
             if (
                 this.state.date.startDate !== null &&
@@ -335,10 +337,10 @@ export default class Schedule extends Component {
                                             <option value={'60'}>
                                                 60 Seconds
                                             </option>
-                                            <option value={'10'}>
+                                            <option value={'600'}>
                                                 10 Minutes
                                             </option>
-                                            <option value={'30'}>
+                                            <option value={'1800'}>
                                                 30 Minutes
                                             </option>
                                         </Input>
