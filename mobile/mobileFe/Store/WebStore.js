@@ -77,9 +77,11 @@ class WebStore {
 
     logout = () => {
         const url = `${link}api/logout`;
+        console.log(url);
         return new Promise(resolve => {
             this.getToken().then(token => {
                 apiLogout(url, token, response => {
+                    console.log(response);
                     resolve(response);
                 });
             });

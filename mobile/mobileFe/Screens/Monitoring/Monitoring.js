@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
     View,
+    Image,
     TouchableOpacity,
     // TouchableWithoutFeedback,
     ScrollView,
@@ -27,12 +28,40 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { YellowBox } from 'react-native';
 import moment from 'moment';
 
+import ImageLevel from '../../Components/ImageLevel/ImageLevel';
+
 import WebStore from '../../Store/WebStore';
 // import SocketConnect from '../../Store/SocketConnect';
 import style from '../../Components/Style/Style';
 import io from 'socket.io-client/dist/socket.io';
 
 const Logo = require('../../assets/images/top-banner.png');
+
+const img_0 = require('../../assets/images/leveling/0.jpg');
+const img_1 = require('../../assets/images/leveling/10.jpg');
+const img_2 = require('../../assets/images/leveling/20.jpg');
+const img_3 = require('../../assets/images/leveling/30.jpg');
+const img_4 = require('../../assets/images/leveling/40.jpg');
+const img_5 = require('../../assets/images/leveling/50.jpg');
+const img_6 = require('../../assets/images/leveling/60.jpg');
+const img_7 = require('../../assets/images/leveling/70.jpg');
+const img_8 = require('../../assets/images/leveling/80.jpg');
+const img_9 = require('../../assets/images/leveling/90.jpg');
+const img_10 = require('../../assets/images/leveling/100.jpg');
+
+const img_array = [
+    { name: 0, img: img_0 },
+    { name: 10, img: img_1 },
+    { name: 20, img: img_2 },
+    { name: 30, img: img_3 },
+    { name: 40, img: img_4 },
+    { name: 50, img: img_5 },
+    { name: 60, img: img_6 },
+    { name: 70, img: img_7 },
+    { name: 80, img: img_8 },
+    { name: 90, img: img_9 },
+    { name: 100, img: img_10 },
+];
 
 YellowBox.ignoreWarnings([
     'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?',
@@ -72,7 +101,8 @@ export default class Monitoring extends Component {
             username: null,
         };
 
-        this.logout = this.logout.bind(this);
+        this.keluar = this.keluar.bind(this);
+        // this.getImage = this.getImage.bind(this);
     }
     _onRefresh = () => {
         this.setState({ refreshing: true }, () =>
@@ -142,7 +172,7 @@ export default class Monitoring extends Component {
                 };
             } else {
                 data = {
-                    ...this.state,
+                    ...this.state.data,
                     ...resp.data,
                     statePakan: Math.ceil(resp.data.lvlPakan / 10) * 10,
                     stateMinum: Math.ceil(resp.data.lvlMinum / 10) * 10,
@@ -177,15 +207,18 @@ export default class Monitoring extends Component {
                         ...data,
                     },
                 },
-                () => console.log(this.state.data),
+                () => console.log(this.state.data, status),
             );
         });
     };
     componentWillUnmount() {
-        SocketConnect.disconnect();
+        
+        // SocketConnect.disconnect();
     }
-    logout = () => {
+    keluar = () => {
+        console.log('presseds');
         WebStore.logout().then(resp => {
+            console.log(resp);
             if (resp.msg === 'success') {
                 WebStore.deleteData('_id');
                 WebStore.deleteData('token');
@@ -194,16 +227,13 @@ export default class Monitoring extends Component {
             }
         });
     };
-    loading = () => {
-        return <Text>Loading</Text>;
-    };
     randomFunc = () => {
         return parseInt(Math.floor(Math.random() * 10));
     };
 
     button() {
         Alert.alert('Logout', 'Are you sure to Logout from this application', [
-            { text: 'Yes', onPress: () => this.logout },
+            { text: 'Yes', onPress: () => this.keluar() },
             {
                 text: 'No',
                 onPress: () => console.log('NO Pressed'),
@@ -387,16 +417,21 @@ export default class Monitoring extends Component {
                                 </Body>
                             </CardItem>
                             <CardItem>
-                                <Body>
+                                <Body
+                                    style={{
+                                        width: '100%',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}
+                                >
+                                    <ImageLevel image={statePakan} />
                                     <Text
                                         style={{
                                             width: '100%',
                                             textAlign: 'center',
                                         }}
                                     >
-                                        {lvlPakan}
-                                        {/* {'< 50 Good'} */}
-                                        {/* {'\n > 101 UnHealty'} */}
+                                        {lvlPakan}%
                                     </Text>
                                 </Body>
                             </CardItem>
@@ -413,16 +448,22 @@ export default class Monitoring extends Component {
                                 </Body>
                             </CardItem>
                             <CardItem>
-                                <Body>
+                                <Body
+                                    style={{
+                                        width: '100%',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}
+                                >
+                                    {/* {this.getImage(stateMinum)} */}
+                                    <ImageLevel image={stateMinum} />
                                     <Text
                                         style={{
                                             width: '100%',
                                             textAlign: 'center',
                                         }}
                                     >
-                                        {lvlMinum}
-                                        {/* {'< 50 Good'} */}
-                                        {/* {'\n > 101 UnHealty'} */}
+                                        {lvlMinum}%
                                     </Text>
                                 </Body>
                             </CardItem>
