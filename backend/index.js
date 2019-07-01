@@ -15,7 +15,7 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 
-var whitelist = ['http://mohammedwazier.com'];
+var whitelist = ['*'];
 var corsOptions = {
     origin: function(origin, callback) {
         if (whitelist.indexOf(origin) !== -1) {
