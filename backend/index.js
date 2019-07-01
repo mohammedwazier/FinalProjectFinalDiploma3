@@ -15,19 +15,19 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 
-var whitelist = ['*'];
-var corsOptions = {
-    origin: function(origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-};
+// var whitelist = ['*'];
+// var corsOptions = {
+//     origin: function(origin, callback) {
+//         if (whitelist.indexOf(origin) !== -1) {
+//             callback(null, true);
+//         } else {
+//             callback(new Error('Not allowed by CORS'));
+//         }
+//     },
+// };
 
-// Then pass them to cors:
-app.use(cors(corsOptions));
+// // Then pass them to cors:
+// app.use(cors(corsOptions));
 
 app.use(express.static(path.join(__dirname, '/../web/frontend/build/')));
 app.get('*', (req, res) => {
