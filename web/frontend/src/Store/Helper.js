@@ -13,6 +13,7 @@ export function apiGet(url, jwt, callback) {
         headers: {
             Authorization: bearer,
             'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
         },
     })
         .then(checkStatus)
@@ -31,6 +32,7 @@ export function apiPost(url, body, jwt, callback) {
         headers: {
             Authorization: bearer,
             'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify(body),
     })
@@ -49,6 +51,8 @@ export function verifyLogin(url, jwt, callback) {
         method: 'POST',
         headers: {
             Authorization: bearer,
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
         },
     })
         .then(checkStatus)
@@ -66,6 +70,8 @@ export function apiLogout(url, jwt, callback) {
         method: 'POST',
         headers: {
             Authorization: bearer,
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
         },
     })
         .then(checkStatus)
