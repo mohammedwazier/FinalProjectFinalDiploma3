@@ -5,7 +5,9 @@ import io from 'socket.io-client';
 
 const loc = window.location;
 const wsProtocol =
-    loc.protocol === 'https:' ? 'wss://localhost:5000' : 'ws://localhost:5000';
+    loc.protocol === 'https:'
+        ? 'wss://mohammedwazier.ddns.net'
+        : 'ws://mohammedwazier.ddns.net';
 const link = wsProtocol;
 const socket = io(link);
 
