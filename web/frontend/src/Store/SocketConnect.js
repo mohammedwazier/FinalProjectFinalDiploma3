@@ -3,12 +3,12 @@ import { EventEmitter } from 'events';
 import io from 'socket.io-client';
 // import console = require('console');
 
-// const loc = window.location;
-// const wsProtocol =
-//     loc.protocol === 'https:'
-//         ? 'https://mohammedwazier.ddns.net'
-//         : 'http://mohammedwazier.ddns.net';
-const link = 'http://mohammedwazier.ddns.net';
+const loc = window.location;
+const wsProtocol =
+    loc.protocol === 'https:'
+        ? 'https://mohammedwazier.ddns.net'
+        : 'http://mohammedwazier.ddns.net';
+const link = wsProtocol;
 const socket = io(link);
 
 class SocketConnect extends EventEmitter {
