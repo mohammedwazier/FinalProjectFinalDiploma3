@@ -6,10 +6,28 @@ const http = require('http');
 const app = express();
 const path = require('path');
 
+var cors = require('cors');
+
 const mongo = require(__dirname + '/mongo');
 const bodyParser = require('body-parser');
 
 const port = process.env.PORT || 5000;
+
+app.use(cors());
+
+var whitelist = ['http://mohammedwazier.com'];
+var corsOptions = {
+    origin: function(origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+};
+
+// Then pass them to cors:
+app.use(cors(corsOptions));
 
 app.use(express.static(path.join(__dirname, '/../web/frontend/build/')));
 app.get('*', (req, res) => {

@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add socket.io-client
+  /usr/local/bin/node /usr/local/bin/yarn add cors
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/wazier/developer/native/FinalProjectFinalDiploma3/node_modules/accepts/HISTORY.md'
+  Error: EACCES: permission denied, unlink '/Users/wazier/developer/native/FinalProjectFinalDiploma3/node_modules/accepts/LICENSE'
 
 npm manifest: 
   {

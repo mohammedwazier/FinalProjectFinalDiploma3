@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 
 import { apiPost, verifyLogin, apiLogout } from './Helper';
 
-const link = '/';
+const link = 'http://mohammedwazier.ddns.net/';
 // process.env.NODE_ENV === 'production'
 // ? 'https://mohammedwazier.ddns.net/'
 // : '/';
