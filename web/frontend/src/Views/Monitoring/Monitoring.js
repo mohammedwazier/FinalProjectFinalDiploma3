@@ -69,10 +69,10 @@ export default class Monitoring extends Component {
                 const { suhu, label, humidity, airQ } = this.state.data;
                 let { data } = this.state;
                 const plainData = {
-                    last: moment(resp.data[9].updatedAt).format('LLL'),
-                    lastSuhu: resp.data[9].suhu,
-                    lastHumidity: resp.data[9].humidity,
-                    lastAirQ: resp.data[9].airQuality,
+                    last: moment(resp.data[0].updatedAt).format('LLL'),
+                    lastSuhu: resp.data[0].suhu,
+                    lastHumidity: resp.data[0].humidity,
+                    lastAirQ: resp.data[0].airQuality,
                 };
                 const dataRes = resp.data.reverse();
 
@@ -92,8 +92,8 @@ export default class Monitoring extends Component {
                     label: label,
                     humidity: humidity,
                     airQ: airQ,
-                    lvlPakan: resp.data[9].lvlPakan,
-                    lvlMinum: resp.data[9].lvlMinum,
+                    lvlPakan: resp.data[0].lvlPakan,
+                    lvlMinum: resp.data[0].lvlMinum,
                 };
                 this.setState({
                     isLoading: false,
