@@ -88,8 +88,8 @@ module.exports = class process {
             try {
                 db.collection(collection)
                     .find({ [param]: value })
+                    .sort({ x: 1 })
                     .limit(limit)
-                    .sort({ $natural: -1 })
                     .toArray((err, resp) => {
                         resolve(resp);
                     });
