@@ -7,7 +7,7 @@
     "scripts": {
         "dev": "concurrently --kill-others-on-fail  'yarn backend' 'yarn frontend' ",
         "backend": "cd backend && pm2 start index.js --watch",
-        "backendDeploy": "concurrently --kill-others-on-fail 'pm2 stop maintenance/maintenance.js' 'pm2 start backend/index.js --watch'",
+        "backendDeploy": "concurrently --kill-others-on-fail 'pm2 stop maintenance/maintenance.js' 'pm2 start backend/index.js'",
         "deploy": "concurrently --kill-others-on-fail 'pm2 stop backend/index.js' 'pm2 start maintenance/maintenance.js' 'yarn maintenance'",
         "updateAll": "yarn install && cd web/frontend && yarn install",
         "buildFrontend": "cd web/frontend && yarn build",
