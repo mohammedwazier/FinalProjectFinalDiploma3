@@ -61,6 +61,7 @@ export default class Login extends Component {
                 },
                 () => {
                     WebStore.login(data).then(resp => {
+                        console.log(resp);
                         if (resp.msg === 'wrong_username') {
                             this.setState({
                                 ...this.state,
@@ -80,6 +81,15 @@ export default class Login extends Component {
                                 },
                             });
                         } else if (resp.msg === 'failed_login') {
+                            this.setState({
+                                ...this.state,
+                                isSubmit: !this.state.isSubmit,
+                                error: {
+                                    ...this.state.error,
+                                    password: !this.state.password,
+                                    username: !this.state.username,
+                                },
+                            });
                         } else {
                             WebStore.setStorage(
                                 '_username',
