@@ -13,6 +13,7 @@ export async function apiGet(url, jwt, callback) {
         headers: {
             Authorization: bearer,
             'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
         },
     })
         .then(checkStatus)
@@ -31,6 +32,7 @@ export async function apiPost(url, body, jwt, callback) {
         headers: {
             Authorization: bearer,
             'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify(body),
     })
@@ -49,6 +51,8 @@ export async function verifyLogin(url, jwt, callback) {
         method: 'POST',
         headers: {
             Authorization: bearer,
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
         },
     })
         .then(checkStatus)
@@ -66,6 +70,8 @@ export async function apiLogout(url, jwt, callback) {
         method: 'POST',
         headers: {
             Authorization: bearer,
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
         },
     })
         .then(checkStatus)
@@ -77,13 +83,13 @@ export async function apiLogout(url, jwt, callback) {
         });
 }
 
-
 export async function uploadToMicro(param, callback) {
-    fetch('http://192.168.1.1/setup'+param, {
+    fetch('http://192.168.1.1/setup' + param, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-        }
+            'Access-Control-Allow-Origin': '*',
+        },
     })
         .then(checkStatus)
         .then(responseData => {

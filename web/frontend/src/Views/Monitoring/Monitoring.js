@@ -111,6 +111,8 @@ export default class Monitoring extends Component {
                 lastSuhu: rawData.suhu,
                 lastHumidity: rawData.humidity,
                 lastAirQ: rawData.airQuality,
+                lvlPakan: rawData.lvlPakan,
+                lvlMinum: rawData.lvlMinum,
             };
             data.label.push(moment(rawData.updatedAt).format('LLL'));
             data.suhu.push(rawData.suhu);
