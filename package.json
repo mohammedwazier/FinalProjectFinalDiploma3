@@ -1,56 +1,56 @@
 {
-  "name": "finalproject",
-  "version": "1.0.0",
-  "description": "Running Script of thingBirds",
-  "mainProjectName": "thingbirds",
-  "main": "index.js",
-  "scripts": {
-    "dev": "concurrently --kill-others-on-fail  'yarn backend' 'yarn frontend' ",
-    "backend": "cd backend && pm2 start index.js --watch",
-    "backendDeploy": "concurrently --kill-others-on-fail 'pm2 stop maintenance/maintenance.js' 'pm2 start backend/index.js'",
-    "deploy": "concurrently --kill-others-on-fail 'pm2 stop backend/index.js' 'pm2 start maintenance/maintenance.js' 'yarn maintenance'",
-    "updateAll": "yarn install && cd web/frontend && yarn install",
-    "buildFrontend": "cd web/frontend && yarn build",
-    "stop": "pm2 kill",
-    "frontend": "cd web/frontend && yarn start",
-    "mobile": "cd mobile/mobileFe && yarn start",
-    "maintenance": " cd web/frontend && yarn install && yarn build && cd ../../ && yarn backendDeploy"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mohammedwazier/FinalProjectFinalDiploma3.git"
-  },
-  "keywords": [
-    "javascript",
-    "react",
-    "react-native",
-    "reactNative",
-    "node",
-    "nodeJS",
-    "express",
-    "IoT",
-    "iot",
-    "monitoring"
-  ],
-  "author": "Wazier",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mohammedwazier/FinalProjectFinalDiploma3/issues"
-  },
-  "homepage": "https://github.com/mohammedwazier/FinalProjectFinalDiploma3#readme",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "express": "^4.16.4",
-    "http": "^0.0.0",
-    "jsonwebtoken": "^8.5.1",
-    "mongodb": "^3.2.4",
-    "morgan": "^1.9.1",
-    "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0",
-    "path": "^0.12.7",
-    "react-native-datepicker": "^1.7.2",
-    "react-native-vector-icons": "^6.4.2",
-    "socket.io": "^2.2.0"
-  }
+    "name": "finalproject",
+    "version": "1.0.0",
+    "description": "Running Script of thingBirds",
+    "mainProjectName": "thingbirds",
+    "main": "index.js",
+    "scripts": {
+        "dev": "concurrently --kill-others-on-fail  'yarn backend' 'yarn frontend' ",
+        "backend": "cd backend && pm2 start index.js --watch",
+        "backendDeploy": "concurrently --kill-others-on-fail 'pm2 stop maintenance/maintenance.js' 'pm2 start backend/index.js --watch'",
+        "deploy": "concurrently --kill-others-on-fail 'pm2 stop backend/index.js' 'pm2 start maintenance/maintenance.js' 'yarn maintenance'",
+        "updateAll": "yarn install && cd web/frontend && yarn install",
+        "buildFrontend": "cd web/frontend && yarn build",
+        "stop": "pm2 kill",
+        "frontend": "cd web/frontend && yarn start",
+        "mobile": "cd mobile/mobileFe && yarn start",
+        "maintenance": " cd web/frontend && yarn install && yarn build && cd ../../ && yarn backendDeploy"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mohammedwazier/FinalProjectFinalDiploma3.git"
+    },
+    "keywords": [
+        "javascript",
+        "react",
+        "react-native",
+        "reactNative",
+        "node",
+        "nodeJS",
+        "express",
+        "IoT",
+        "iot",
+        "monitoring"
+    ],
+    "author": "Wazier",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/mohammedwazier/FinalProjectFinalDiploma3/issues"
+    },
+    "homepage": "https://github.com/mohammedwazier/FinalProjectFinalDiploma3#readme",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "express": "^4.16.4",
+        "http": "^0.0.0",
+        "jsonwebtoken": "^8.5.1",
+        "mongodb": "^3.2.4",
+        "morgan": "^1.9.1",
+        "passport": "^0.4.0",
+        "passport-jwt": "^4.0.0",
+        "path": "^0.12.7",
+        "react-native-datepicker": "^1.7.2",
+        "react-native-vector-icons": "^6.4.2",
+        "socket.io": "^2.2.0"
+    }
 }
