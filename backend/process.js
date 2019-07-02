@@ -21,26 +21,6 @@ module.exports = class process {
         });
     }
 
-    checkOneManyParam(client, collection, param) {
-        const db = client.db('finalProject');
-        return new Promise(resolve => {
-            try {
-                db.collection(collection).findOne(param, function(
-                    err,
-                    response,
-                ) {
-                    if (!response) {
-                        resolve(false);
-                    } else {
-                        resolve(response);
-                    }
-                });
-            } catch (err) {
-                console.log(err);
-            }
-        });
-    }
-
     getAll(client, collection, param, value) {
         const db = client.db('finalProject');
         return new Promise(resolve => {
@@ -60,33 +40,13 @@ module.exports = class process {
         });
     }
 
-    // getLastData(client, collection, param, value, limit) {
-    //     const db = client.db('finalProject');
-    //     return new Promise(resolve => {
-    //         try {
-    //             db.collection(collection)
-    //                 .find()
-    //                 .limit(10)
-    //                 .sort({ $natural: -1 })
-    //                 .toArray((err, response) => {
-    //                     if (!response) {
-    //                         resolve(false);
-    //                     } else {
-    //                         resolve(response);
-    //                     }
-    //                 });
-    //         } catch (err) {
-    //             console.log(err);
-    //         }
-    //     });
-    // }
-
     insertOne(client, collection, value) {
         const db = client.db('finalProject');
         return new Promise(resolve => {
             try {
                 db.collection(collection).countDocuments((err, count) => {
                     value._id = count + 1;
+                    // console.log(value);
                     db.collection(collection).insertOne(
                         value,
                         (err, response) => {
@@ -128,8 +88,8 @@ module.exports = class process {
             try {
                 db.collection(collection)
                     .find({ [param]: value })
-                    .sort({ $natural: -1 })
                     .limit(limit)
+                    .sort({ $natural: -1 })
                     .toArray((err, resp) => {
                         resolve(resp);
                     });
