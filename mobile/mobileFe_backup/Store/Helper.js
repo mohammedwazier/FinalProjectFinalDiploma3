@@ -26,7 +26,6 @@ export async function apiGet(url, jwt, callback) {
 }
 
 export async function apiPost(url, body, jwt, callback) {
-    console.log(url);
     const bearer = `Bearer ${jwt}`;
     fetch(url, {
         method: 'POST',

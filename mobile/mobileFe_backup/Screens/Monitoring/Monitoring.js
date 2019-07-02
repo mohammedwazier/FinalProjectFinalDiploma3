@@ -113,15 +113,12 @@ export default class Monitoring extends Component {
     };
 
     componentWillMount() {
-        // console.log('hahaha');
         WebStore.getUsername().then(username => {
-            // console.log(username);
             if (username === null) {
                 return this.props.navigation.push('home');
             }
 
             // const link = 'http://192.168.1.4:5000';
-            // console.log()
             const socket = io(link);
 
             socket.emit('login', { uname: username });
@@ -132,8 +129,7 @@ export default class Monitoring extends Component {
         });
 
         WebStore.checkUser().then(user => {
-            // console.log(user);
-            if (user.msg === 'no_session' || user === undefined) {
+            if (user.msg === 'no_session') {
                 WebStore.deleteData('token');
                 WebStore.deleteData('username');
                 WebStore.deleteData('_id');
@@ -158,7 +154,6 @@ export default class Monitoring extends Component {
     }
     getData = status => {
         WebStore.getLastMonitorData().then(resp => {
-            // console.log(resp);
             delete resp.data._id;
             delete resp.data.username;
             delete resp.data.status;
@@ -214,7 +209,7 @@ export default class Monitoring extends Component {
                         ...data,
                     },
                 },
-                // () => console.log(this.state.data, status),
+                () => console.log(this.state.data, status),
             );
         });
     };
@@ -222,9 +217,9 @@ export default class Monitoring extends Component {
         // SocketConnect.disconnect();
     }
     keluar = () => {
-        // console.log('presseds');
+        console.log('presseds');
         WebStore.logout().then(resp => {
-            // console.log(resp);
+            console.log(resp);
             if (resp.msg === 'success') {
                 WebStore.deleteData('_id');
                 WebStore.deleteData('token');

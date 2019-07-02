@@ -1,10 +1,2 @@
-// const status = 'dev';
-const status = 'prod';
-const link =
-    status === 'prod'
-        ? 'https://mohammedwazier.ddns.net'
-        : 'http://192.168.1.4:5000';
-
-module.export = {
-    link,
-};
+// export const link = 'http://104.198.141.212';
+export const link = 'https://mohammedwazier.ddns.net';
