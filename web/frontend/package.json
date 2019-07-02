@@ -45,7 +45,7 @@
             "last 1 safari version"
         ]
     },
-    "proxy": "http://localhost:5000",
+    "proxy": "https://mohammedwazier.ddns.net",
     "devDependencies": {
         "prettier": "^1.17.1"
     }

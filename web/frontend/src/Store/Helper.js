@@ -1,5 +1,6 @@
 function checkStatus(response) {
     try {
+        console.log(response);
         return response.json();
     } catch (err) {
         console.log(err);
@@ -13,7 +14,7 @@ export function apiGet(url, jwt, callback) {
         headers: {
             Authorization: bearer,
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
         },
     })
         .then(checkStatus)
@@ -32,7 +33,7 @@ export function apiPost(url, body, jwt, callback) {
         headers: {
             Authorization: bearer,
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
         },
         body: JSON.stringify(body),
     })
@@ -52,7 +53,7 @@ export function verifyLogin(url, jwt, callback) {
         headers: {
             Authorization: bearer,
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
         },
     })
         .then(checkStatus)
@@ -71,7 +72,7 @@ export function apiLogout(url, jwt, callback) {
         headers: {
             Authorization: bearer,
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
         },
     })
         .then(checkStatus)

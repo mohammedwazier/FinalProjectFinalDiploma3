@@ -103,6 +103,7 @@ class WebStore extends EventEmitter {
 
     checkRegis = () => {
         const url = `${link}api/checkRegisBoard`;
+        console.log(url);
         var body = {
             username: this.getUsername(),
         };
