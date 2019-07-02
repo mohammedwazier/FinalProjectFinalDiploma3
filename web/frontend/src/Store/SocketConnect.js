@@ -7,7 +7,7 @@ const loc = window.location;
 const wsProtocol =
     loc.protocol === 'https:'
         ? 'https://mohammedwazier.ddns.net'
-        : 'http://mohammedwazier.ddns.net';
+        : 'https://mohammedwazier.ddns.net';
 const link = wsProtocol;
 const socket = io(link);
 
