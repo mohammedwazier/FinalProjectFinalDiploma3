@@ -30,7 +30,7 @@ const port = process.env.PORT || 5000;
 // app.use(cors(corsOptions));
 
 app.use(express.static(path.join(__dirname, '/../web/frontend/build/')));
-app.use(express.favicon(__dirname + '/public/favicon.ico', { maxAge: 2592000000 }));
+// app.use(express.favicon(__dirname + '/public/favicon.ico', { maxAge: 2592000000 }));
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/../web/frontend/build/index.html'));
