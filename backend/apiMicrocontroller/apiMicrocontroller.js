@@ -39,6 +39,7 @@ function data(client) {
     });
 
     router.post('/getDataStatus', (req, res) => {
+        console.log('asdasdasd', req.body.username);
         sendMongo
             .checkOne(
                 client,
@@ -47,8 +48,9 @@ function data(client) {
                 req.body.username,
             )
             .then(respCheck => {
+                const dataRes = respCheck.startDate.substring(0,10)+"_"+respCheck.endDate.substring(0,10)+" "+respCheck.startHour+"_"+respCheck.endHour+"_"+statusMonitoring;
                 // console.log('update');
-                res.send(respCheck);
+                res.send(dataRes);
             });
     });
 
