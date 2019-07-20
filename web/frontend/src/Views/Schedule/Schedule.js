@@ -337,12 +337,6 @@ export default class Schedule extends Component {
                                             <option value={'60'}>
                                                 60 Seconds
                                             </option>
-                                            <option value={'600'}>
-                                                10 Minutes
-                                            </option>
-                                            <option value={'1800'}>
-                                                30 Minutes
-                                            </option>
                                         </Input>
                                     </FormGroup>
                                     <hr />
