@@ -140,7 +140,7 @@ export default class Schedule extends Component {
                 statusMonitoring: this.state.data,
                 startDate: this.state.dateChange.startDate.toJSON(),
                 endDate: this.state.dateChange.endDate.toJSON(),
-                startHour: this.state.date.startDate,
+                startHour: this.state.date.startHour,
                 endHour: this.state.date.endHour,
                 setDate: this.state.setDate,
                 setHour: this.state.setHour,
