@@ -118,7 +118,7 @@ mongo.then(function(client) {
         socket.on('appDate', date => {
             console.log('coming data', date);
             const stringData =
-                date.startDate+'_'+date.endDate+' '+date.startHour+"_"+date.endHour+"_"+date.statusMonitoring;
+                date.startDate+'_'+date.endDate+' '+date.startHour+"_"+date.endHour+"_"+date.setDate+"_"+date.setHour+"_"+date.statusMonitoring;
             //Send emit to nodeMCU
             socket.broadcast.emit('dateNode', stringData);
         });
