@@ -33,8 +33,11 @@ mongo.then(function(client) {
 
 function data(client) {
     router.post('/login', (req, res) => {
+        console.log(req.body);
         if (!req.body.username && !req.body.password) {
+            
             res.json({ msg: 'failed_login' });
+            
         } else {
             sendMongo
                 .checkOne(client, 'users', 'username', req.body.username)
