@@ -10,8 +10,10 @@ const path = require('path');
 
 const mongo = require(__dirname + '/mongo');
 const bodyParser = require('body-parser');
+// const hehehe = require(__dirname + 'process');
+// const sendMongo = new hehehe();
 
-const port = process.env.PORT || 5000;
+const port =  5000;
 
 // app.use(cors());
 
@@ -96,6 +98,8 @@ let server = httpServer.listen(port, () => {
 mongo.then(function(client) {
     const io = require('socket.io')(server);
     const db = client.db('finalProject');
+    
+    // console.log(client);
 
     io.sockets.on('connection', socket => {
         console.log('new Clients', socket.id);
@@ -123,6 +127,22 @@ mongo.then(function(client) {
             socket.broadcast.emit('dateNode', stringData);
         });
 
+        socket.on('getStatusDate', username => {
+            db.collection('status_monitoring').findOne({ 'username': username }, function(
+                err,
+                respCheck,
+            ) {
+                if (!respCheck) {
+                    console.log(false);
+                } else {
+                    var startDate = respCheck.startDate === null ? null : respCheck.startDate.substring(0,10);
+                var endDate = respCheck.endDate === null ? null : respCheck.endDate.substring(0,10);
+                const dataRes = startDate+"_"+endDate+" "+respCheck.startHour+"_"+respCheck.endHour+"_"+~~respCheck.setDate+"_"+~~respCheck.setHour+"_"+respCheck.statusMonitoring;
+                socket.broadcast.emit('dateNode', dataRes);
+                }
+            });
+        })
+
         //broadcast message to room itself
         socket.on('send', function(data) {
             console.log(
@@ -133,15 +153,9 @@ mongo.then(function(client) {
             io.sockets
                 .in('realTime_' + data.username)
                 .emit('pushupdate', { msg: 'newData', from: socket.id });
-            // socket.broadcast.emit('data_rec', { msg: 'hellowww' });
         });
 
-        // socket.on('pushDate', function(data) {
-        //     console.log(data);
-        // });
         socket.on('disconnect', function() {
-            // const count = clients.length;
-            // socket.emit('dc', {msg: 'disconnected', socketId: socket.id});
             console.log('client disconnect', socket.id);
         });
     });
