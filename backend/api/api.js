@@ -77,7 +77,6 @@ function data(client) {
                                                     sessions,
                                                 )
                                                 .then(insertResp => {
-                                                    console.log(insertResp);
                                                     if (!insertResp) {
                                                         res.json({
                                                             msg: 'failed_login',

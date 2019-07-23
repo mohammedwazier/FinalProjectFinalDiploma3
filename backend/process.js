@@ -51,7 +51,6 @@ module.exports = class process {
                         value,
                         (err, response) => {
                             if (err) {
-                                console.log(err);
                                 resolve(false);
                             } else {
                                 resolve(response);
