@@ -48,7 +48,9 @@ function data(client) {
                 req.body.username,
             )
             .then(respCheck => {
-                const dataRes = respCheck.startDate.substring(0,10)+"_"+respCheck.endDate.substring(0,10)+" "+respCheck.startHour+"_"+respCheck.endHour+"_"+~~respCheck.setDate+"_"+~~respCheck.setHour+"_"+respCheck.statusMonitoring;
+                var startDate = respCheck.startDate === null ? null : respCheck.startDate.substring(0,10);
+                var endDate = respCheck.endDate === null ? null : respCheck.endDate.substring(0,10);
+                const dataRes = startDate+"_"+endDate+" "+respCheck.startHour+"_"+respCheck.endHour+"_"+~~respCheck.setDate+"_"+~~respCheck.setHour+"_"+respCheck.statusMonitoring;
                 // console.log('update');
                 res.send(dataRes);
             });
