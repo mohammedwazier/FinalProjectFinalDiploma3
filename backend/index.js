@@ -128,6 +128,7 @@ mongo.then(function(client) {
         });
 
         socket.on('getStatusDate', username => {
+            console.log(username);
             db.collection('status_monitoring').findOne({ 'username': username }, function(
                 err,
                 respCheck,
