@@ -155,7 +155,7 @@ mongo.then(function(client) {
                     data.username,
                     data
             );
-            db.collection('data_monitoring').insertOne(data, function(err, respCheck) => {
+            db.collection('data_monitoring').insertOne(data, function(err, respCheck){
                 console.log("Success");
             })
             io.sockets
