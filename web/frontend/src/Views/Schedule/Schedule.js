@@ -131,7 +131,7 @@ export default class Schedule extends Component {
     onSubmit = () => {
         if (
             this.state.dateChange.endDate === null ||
-            this.state.dateChange.startDate === null
+            this.state.dateChange.startDate === null && !this.state.dateChange.startDate
         ) {
             alert('Please input Start Date and End Date');
             return true;
