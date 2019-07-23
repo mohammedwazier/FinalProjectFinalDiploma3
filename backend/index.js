@@ -136,10 +136,11 @@ mongo.then(function(client) {
                 if (!respCheck) {
                     console.log(false);
                 } else {
+                    console.log(respCheck);
                     var startDate = respCheck.startDate === null ? null : respCheck.startDate.substring(0,10);
-                var endDate = respCheck.endDate === null ? null : respCheck.endDate.substring(0,10);
-                const dataRes = startDate+"_"+endDate+" "+respCheck.startHour+"_"+respCheck.endHour+"_"+~~respCheck.setDate+"_"+~~respCheck.setHour+"_"+respCheck.statusMonitoring;
-                socket.broadcast.emit('dateNode', dataRes);
+                    var endDate = respCheck.endDate === null ? null : respCheck.endDate.substring(0,10);
+                    const dataRes = startDate+"_"+endDate+" "+respCheck.startHour+"_"+respCheck.endHour+"_"+~~respCheck.setDate+"_"+~~respCheck.setHour+"_"+respCheck.statusMonitoring;
+                    socket.emit('dateNode', dataRes);
                 }
             });
         })
