@@ -47,7 +47,7 @@ module.exports = class process {
                 db.collection(collection).countDocuments((err, count) => {
                     value._id = count + 1;
                     // console.log(value);
-                    db.collection(collection).insertOne(
+                    db.collection(collection).insert(
                         value,
                         (err, response) => {
                             if (err) {
