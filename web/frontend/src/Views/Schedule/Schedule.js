@@ -152,7 +152,7 @@ export default class Schedule extends Component {
                 SocketConnect.setScheduling(sendData);
                 console.log(resp);
                 alert('sukses update Data');
-                window.location.href = '/dashboard/monitoring';
+                // window.location.href = '/dashboard/monitoring';
             });
         }
     };
