@@ -121,8 +121,10 @@ mongo.then(function(client) {
 
         socket.on('appDate', date => {
             console.log('coming data', date);
+            var startDate = date.startDate === null ? null : date.startDate.substring(0,10);
+                var endDate = date.endDate === null ? null : date.endDate.substring(0,10);
             const stringData =
-                date.startDate+'_'+date.endDate+' '+date.startHour+"_"+date.endHour+"_"+~~date.setDate+"_"+~~date.setHour+"_"+date.statusMonitoring;
+                startDate+'_'+endDate+' '+date.startHour+"_"+date.endHour+"_"+~~date.setDate+"_"+~~date.setHour+"_"+date.statusMonitoring;
             //Send emit to nodeMCU
             socket.broadcast.emit('dateNode', stringData);
         });
@@ -151,7 +153,9 @@ mongo.then(function(client) {
                 socket.id +
                     ' Push new Message to All Broadcast Room, ' +
                     data.username,
+                    data
             );
+            // db.collection('data_monitoring').insertOne(data)
             io.sockets
                 .in('realTime_' + data.username)
                 .emit('pushupdate', { msg: 'newData', from: socket.id });
