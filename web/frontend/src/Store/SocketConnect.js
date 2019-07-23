@@ -39,6 +39,7 @@ class SocketConnect extends EventEmitter {
     };
 
     setScheduling = sendData => {
+        console.log(sendData);
         socket.emit('appDate', sendData);
     };
 

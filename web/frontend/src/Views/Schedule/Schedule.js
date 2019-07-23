@@ -148,7 +148,9 @@ export default class Schedule extends Component {
             };
 
             WebStore.updateStatusMonitoringData(sendData).then(resp => {
+                
                 SocketConnect.setScheduling(sendData);
+                console.log(resp);
                 alert('sukses update Data');
                 window.location.href = '/dashboard/monitoring';
             });
