@@ -33,12 +33,9 @@ mongo.then(function(client) {
 
 function data(client) {
     router.post('/login', (req, res) => {
-        console.log(req.body);
         if (!req.body.username && !req.body.password) {
-            console.log('disini');
             res.json({ msg: 'failed_login' });
         } else {
-            console.log('disinis');
             sendMongo
                 .checkOne(client, 'users', 'username', req.body.username)
                 .then(usernameResp => {
@@ -80,6 +77,7 @@ function data(client) {
                                                     sessions,
                                                 )
                                                 .then(insertResp => {
+                                                    console.log(insertResp);
                                                     if (!insertResp) {
                                                         res.json({
                                                             msg: 'failed_login',
