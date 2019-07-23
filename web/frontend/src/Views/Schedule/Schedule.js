@@ -138,8 +138,8 @@ export default class Schedule extends Component {
         } else {
             const sendData = {
                 statusMonitoring: this.state.data,
-                startDate: this.state.dateChange.startDate.toJSON(),
-                endDate: this.state.dateChange.endDate.toJSON(),
+                startDate: !this.state.dateChange.startDate ? null : this.state.dateChange.startDate.toJSON(),
+                endDate: !this.state.dateChange.endDate ? null : this.state.dateChange.endDate.toJSON(),
                 startHour: this.state.date.startHour,
                 endHour: this.state.date.endHour,
                 setDate: this.state.setDate,
