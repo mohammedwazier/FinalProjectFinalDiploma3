@@ -155,6 +155,7 @@ mongo.then(function(client) {
                     data.username,
                     data
             );
+            data.updatedAt = new Date();
             db.collection('data_monitoring').insertOne(data, function(err, respCheck){
                 console.log("Success");
             })
