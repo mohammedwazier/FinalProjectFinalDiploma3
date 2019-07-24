@@ -7,10 +7,10 @@ My Final Project About Monitoring Application With IoT
 # Progress Target List
 
 - [x] Make Requirement
-- [ ] Mobile Frontend Application
-- [x] Web Frontend Application / 23-05-2019(Updated)
-- [x] Backend Application / 23-05-2019 (Updated)
-- [ ] Maintenance & Upgrate
+- [x] Mobile Frontend Application / 24-07-2019(Updated Sampai Sidang)
+- [x] Web Frontend Application / 24-07-2019(Updated Sampai Sidang)
+- [x] Backend Application / 24-07-2019 (Updated Sampai Sidang)
+- [ ] Maintenance & Upgrade (When Needed)
 
 ### List Backend Library :
 
@@ -27,10 +27,15 @@ My Final Project About Monitoring Application With IoT
 - Router Navigation
 - Bootstrap
 - Socket.io Client
+- MomentJS
 
 ### List Mobile Frontend Library :
 
 - React Native
+- Expo
+- native-base
+- Socket.io Cliient
+- MomentJS
 
 ### Database Configuration
 
