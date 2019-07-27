@@ -61,7 +61,6 @@ function data(client) {
                                         .then(() => {
                                             const sessions =
                                                 variable.dataSession;
-                                            sessions._id = usernameResp._id;
                                             sessions.username =
                                                 usernameResp.username;
                                             sessions.token = token;
